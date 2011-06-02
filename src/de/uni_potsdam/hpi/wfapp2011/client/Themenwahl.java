@@ -5,36 +5,15 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTMLTable;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalSplitPanel;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalSplitPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.NamedFrame;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -50,14 +29,14 @@ public class Themenwahl implements EntryPoint {
 	private Label btnLogout;
 	private Frame frame;
 	private ArrayList<Topic> Topics;
-	private FlexTable topicTable;
+	//private FlexTable topicTable;
+	private Topictable topicTable;
 	private HTML htmlFooter;
 	private DockPanel dockPanel_1;
 	
 	public void onModuleLoad() {
 		loadTopics();
 		rootPanel = RootPanel.get();
-		rootPanel.setSize("100%", "2000px");
 		
 		HTMLPanel htmlHeader = new HTMLPanel("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<div id=\"menu\">\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"191\">\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"156\">\r\n  \t\t\t</colgroup>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"doktorhut.png\" width=\"191px\" height=\"151px\">\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<h1>Themenwahl</h1>\r\n\t\t\t\t<h2>Bachelorprojekt 2011</h1>\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"HPI_Logo.png\" width=\"156px\" height=\"93px\">\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t\t</div>\r\n\t</body>\r\n</html>");
 		rootPanel.add(htmlHeader, 0, 0);
@@ -102,17 +81,20 @@ public class Themenwahl implements EntryPoint {
 		btnLogout.setWidth("44px");
 		
 		dockPanel_1 = new DockPanel();
-		dockPanel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		dockPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		rootPanel.add(dockPanel_1, 0, 150);
-		dockPanel_1.setSize("99%", "");
+		dockPanel_1.setWidth("99%");
 		
 		htmlFooter = new HTML("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<hr>\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"100\">\r\n    \t\t\t<col width=\"100\">\r\n  \t\t\t</colgroup>\r\n  \t\t\t<td></td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"https://www.hpi.uni-potsdam.de/support/impressum.html\">Impressum</a>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"mailto:test@test.com?subject=Bug in Themenwahl\">Report a Bug</a>\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t</body>\r\n</html>", true);
 		htmlFooter.setStyleName("hr");
 		dockPanel_1.add(htmlFooter, DockPanel.SOUTH);
+		htmlFooter.setWidth("100%");
 		
-		createTopicTable();
-				
+		topicTable = new Topictable(Topics);
+		dockPanel_1.add(topicTable, DockPanel.CENTER);
+		topicTable.setWidth("100%");
+		dockPanel_1.setCellWidth(topicTable, " ");
+						
 		frame = new Frame("http://www.google.com");
 		dockPanel_1.add(frame, DockPanel.NORTH);
 		frame.setSize("100%", "412px");
@@ -124,51 +106,23 @@ public class Themenwahl implements EntryPoint {
 		// Test Themen erstellen
 		Topics = new ArrayList<Topic>();
 		
-		Topics.add(new Topic("1", "Test1", "T1", "Beschreibung", 4, 5, "Testlehrstuhl", ""));
-		Topics.add(new Topic("2", "Test1", "T2", "Beschreibung", 3, 6, "Testlehrstuhl", ""));
+		Topics.add(new Topic("1", "Multitoe II: whole‐body interaction with a multi‐touch floor", "T1",	"In 2009/2010, the HCI bachelor project multitoe" +
+													"created multitoe, the interactive floor"+
+													"with 'toe size' tracking resolution (google"+
+													"'multitoe' to see what came out of it). The"+
+													"moderate size of their prototype, however,"+
+													"limited the interaction to feet."+
+													"This year, the actual 8m2 installation in the"+
+													"multi display lab of the new building will be"+
+													"ready for you. Using a JVC 12 mega pixel projector"+
+													"and our 13 mega pixel camera, you"+
+													"and get things running at full scale.", 4, 5, "HCI", "http://www.google.de"));
+		Topics.add(new Topic("2", "Test2", "T2", "Beschreibung", 3, 6, "Testlehrstuhl", ""));
 		
-		Topics.get(0).addcontactPerson(new Person(1, "Herr Paul M�ller", "paul.mueller@test.de", "Worker", "DBS"));
-		Topics.get(1).addcontactPerson(new Person(2, "Dr. summa cum fraude Karl Theodo zu Googleberg", "ktg@google.de", "teacher", ""));
+		Topics.get(0).addcontactPerson(new Person(1, "Herr Paul M\u00FCller", "paul.mueller@test.de", "Worker", "DBS"));
+		Topics.get(0).addcontactPerson(new Person(2, "Dr. summa cum fraude Karl Theodor zu Googleberg", "ktg@google.de", "teacher", ""));
 		
 		for (int i=0; i < 100; i++)
-			Topics.add(new Topic(new Integer(i+3).toString(), "Test1", "T" + (i+3), "Beschreibung", 3, 6, "Testlehrstuhl", ""));
-	}
-	
-	void createTopicTable()
-	{
-		// Create TopicTable and add it to the Dockpanel
-		topicTable = new FlexTable();
-		dockPanel_1.add(topicTable, DockPanel.CENTER);
-		dockPanel_1.setCellWidth(topicTable, " ");
-		
-		// setup size of table, add header and setup row width
-		topicTable.setSize("100%", "75px");
-		topicTable.setText(0, 0, "K\u00FCrzel");
-		topicTable.setText(0, 1, "Projektname");
-		topicTable.setText(0, 2, "Beschreibung");
-		HTMLTable.CellFormatter formatter = topicTable.getCellFormatter();
-		formatter.setWidth(0, 0, "1%");
-		formatter.setWidth(0, 1, "19%");
-		formatter.setWidth(0, 2, "80%");
-		
-		// create an table entry for each topic in Topics		
-		for(Topic i: Topics)
-		{
-			final Topic currentTopic = i;
-			Label lblTopicName = new Label(i.getName());
-			lblTopicName.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					showProjectDetail(currentTopic);
-				}
-			});
-			topicTable.setText(Topics.indexOf(i)+1, 0, i.getProjectShortCut());
-			topicTable.setWidget(Topics.indexOf(i)+1, 1, lblTopicName);
-			topicTable.setText(Topics.indexOf(i)+1, 2, i.getProjectDescription());
-		}
-	}
-	
-	void showProjectDetail(Topic topic)
-	{
-		Window.alert("<h1>" + topic.getName() + "</h1>");
+			Topics.add(new Topic(new Integer(i+3).toString(), "Test" + (i+3), "T" + (i+3), "Beschreibung", 3, 6, "Testlehrstuhl", ""));
 	}
 }

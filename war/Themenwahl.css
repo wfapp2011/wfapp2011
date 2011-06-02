@@ -356,3 +356,35 @@ hr {
 	background-color: orange; 
 	margin-right: 0px;
 }
+
+.topicListHeader {
+	color: Black;
+	font-size: medium;
+	font-style: normal;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	background:url(Menu.png) repeat-x;
+}
+.topicList {
+	border: 1px solid ActiveBorder;
+	padding: 5px;
+	margin-left: 6px;
+}
+.gwt-LabelHeadline {
+	font-size: 34px;
+	font-style: normal;
+	font-family: Arial, sans-serif;
+	font-weight: bolder;
+	line-height: normal;
+	text-indent: 1px;
+	text-align: center;
+	white-space: normal;
+}
+.gwt-Label2 {
+	color: black;
+	margin: 5px;
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	text-decoration:none;
+}

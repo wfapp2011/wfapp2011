@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.wfapp2011.client;
 import java.util.ArrayList;
 
 public class Topic {
+	private static int shortDescriptionLength = 150;
 	private String projectID;
 	private String name;
 	private String projectShortCut;
@@ -12,6 +13,43 @@ public class Topic {
 	private String department;
 	private String file;
 	private ArrayList<Person> contactPerson;
+	
+	/*public static ArrayList<Topic> loadTopics(DbInterface database, String Semester)
+	{
+		ArrayList<Topic> result = new ArrayList<Topic>();
+		
+		database.connect();
+		Collection<Map<String, String>> topics = database.executeQuery("SELECT * FROM TOPIC WHERE SEMESTER='"+Semester+"'");
+		
+		
+		for (Map<String,String> entry: topics)
+		{
+			Topic newTopic = new Topic(	entry.get("projectid"),
+										entry.get("projectname"),
+										entry.get("projectshortcut"),
+										entry.get("projectdescription"),
+										new Integer(entry.get("minstud")),
+										new Integer(entry.get("maxstud")),
+										entry.get("department"),
+										entry.get("file"));
+			
+			Collection<Map<String,String>> contactPersons = database.executeQuery("SELECT P.PERSONID, P.NAME, P.EMAIL, P.ROLE, P.DEPARTMENT FROM PERSON P, CONTACTPERSON C WHERE P.PERSONID=C.PERSONID AND C.PROJECTID='"+newTopic.getProjectID()+"'");
+			for (Map<String,String> personEntry: contactPersons)
+			{
+				Person newPerson = new Person(	new Integer(personEntry.get("personid")),
+												personEntry.get("name"),
+												personEntry.get("email"),
+												personEntry.get("role"),
+												personEntry.get("department"));
+				newTopic.addcontactPerson(newPerson);
+			}
+			
+			result.add(newTopic);			
+		}
+		
+		database.disconnect();
+		return result;
+	}*/
 	
 	public Topic(){
 		projectID = "";
@@ -84,6 +122,14 @@ public class Topic {
 		this.projectDescription = projectDescription;
 	}
 
+	public String getProjectShortDescription(){
+		if (projectDescription.length() < shortDescriptionLength)
+			return projectDescription;
+		else {
+			return projectDescription.substring(0, shortDescriptionLength) + "...";
+		}
+		
+	}
 	public int getMinStud() {
 		return minStud;
 	}
