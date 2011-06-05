@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="wfapp.css" />
+<title>Create new project proposal</title>
+</head>
+
+
+
+<body>
+
+
+	<p>
+		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
+		<a href="listOwnDepartment.jsp">eigene Themenvorschlaege</a> &nbsp;|&nbsp; 
+		<a href="newProject.html">neuer Vorschlag</a> &nbsp;|&nbsp; 
+		<a href="showProject.jsp">Vorschlag ansehen</a>
+	</p>
+
+	<h2>Neues Projekt erstellen</h2>
+
+	<form name="input" method="get" action="createProject">
+		<table>
+
+			<tr>
+				<td>Projektname:</td>
+				<td colspan="2"><input type="text" name="projectName" /></td>
+			</tr>
+			<tr>
+				<td>Projektbeschreibung:</td>
+				<td colspan="2"><input type="text" name="projectDescription" />
+				</td>
+			</tr>
+			<tr>
+				<td>Keywords:</td>
+				<td colspan="2"><input type="text" name="keywords" /></td>
+			</tr>
+			<tr>
+				<td>Partnername:</td>
+				<td colspan="2"><input type="text" name="partnerName" /></td>
+			</tr>
+			<tr>
+				<td>Partnerbeschreibung:</td>
+				<td colspan="2"><input type="text" name="partnerDescription" />
+				</td>
+			</tr>
+			<tr>
+				<td>vorauss. Projektbeginn:</td>
+				<td><input type="text" name="estimatedBegin" /></td>
+			</tr>
+			<tr>
+            			
+				<td>Projektbetreuer:</td>
+				<td><input type="text" name="contactPersonName" value="Name"/></td>
+				<td><input type="text" name="contactPersonEmail" value="E-Mail-Adresse"/></td>
+				<td><img src="img\trash.gif" alt="delete" width="16" height="16" 
+							onClick="return(confirm('Möchten Sie den Projektbetreuer wirklich entfernen?'))"/></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="text" name="contactPersonName2" value="Name"/></td>
+				<td><input type="text" name="contactPersonEmail2" value="E-Mail-Adresse"/></td>
+				<td><input type="button" name="deleteContactPerson2" value=" + "/></td>
+				<td><img src="img\trash.gif" alt="delete" width="16" height="16" 
+							onClick="return(confirm('Möchten Sie den Projektbetreuer wirklich entfernen?'))"/></td>
+			</tr>
+			<tr>
+				<td>Teamgroesse: von</td>
+				<td><select name="minStud">
+						<option value=1>1</option>
+						<option value=2>2</option>
+						<option value=3 selected="selected">3</option>
+						<option value=4>4</option>
+						<option value=5>5</option>
+						<option value=6>6</option>
+						<option value=7>7</option>
+					</select>
+					bis
+				   <select name="maxStud">
+						<option value=4>4</option>
+						<option value=5>5</option>
+						<option value=6>6</option>
+						<option value=7 selected="selected">7</option>
+						<option value=8>8</option>
+						<option value=9>9</option>
+						<option value=10>10</option>
+					</select> Studenten</td>
+			</tr>
+			<tr>
+				<td>Projektdatei:</td>
+				<td><input type="text" name="projectFile" /></td>
+			</tr>
+			<tr>
+				<td>weitere Dateien:</td>
+				<td><input type="text" name="additionalFiles" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="right"><input type="submit"
+					value="Speichern" />
+				</td>
+				<td> <input type="reset" value="Verwerfen" />
+				</td>
+				
+			</tr>
+		</table>
+	</form>
+
+				
+
+
+</body>
+
+</html>
