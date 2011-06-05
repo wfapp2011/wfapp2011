@@ -67,8 +67,6 @@ public class DummyDatabase {
 		contactPersons.add(p2);
 		projectProposal.setContactPersons(contactPersons);
 		projectProposal.setIsPublic(true);
-		projectProposal.setLastModifiedAt(new Date());
-		projectProposal.setLastModifiedBy(new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de"));
 		
 		return projectProposal;	
 	}

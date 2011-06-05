@@ -62,5 +62,9 @@
 		</ul>
 
 	</p>
+
+<p>
+Dieser Projektvorschlag wurde zuletzt am <%=  projectToShow.getLastModifiedAt()%> von <%= projectToShow.getLastModifiedBy().getName() %> geändert.
+</p>
 </body>
 </html>
