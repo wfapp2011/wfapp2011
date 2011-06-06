@@ -96,17 +96,17 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
 			if (/*check for department here &&*/ !(proposal.getIsDeleted())){
       out.write("\r\n");
       out.write("\t\t\t<tr>\r\n");
-      out.write("\t\t\t\t");
- if (proposal.getIsPublic()) {
-      out.write("\r\n");
-      out.write("\t\t\t\t\t<td align=\"center\"><form><input type=\"checkbox\" checked></form></td>\r\n");
-      out.write("\t\t\t\t");
- } else {
-      out.write("\r\n");
-      out.write("\t\t\t\t\t<td align=\"center\"><form><input type=\"checkbox\"></form></td>\r\n");
-      out.write("\t\t\t\t");
- }
-      out.write("\r\n");
+      out.write("\t\t\t\t<td align=\"center\"><form action=\"SetPublicness\" method=\"post\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"checkbox\" ");
+      out.print( proposal.getIsPublic() ? "checked" : "" );
+      out.write(" onClick=\"submit()\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"hidden\" name=\"projectID\" value=\"");
+      out.print( proposal );
+      out.write("\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"hidden\" name=\"checked\" value=");
+      out.print( proposal.getIsPublic() ? "false" : "true" );
+      out.write(">\r\n");
+      out.write("\t\t\t\t\t</form></td>\r\n");
       out.write("\t\t\t\t<td><a href=\"showProject.jsp?projectID=");
       out.print( proposal.toString());
       out.write('"');

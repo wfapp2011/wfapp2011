@@ -70,7 +70,7 @@ public class CreateProject extends HttpServlet {
 		
 		
 		// TODO get from Database/Engine 
-		Department dep = new Department("Business Process Technology");
+		Department dep = db.getDepartments()[2];
 		Person prof = new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de");
 		dep.setProf(prof);
 		projectProp.setDepartment(dep);

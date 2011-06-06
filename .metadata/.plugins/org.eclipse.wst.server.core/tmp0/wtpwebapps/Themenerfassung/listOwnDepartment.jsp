@@ -38,11 +38,11 @@
 		for (ProjectProposal proposal : projectProposals){
 			if (/*check for department here &&*/ !(proposal.getIsDeleted())){%>
 			<tr>
-				<% if (proposal.getIsPublic()) {%>
-					<td align="center"><form><input type="checkbox" checked></form></td>
-				<% } else {%>
-					<td align="center"><form><input type="checkbox"></form></td>
-				<% }%>
+				<td align="center"><form action="SetPublicness" method="post">
+					<input type="checkbox" <%= proposal.getIsPublic() ? "checked" : "" %> onClick="submit()">
+					<input type="hidden" name="projectID" value="<%= proposal %>">
+					<input type="hidden" name="checked" value=<%= proposal.getIsPublic() ? "false" : "true" %>>
+					</form></td>
 				<td><a href="showProject.jsp?projectID=<%= proposal.toString()%>"><%= proposal.getProjectName() %></a></td>
 				<td><% for (String keyword : proposal.getKeywords().split("\\;|,")){%>
 					<% out.println(keyword); %><br>
