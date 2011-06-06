@@ -71,9 +71,10 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("<body>\r\n");
       out.write("\t<p>\r\n");
       out.write("\t\t<a href=\"listAllDepartments.jsp\">Alle Themenvorschläge</a>&nbsp;|&nbsp;\r\n");
-      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschlaege</a> &nbsp;|&nbsp; \r\n");
-      out.write("\t\t<a href=\"newProject.html\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschläge</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
       out.write("\t</p>\r\n");
+      out.write("\t\r\n");
       out.write("\t<h1>eigene Themenvorschlaege</h1>\r\n");
       out.write("\t\t<table border=\"1\">\r\n");
       out.write("\t\t<tr>\r\n");
