@@ -1,45 +1,46 @@
 package data;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-	
 public class DummyDatabase {
-	
+
 	private static DummyDatabase db = null;
 	static String DATE_FORMAT = "yyyy-MM-dd";
-	Department[] departments = {new Department("ABC"), new Department("XYZ"), new Department("Business Process Technology")};
-	
-	
+	Department[] departments = { new Department("ABC"), new Department("XYZ"),
+			new Department("Business Process Technology") };
+
 	private ArrayList<ProjectProposal> projects = new ArrayList<ProjectProposal>();
 
 	public static DummyDatabase getInstance() {
-		if (db == null){
+		if (db == null) {
 			db = new DummyDatabase();
 			db.addProjectProposal(db.getDummyProjectProposal());
+
 		}
 		return db;
 	}
 
-	public void addProjectProposal(ProjectProposal projectProp){
+	public void addProjectProposal(ProjectProposal projectProp) {
 		projects.add(projectProp);
 	}
-	
-	public void deleteProjectProposal(String projectID){
-		for (ProjectProposal project : projects){
-			if (project.toString().equals(projectID)){
+
+	public void deleteProjectProposal(String projectID) {
+		for (ProjectProposal project : projects) {
+			if (project.toString().equals(projectID)) {
 				project.setIsDeleted(true);
 				return;
 			}
 		}
 	}
-	
-	public ArrayList<ProjectProposal> getProjectProposals(){
+
+	public ArrayList<ProjectProposal> getProjectProposals() {
 		return projects;
 	}
-	
+
 	private ProjectProposal getDummyProjectProposal() {
 		ProjectProposal projectProposal = new ProjectProposal("Du für Deutschland - Nationale Prozessbibliothek", 4, 8);
 		projectProposal.setProjectDescription("Dieses Projekt ist das tollste der Welt.");
@@ -76,4 +77,5 @@ public class DummyDatabase {
 	public Department[] getDepartments(){
 			return departments;
 	}
+
 }

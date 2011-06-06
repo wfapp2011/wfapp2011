@@ -7,9 +7,10 @@ public class Department {
 	private Person prof;
 	
 	
-	public Department(String name){
-		this.name = name;		
+	public Department(String departmentName) {		
+		this.setName(departmentName);
 	}
+
 	
 	public void setProf(Person prof) {
 		this.prof = prof;

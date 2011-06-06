@@ -13,5 +13,8 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ckeditor-java-core-3.5.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ckeditor-java-core-3.5.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ckeditor-java-core-3.5.3-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

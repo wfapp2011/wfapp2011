@@ -15,9 +15,10 @@
 <body>
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
-		<a href="listOwnDepartment.jsp">eigene Themenvorschlaege</a> &nbsp;|&nbsp; 
-		<a href="newProject.html">neuer Vorschlag</a> &nbsp;|&nbsp; 
+		<a href="listOwnDepartment.jsp">eigene Themenvorschläge</a> &nbsp;|&nbsp; 
+		<a href="createProject.jsp">neuer Vorschlag</a> &nbsp;|&nbsp; 
 	</p>
+	
 	<h1>eigene Themenvorschlaege</h1>
 		<table border="1">
 		<tr>

@@ -9,17 +9,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="wfapp.css" />
+<style type="text/css">
+		.chapter    { font-weight:bold }
+</style>
 <title>Projektvorschlag ansehen</title>
 </head>
 <body>
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
-		<a href="listOwnDepartment.jsp">eigene Themenvorschlaege</a> &nbsp;|&nbsp; 
-		<a href="newProject.html">neuer Vorschlag</a> &nbsp;|&nbsp; 
+		<a href="listOwnDepartment.jsp">eigene Themenvorschläge</a> &nbsp;|&nbsp; 
+		<a href="createProject.jsp">neuer Vorschlag</a> &nbsp;|&nbsp; 
 	</p>
-	
 	<%
 			data.DummyDatabase db = data.DummyDatabase.getInstance();
+	
 			String projectID = request.getParameter("projectID");
 			ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
 			ProjectProposal projectToShow = null;
@@ -28,7 +31,9 @@
 					projectToShow = project;
 				}
 			}
-			
+	
+			//ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
+			//ProjectProposal sampleProject = projectProposals.get(projectProposals.size()-1);
 			
 			ArrayList<Person> contactPersons = new ArrayList<Person>();
 		%> 
@@ -60,11 +65,12 @@
 				<li> <%=person.getName()%>, <%= person.getEmail() %> </li>	
 				<% }} %>
 		</ul>
-
+		
 	</p>
-
 <p>
 Dieser Projektvorschlag wurde zuletzt am <%=  projectToShow.getLastModifiedAt()%> von <%= projectToShow.getLastModifiedBy().getName() %> geändert.
 </p>
+
+	
 </body>
 </html>
