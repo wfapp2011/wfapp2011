@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="66" version="2.0">
+<workbench progressCount="57" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -36,17 +36,22 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jst.jsp.core.jspsource.source" name="showProject.jsp" partName="showProject.jsp" path="C:/Users/Josi/Documents/uni/SS 2011/wfapp2011/git/Themenwahl/WebContent/showProject.jsp" title="showProject.jsp" tooltip="Themenwahl/WebContent/showProject.jsp" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Themenwahl/WebContent/showProject.jsp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2450" selectionTopPixel="680"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Configuration_WikiEditor.java" partName="Configuration_WikiEditor.java" path="C:/Users/Josi/Documents/uni/SS 2011/wfapp2011/git/Themenwahl/src/wikieditor/Configuration_WikiEditor.java" title="Configuration_WikiEditor.java" tooltip="Themenwahl/src/wikieditor/Configuration_WikiEditor.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Themenwahl/src/wikieditor/Configuration_WikiEditor.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DummyDatabase.java" partName="DummyDatabase.java" path="C:/Users/Josi/Documents/uni/SS 2011/wfapp2011/git/Themenwahl/src/data/DummyDatabase.java" title="DummyDatabase.java" tooltip="Themenwahl/src/data/DummyDatabase.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Themenwahl/src/data/DummyDatabase.java"/>
-<editorState selectionHorizontalPixel="207" selectionLength="0" selectionOffset="2389" selectionTopPixel="729"/>
+<editor id="org.eclipse.jst.jsp.core.jspsource.source" name="cktest.jsp" partName="cktest.jsp" path="C:/Users/Josi/Documents/uni/SS 2011/wfapp2011/git/Themenwahl/WebContent/thisFolderWillBeDeleted/cktest.jsp" title="cktest.jsp" tooltip="Themenwahl/WebContent/thisFolderWillBeDeleted/cktest.jsp" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Themenwahl/WebContent/thisFolderWillBeDeleted/cktest.jsp"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Delete.java" partName="Delete.java" path="C:/Users/Josi/Documents/uni/SS 2011/wfapp2011/git/Themenwahl/src/Delete.java" title="Delete.java" tooltip="Themenwahl/src/Delete.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Themenwahl/src/Delete.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="836" selectionTopPixel="136"/>
 </editor>
 </editors>
 <views>
@@ -169,9 +174,9 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.14908722" ratioLeft="147" ratioRight="839" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottomRight" ratio="0.8454546" ratioLeft="558" ratioRight="102" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.wst.server.ui.ServersView" appearance="2" expanded="2">
+<info part="org.eclipse.ui.editorss" ratio="0.19371197" ratioLeft="191" ratioRight="795" relationship="2" relative="topLeft"/>
+<info folder="true" part="bottomRight" ratio="0.74848485" ratioLeft="494" ratioRight="166" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.AllMarkersView" label="Markers"/>
 <page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
 <page content="org.eclipse.wst.server.ui.ServersView" label="Servers"/>
@@ -225,26 +230,32 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DummyDatabase.java" tooltip="Themenwahl/src/data/DummyDatabase.java">
-<persistable path="/Themenwahl/src/data/DummyDatabase.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Delete.java" tooltip="Themenwahl/src/Delete.java">
+<persistable path="/Themenwahl/src/Delete.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CreateProject.java" tooltip="Themenwahl/src/CreateProject.java">
-<persistable path="/Themenwahl/src/CreateProject.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jst.jsp.core.jspsource.source" name="cktest.jsp" tooltip="Themenwahl/WebContent/thisFolderWillBeDeleted/cktest.jsp">
+<persistable path="/Themenwahl/WebContent/thisFolderWillBeDeleted/cktest.jsp"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jst.jsp.core.jspsource.source" name="listAllDepartments.jsp" tooltip="Themenwahl/WebContent/listAllDepartments.jsp">
-<persistable path="/Themenwahl/WebContent/listAllDepartments.jsp"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ProjectProposal.java" tooltip="Themenwahl/src/data/ProjectProposal.java">
-<persistable path="/Themenwahl/src/data/ProjectProposal.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Configuration_WikiEditor.java" tooltip="Themenwahl/src/wikieditor/Configuration_WikiEditor.java">
+<persistable path="/Themenwahl/src/wikieditor/Configuration_WikiEditor.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jst.jsp.core.jspsource.source" name="listOwnDepartment.jsp" tooltip="Themenwahl/WebContent/listOwnDepartment.jsp">
 <persistable path="/Themenwahl/WebContent/listOwnDepartment.jsp"/>
 </file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jst.jsp.core.jspsource.source" name="listAllDepartments.jsp" tooltip="Themenwahl/WebContent/listAllDepartments.jsp">
+<persistable path="/Themenwahl/WebContent/listAllDepartments.jsp"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CreateProject.java" tooltip="Themenwahl/src/CreateProject.java">
+<persistable path="/Themenwahl/src/CreateProject.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DummyDatabase.java" tooltip="Themenwahl/src/data/DummyDatabase.java">
+<persistable path="/Themenwahl/src/data/DummyDatabase.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ProjectProposal.java" tooltip="Themenwahl/src/data/ProjectProposal.java">
+<persistable path="/Themenwahl/src/data/ProjectProposal.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jst.jsp.core.jspsource.source" name="showProject.jsp" tooltip="Themenwahl/WebContent/showProject.jsp">
 <persistable path="/Themenwahl/WebContent/showProject.jsp"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Delete.java" tooltip="Themenwahl/src/Delete.java">
-<persistable path="/Themenwahl/src/Delete.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compare.java" tooltip="Themenwahl/src/Compare.java">
 <persistable path="/Themenwahl/src/Compare.java"/>

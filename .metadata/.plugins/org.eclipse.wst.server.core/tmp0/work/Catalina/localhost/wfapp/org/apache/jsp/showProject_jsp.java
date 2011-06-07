@@ -65,18 +65,21 @@ public final class showProject_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<head>\r\n");
       out.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">\r\n");
       out.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"wfapp.css\" />\r\n");
+      out.write("<style type=\"text/css\">\r\n");
+      out.write("\t\t.chapter    { font-weight:bold }\r\n");
+      out.write("</style>\r\n");
       out.write("<title>Projektvorschlag ansehen</title>\r\n");
       out.write("</head>\r\n");
       out.write("<body>\r\n");
       out.write("\t<p>\r\n");
       out.write("\t\t<a href=\"listAllDepartments.jsp\">Alle Themenvorschläge</a>&nbsp;|&nbsp;\r\n");
-      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschlaege</a> &nbsp;|&nbsp; \r\n");
-      out.write("\t\t<a href=\"newProject.html\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschläge</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
       out.write("\t</p>\r\n");
-      out.write("\t\r\n");
       out.write("\t");
 
 			data.DummyDatabase db = data.DummyDatabase.getInstance();
+	
 			String projectID = request.getParameter("projectID");
 			ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
 			ProjectProposal projectToShow = null;
@@ -85,7 +88,9 @@ public final class showProject_jsp extends org.apache.jasper.runtime.HttpJspBase
 					projectToShow = project;
 				}
 			}
-			
+	
+			//ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
+			//ProjectProposal sampleProject = projectProposals.get(projectProposals.size()-1);
 			
 			ArrayList<Person> contactPersons = new ArrayList<Person>();
 		
@@ -150,9 +155,8 @@ public final class showProject_jsp extends org.apache.jasper.runtime.HttpJspBase
  }} 
       out.write("\r\n");
       out.write("\t\t</ul>\r\n");
-      out.write("\r\n");
+      out.write("\t\t\r\n");
       out.write("\t</p>\r\n");
-      out.write("\r\n");
       out.write("<p>\r\n");
       out.write("Dieser Projektvorschlag wurde zuletzt am ");
       out.print(  projectToShow.getLastModifiedAt());
@@ -160,6 +164,8 @@ public final class showProject_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.print( projectToShow.getLastModifiedBy().getName() );
       out.write(" geändert.\r\n");
       out.write("</p>\r\n");
+      out.write("\r\n");
+      out.write("\t\r\n");
       out.write("</body>\r\n");
       out.write("</html>");
     } catch (java.lang.Throwable t) {

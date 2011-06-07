@@ -71,9 +71,10 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("<body>\r\n");
       out.write("\t<p>\r\n");
       out.write("\t\t<a href=\"listAllDepartments.jsp\">Alle Themenvorschläge</a>&nbsp;|&nbsp;\r\n");
-      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschlaege</a> &nbsp;|&nbsp; \r\n");
-      out.write("\t\t<a href=\"newProject.html\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschläge</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
       out.write("\t</p>\r\n");
+      out.write("\t\r\n");
       out.write("\t<h1>eigene Themenvorschlaege</h1>\r\n");
       out.write("\t\t<table border=\"1\">\r\n");
       out.write("\t\t<tr>\r\n");
@@ -95,17 +96,17 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
 			if (/*check for department here &&*/ !(proposal.getIsDeleted())){
       out.write("\r\n");
       out.write("\t\t\t<tr>\r\n");
-      out.write("\t\t\t\t");
- if (proposal.getIsPublic()) {
-      out.write("\r\n");
-      out.write("\t\t\t\t\t<td align=\"center\"><form><input type=\"checkbox\" checked></form></td>\r\n");
-      out.write("\t\t\t\t");
- } else {
-      out.write("\r\n");
-      out.write("\t\t\t\t\t<td align=\"center\"><form><input type=\"checkbox\"></form></td>\r\n");
-      out.write("\t\t\t\t");
- }
-      out.write("\r\n");
+      out.write("\t\t\t\t<td align=\"center\"><form action=\"SetPublicness\" method=\"post\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"checkbox\" ");
+      out.print( proposal.getIsPublic() ? "checked" : "" );
+      out.write(" onClick=\"submit()\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"hidden\" name=\"projectID\" value=\"");
+      out.print( proposal );
+      out.write("\">\r\n");
+      out.write("\t\t\t\t\t<input type=\"hidden\" name=\"checked\" value=");
+      out.print( proposal.getIsPublic() ? "false" : "true" );
+      out.write(">\r\n");
+      out.write("\t\t\t\t\t</form></td>\r\n");
       out.write("\t\t\t\t<td><a href=\"showProject.jsp?projectID=");
       out.print( proposal.toString());
       out.write('"');
