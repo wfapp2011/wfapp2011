@@ -59,7 +59,15 @@
 						for (File file : proposal.getAdditionalFiles()){
 							out.println(file.getName()); %><br>
 					<% }}%></td>
-				<td><img src="img\edit.gif" alt="edit" width="16" height="16" /></td>
+				<td>
+					<!-- <a href="editProject.jsp?projectID=<%= proposal.toString()%>">
+						<img src="img\edit.png" alt="edit" width="16" height="16" />
+					</a> -->
+					<a href="showProject.jsp?projectID=<%= proposal.toString()%>">
+						<img src="img\edit.png" alt="edit" width="16" height="16" />
+					</a>
+					
+				</td>
 				<td><form name="delete" action="Delete" method="get">
             		<input type="image" src="img\trash.gif" alt="delete" 
             			onClick="return(confirm('Möchten Sie den Projektvorschlag <%= proposal.getProjectName() %> wirklich löschen?'))"/>

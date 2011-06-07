@@ -10,9 +10,8 @@ public class DummyDatabase {
 
 	private static DummyDatabase db = null;
 	static String DATE_FORMAT = "yyyy-MM-dd";
-	Department[] departments = { new Department("ABC"), new Department("XYZ"),
-			new Department("Business Process Technology") };
-
+	Department[] departments = createDummyDepartments();
+		
 	private ArrayList<ProjectProposal> projects = new ArrayList<ProjectProposal>();
 
 	public static DummyDatabase getInstance() {
@@ -57,8 +56,6 @@ public class DummyDatabase {
 		projectProposal.setEstimatedBegin(date);
 		
 		Department dep = departments[2];
-		Person prof = new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de");
-		dep.setProf(prof);
 		projectProposal.setDepartment(dep);
 		
 		ArrayList<Person>contactPersons = new ArrayList<Person>();
@@ -76,6 +73,25 @@ public class DummyDatabase {
 
 	public Department[] getDepartments(){
 			return departments;
+	}
+	
+	//TODO get from DB
+	private Department[] createDummyDepartments() {
+		
+		Department dep1 = new Department("Business Process Technology");
+		Person prof1 = new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de");
+		dep1.setProf(prof1);
+		
+		Department dep2 = new Department("Software Architecture");
+		Person prof2 = new Person("Prof. Hirschfeld", "robert.hirschfeld@hpi.uni-potsdam.de");
+		dep2.setProf(prof2);
+		
+		Department dep3 = new Department("Information Systems");
+		Person prof3 = new Person("Prof. Naumann", "felix.naumann@hpi.uni-potsdam.de");
+		dep3.setProf(prof3);
+		
+		Department[] departments = {dep1, dep2, dep3};
+		return departments;
 	}
 
 }

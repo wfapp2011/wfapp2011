@@ -18,18 +18,21 @@ public class ProjectProposal {
 	private Department department;
 	private File projectFile;
 	private ArrayList<File> additionalFiles = new ArrayList<File>();
-	private Boolean isDeleted; //von DB?
-	private Boolean isPublic;  //in State bereits erfasst?
+	private Boolean isDeleted; 
+	private Boolean isPublic;  
 	private enum status {retained, submitted, rejected, accepted};
 	private ArrayList<Comment> comments;
-	//private ArrayList<String> keywords;
 	private String keywords = "";
-	private String shortCut; //anderer Name? Projektkürzel
 	private Date lastModifiedAt;
 	private Person lastModifiedBy;
 			
 
 
+	public ProjectProposal() {	
+		this.setIsDeleted(false);
+		this.setIsPublic(false);
+	}
+	
 	public ProjectProposal(String projectName, int minStud, int maxStud) {		
 		this.setProjectName(projectName);
 		this.setMinStud(minStud);
@@ -62,20 +65,6 @@ public class ProjectProposal {
 		return lastModifiedAt;
 	}
 
-
-
-	public void setShortCut(String shortCut) {
-		this.shortCut = shortCut;
-	}
-
-
-
-	public String getShortCut() {
-		return shortCut;
-	}
-
-
-
 	public void setKeywords(ArrayList<String> keyws) {
 		this.keywords = keyws.get(0);
 	}
@@ -87,12 +76,6 @@ public class ProjectProposal {
 	public String getKeywords() {
 		return keywords;
 	}
-
-	/*public ArrayList<String> getKeywords() {
-		return keywords;
-	}*/
-
-
 
 	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
