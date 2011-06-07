@@ -121,7 +121,7 @@
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
 		<a href="listOwnDepartment.jsp">eigene Themenvorschläge</a> &nbsp;|&nbsp; 
-		<a href="createProject.jsp">neuer Vorschlag</a> &nbsp;|&nbsp; 
+		<a href="createProject.jsp">neuer Vorschlag</a>
 	</p>
 		
 		

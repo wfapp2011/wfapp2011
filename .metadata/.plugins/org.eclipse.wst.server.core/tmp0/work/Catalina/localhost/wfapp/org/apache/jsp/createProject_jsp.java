@@ -175,7 +175,7 @@ public final class createProject_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\t<p>\r\n");
       out.write("\t\t<a href=\"listAllDepartments.jsp\">Alle Themenvorschläge</a>&nbsp;|&nbsp;\r\n");
       out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschläge</a> &nbsp;|&nbsp; \r\n");
-      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a>\r\n");
       out.write("\t</p>\r\n");
       out.write("\t\t\r\n");
       out.write("\t\t\r\n");

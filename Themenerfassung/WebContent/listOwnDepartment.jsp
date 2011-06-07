@@ -16,7 +16,7 @@
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
 		<a href="listOwnDepartment.jsp">eigene Themenvorschläge</a> &nbsp;|&nbsp; 
-		<a href="createProject.jsp">neuer Vorschlag</a> &nbsp;|&nbsp; 
+		<a href="createProject.jsp">neuer Vorschlag</a>
 	</p>
 	
 	<h1>eigene Themenvorschlaege</h1>
@@ -64,12 +64,12 @@
 						<img src="img\edit.png" alt="edit" width="16" height="16" />
 					</a> -->
 					<a href="showProject.jsp?projectID=<%= proposal.toString()%>">
-						<img src="img\edit.png" alt="edit" width="16" height="16" />
+						<img src="img/edit.png" alt="edit" width="16" height="16" />
 					</a>
 					
 				</td>
 				<td><form name="delete" action="Delete" method="get">
-            		<input type="image" src="img\trash.gif" alt="delete" 
+            		<input type="image" src="img/trash.gif" alt="delete" 
             			onClick="return(confirm('Möchten Sie den Projektvorschlag <%= proposal.getProjectName() %> wirklich löschen?'))"/>
             		<input type="hidden" name="projectID" value="<%= proposal %>"/>
             		</form></td>

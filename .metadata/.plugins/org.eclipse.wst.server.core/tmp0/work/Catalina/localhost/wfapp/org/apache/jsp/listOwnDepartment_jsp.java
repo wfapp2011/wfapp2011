@@ -72,7 +72,7 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("\t<p>\r\n");
       out.write("\t\t<a href=\"listAllDepartments.jsp\">Alle Themenvorschläge</a>&nbsp;|&nbsp;\r\n");
       out.write("\t\t<a href=\"listOwnDepartment.jsp\">eigene Themenvorschläge</a> &nbsp;|&nbsp; \r\n");
-      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a> &nbsp;|&nbsp; \r\n");
+      out.write("\t\t<a href=\"createProject.jsp\">neuer Vorschlag</a>\r\n");
       out.write("\t</p>\r\n");
       out.write("\t\r\n");
       out.write("\t<h1>eigene Themenvorschlaege</h1>\r\n");
@@ -165,12 +165,12 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("\t\t\t\t\t<a href=\"showProject.jsp?projectID=");
       out.print( proposal.toString());
       out.write("\">\r\n");
-      out.write("\t\t\t\t\t\t<img src=\"img\\edit.png\" alt=\"edit\" width=\"16\" height=\"16\" />\r\n");
+      out.write("\t\t\t\t\t\t<img src=\"img/edit.png\" alt=\"edit\" width=\"16\" height=\"16\" />\r\n");
       out.write("\t\t\t\t\t</a>\r\n");
       out.write("\t\t\t\t\t\r\n");
       out.write("\t\t\t\t</td>\r\n");
       out.write("\t\t\t\t<td><form name=\"delete\" action=\"Delete\" method=\"get\">\r\n");
-      out.write("            \t\t<input type=\"image\" src=\"img\\trash.gif\" alt=\"delete\" \r\n");
+      out.write("            \t\t<input type=\"image\" src=\"img/trash.gif\" alt=\"delete\" \r\n");
       out.write("            \t\t\tonClick=\"return(confirm('Möchten Sie den Projektvorschlag ");
       out.print( proposal.getProjectName() );
       out.write(" wirklich löschen?'))\"/>\r\n");
