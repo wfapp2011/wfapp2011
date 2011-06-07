@@ -156,7 +156,19 @@ public final class listOwnDepartment_jsp extends org.apache.jasper.runtime.HttpJ
       out.write("\t\t\t\t\t");
  }}
       out.write("</td>\r\n");
-      out.write("\t\t\t\t<td><img src=\"img\\edit.gif\" alt=\"edit\" width=\"16\" height=\"16\" /></td>\r\n");
+      out.write("\t\t\t\t<td>\r\n");
+      out.write("\t\t\t\t\t<!-- <a href=\"editProject.jsp?projectID=");
+      out.print( proposal.toString());
+      out.write("\">\r\n");
+      out.write("\t\t\t\t\t\t<img src=\"img\\edit.png\" alt=\"edit\" width=\"16\" height=\"16\" />\r\n");
+      out.write("\t\t\t\t\t</a> -->\r\n");
+      out.write("\t\t\t\t\t<a href=\"showProject.jsp?projectID=");
+      out.print( proposal.toString());
+      out.write("\">\r\n");
+      out.write("\t\t\t\t\t\t<img src=\"img\\edit.png\" alt=\"edit\" width=\"16\" height=\"16\" />\r\n");
+      out.write("\t\t\t\t\t</a>\r\n");
+      out.write("\t\t\t\t\t\r\n");
+      out.write("\t\t\t\t</td>\r\n");
       out.write("\t\t\t\t<td><form name=\"delete\" action=\"Delete\" method=\"get\">\r\n");
       out.write("            \t\t<input type=\"image\" src=\"img\\trash.gif\" alt=\"delete\" \r\n");
       out.write("            \t\t\tonClick=\"return(confirm('Möchten Sie den Projektvorschlag ");

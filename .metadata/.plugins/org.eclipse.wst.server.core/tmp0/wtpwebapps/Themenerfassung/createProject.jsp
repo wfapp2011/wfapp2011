@@ -1,90 +1,122 @@
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link rel="stylesheet" type="text/css" href="wfapp.css" />
 	
-	<style type="text/css">
-		.alignTop    { vertical-align:top }
-		.inputForm  {width: 70%; min-width:500px;}
-		
-		.formRow	{padding-bottom:30px;}
-		.formTextinput {width:50%;}		
-		.formTextinputPerson {width: 40%}
-		
-		.formLabel {width: 15%; float: left; vertical-align:top; text-align:left; }
-		.formInput {width: 85%; float:right}
-		.formEditorButtons {width: 100%; text-align:right; float:right}
-		.formButtons {float: right}
-	</style>
-
-	<!-- CKEditor -->
+	<!-- jQuery-UI for datepicker -->
+	<link type="text/css" href="jquery-ui-1.8.13.custom/css/smoothness/jquery-ui-1.8.13.custom.css" rel="stylesheet" />	
+	<script type="text/javascript" src="jquery-ui-1.8.13.custom/js/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.8.13.custom/js/jquery-ui-1.8.13.custom.min.js"></script>
+			
+	<!-- CKEditor for wikiedit -->
 	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<script src="sample.js" type="text/javascript"></script>
+	
+	<!-- will be refactored and transferred to external css -->
+	<style type="text/css">
+		.alignTop    { vertical-align:top }
+		.inputForm  {width: 70%; min-width:500px;}		
+		.formRow	{padding-bottom:30px; clear: both;}
+		.formTextinput {width:50%;}		
+		.formTextinputPerson {width: 40%}	
+		.formLabel {width: 15%;  text-align:left; float:left}
+		.formInput {width: 85%; float:right; }
+		.formEditorButtons {width: 100%; text-align:right; float:right}
+		.formButtons {float: right}
+		.formInputContactPerson {width: 25%; color:grey; margin-right: 1%;}
+		.formInputAddPerson {width: 54%; float:right;}
+	</style>
 
 
-<script type="text/javascript" language="javascript"><!--
+<script>
+	$(function() {
+		$( "#datepicker" ).datepicker({
+			showOn: "button",
+			buttonImage: "img/calendar.gif",
+			buttonImageOnly: true
+		});	
+		$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd");
+	});			
+</script>	
+<script type="text/javascript" language="javascript">
 <!--
-//Add more fields dynamically.
-function addContactPerson() {
+	function addContactPerson() {
 
-	
-	var MyElement = document.getElementById("contactPersonName_1");
-    MyElement.value = "If you see this, it worked!";
-
-	
-	if(!document.getElementById) return; //Prevent older browsers from getting any further.
-	var field_area = document.getElementById("contactPersons");
-	var all_inputs = field_area.getElementsByTagName("input"); //Get all the input fields in the given area.
-	//Find the count of the last element of the list. It will be in the format '<field><number>'. If the 
-	//		field given in the argument is 'friend_' the last id will be 'friend_4'.
-	var last_item = all_inputs.length - 1;
-	var last = all_inputs[last_item].id;
-	var count = Number(last.split("_")[1]) + 1;
-	
-	//If the maximum number of elements have been reached, exit the function.
-	//		If the given limit is lower than 0, infinite number of fields can be created.
- 	
-	if(document.createElement) { //W3C Dom method.
-		var div = document.createElement("div");
+		if(!document.getElementById) return;
+		var field_area = document.getElementById("contactPersons");
 		
-		var nameInput = document.createElement("input");
-		nameInput.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
-		nameInput.name = "contactPersonName_"+count;
-		nameInput.id = "contactPersonName_"+count;
-		nameInput.setAttribute("value", "name");
-		div.appendChild(nameInput);
+		//Get all input fields in the given area and find count of last field (= highest count)
+		//note: when fields are deleted, the highest count might be higher than the number of fields
+		var all_inputs = field_area.getElementsByTagName("input"); 
+		var length = all_inputs.length;
+		var count = 1;
+		if (length > 0){
+			var last = all_inputs[length-1].id;
+			count = Number(last.split("_")[1]) + 1;
+		}
 		
-		var emailInput = document.createElement("input");
-		emailInput.type = "text";
-		emailInput.name = "contactPersonEmail_"+count;
-		emailInput.id = "contactPersonEmail_"+count;
-		emailInput.setAttribute("value", "mail");
-		div.appendChild(emailInput);
+		if(document.createElement) { 
+			var div = document.createElement("div");
 		
-	
-		var img = document.createElement("img");
-		img.src = "img/trash.gif";
-		img.setAttribute("onclick", "this.parentNode.parentNode.removeChild(this.parentNode);");
-		div.appendChild(img);
+			//Create textinput for "name"
+			var nameInput = document.createElement("input");
+			nameInput.setAttribute("type", "text");
+			nameInput.setAttribute("name", "contactPersonName_"+count);
+			nameInput.setAttribute("id", "contactPersonName_"+count);
+			nameInput.setAttribute("value", "Name");
+			nameInput.setAttribute("onclick", "this.value='';");
+			nameInput.setAttribute("class", "formInputContactPerson");
+			div.appendChild(nameInput);
 			
+			//Create textinput for "email"
+			var emailInput = document.createElement("input");
+			emailInput.setAttribute("type", "text");
+			emailInput.setAttribute("name", "contactPersonEmail_"+count);
+			emailInput.setAttribute("id", "contactPersonEmail_"+count);
+			emailInput.setAttribute("value", "E-Mail-Adresse");
+			emailInput.setAttribute("onclick", "this.value='';");
+			emailInput.setAttribute("class", "formInputContactPerson");
+			div.appendChild(emailInput);
+			
+			//Create trash to delete items
+			var img = document.createElement("img");
+			img.setAttribute("src", "img/trash.gif");
+			img.setAttribute("onclick", "removeContactPerson(this.parentNode);");
+			div.appendChild(img);
+					
+			//add div
+			field_area.appendChild(div);
+			
+			//set counter to highest count
+			var myCounter = document.getElementById("maxNumberOfContactPersons");
+			//myCounter.setAttribute("value", Number(myCounter.value) + 1);
+			myCounter.setAttribute("value", count);
+			
+			
+		} else {
+			field_area.innerHTML += "<div> Dynamisches Erstellen von Elementen wird von Ihrem Browser nicht unterstützt. </div>";
+		}
+	}
+
+	function removeContactPerson(node){
 		
-		field_area.appendChild(div);
-	} else { //Older Method
-		field_area.innerHTML += "<div><input name='"+(field+count)+"' div='"+(field+count)+"' type='text' /></div>";
-	};
-}
-
-
+		//remove div
+		node.parentNode.removeChild(node);
+		
+		//decrement counter
+		//var myCounter = document.getElementById("numberOfContactPersons");
+		//myCounter.setAttribute('value', Number(myCounter.value) - 1);
+	}
+	
 //--></script>
 	
-	<title>Projektvorschlag erstellen</title>
+<title>Projektvorschlag erstellen</title>
 </head>
 
-<body onload="createEditor('partnerDescrEditor');createEditor('projectDescrEditor');">
+<body onload="addContactPerson(); addContactPerson();">
 
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
@@ -95,24 +127,27 @@ function addContactPerson() {
 		
 	<h2>Neues Projekt erstellen</h2>
 
-	<form name="input" method="get" action="createProject">
+	<form name="input" method="get" action="createProject">		
+	<div class="inputForm">
 		
-	<div class="inputForm">	
-	
 		<div class="formRow">
 			<span class="formLabel">Projektname:</span>
-			<span class="formInput"><input  class="formTextinput" type="text" name="projectName" /></span> 
-		</div>
+			<span class="formInput">
+				<input  class="formTextinput" type="text" name="projectName" />
+			</span>
+		</div> 
+
 
 		<div class="formRow">
 			<span class="formLabel">Beschreibung: </span>
 			<span class="formInput"> 
-					<textarea id="projectDescription" name="projectDescription"></textarea>
-					<script type="text/javascript">
-						CKEDITOR.replace( 'projectDescription' );
-					</script>
+				<textarea id="projectDescription" name="projectDescription"></textarea>
+				<script type="text/javascript">
+					CKEDITOR.replace( 'projectDescription' );
+				</script>
 			</span>
 		</div>
+
 		
 		<div class="formRow">
 			<span class="formLabel">Keywords:</span>
@@ -136,22 +171,22 @@ function addContactPerson() {
 				
 		<div class="formRow">
 			<span class="formLabel">vorauss. Beginn:</span>
-			<span class="formInput"><input type="text" name="estimatedBegin" /></span> 
+			<span class="formInput">
+				<input type="text" name="estimatedBegin" id="datepicker"/>
+			</span> 
 		</div>	
 
 		<div class="formRow">
 			<div>
-				<span class="formLabel">Projektbetreuer:</span>
-				
-				<div id="contactPersons">
-					<div>
-						<input type="text" name="contactPersonName_1" id="contactPersonName_1" value="name"/>
-						<input type="text" name="contactPersonEmail_1" id="contactPersonEmail_1" value="mail"/>
-						<img src="img/trash.gif" onClick="this.parentNode.parentNode.removeChild(this.parentNode);"/>	
-					</div>
+				<span class="formLabel">Projektbetreuer:</span>				
+				<div id="contactPersons" class="formInput">
+					<!-- items are generated via javascript -->	
 				</div>
-			    <div>
-			    	<input type="button" value="Person hinzufügen" onclick="addContactPerson();" />
+			    <div class="formInputAddPerson">
+			    	<input type="button" value="Person hinzufügen" onclick="addContactPerson();" value="0" />
+				</div>
+				<div>
+					<input type="hidden" name="maxNumberOfContactPersons" id="maxNumberOfContactPersons">	
 				</div>	
 			</div>	
 		</div>	

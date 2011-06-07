@@ -97,6 +97,9 @@ public class CreateProject extends HttpServlet {
 		projectProp.setLastModifiedBy(new Person("Matthias Kunze", "matthias.kunze@hpi-web.de"));
 		
 		
+<<<<<<< HEAD
+		//TODO save project in real DB
+=======
 		// TODO get from Database/Engine 
 		Department dep = db.getDepartments()[2];
 		Person prof = new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de");
@@ -105,6 +108,7 @@ public class CreateProject extends HttpServlet {
 		
 				
 		//TODO save project in activiti-database
+>>>>>>> 914c115dbf269dd71eb9f2cca4761fcbdd5711d2
 		db.addProjectProposal(projectProp);
 		
 		//TODO log creation of project proposal in DB
