@@ -5,7 +5,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ProjectProposalLogger {
+public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 	// refactoring has to be done!!
 	private Logging logging;
 	public ProjectProposalLogger() {

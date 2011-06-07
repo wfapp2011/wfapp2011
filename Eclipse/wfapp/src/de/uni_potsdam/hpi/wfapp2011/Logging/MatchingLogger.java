@@ -5,14 +5,14 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MatchingLogger {
+public class MatchingLogger implements MatchingLoggerInterface {
 	// refactoring has to be done!!
 	private Logging logging;
 	public MatchingLogger() {
 		logging = new Logging();
 	}
 	
-	public void logMatchingCExecuted(String processName) {
+	public void logMatchingExecuted(String processName) {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {

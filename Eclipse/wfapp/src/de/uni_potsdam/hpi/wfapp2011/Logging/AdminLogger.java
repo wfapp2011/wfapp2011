@@ -5,18 +5,18 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AdminLogger {
+public class AdminLogger implements AdminLoggerInterface {
 	private Logging logging;
 	public AdminLogger() {
 		logging = new Logging();
 	}
 	
-	public void logNewDeadlineEntry(String email, String deadlineType, String deadline) {
+	public void logNewDeadlineEntry(String email, String deadlineType, Date deadline) {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("deadlineType", deadlineType);
-			jsonObject.put("deadline", deadline);
+			jsonObject.put("deadline", deadline.getTime());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,12 +26,12 @@ public class AdminLogger {
 		logging.log(changeDate, email,"newDeadline", changedValues);
 	}
 	
-	public void logChangedDeadlineEntry(String email, String deadlineType, String deadline) {
+	public void logChangedDeadlineEntry(String email, String deadlineType, Date deadline) {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("deadlineType", deadlineType);
-			jsonObject.put("deadline", deadline);
+			jsonObject.put("deadline", deadline.getTime());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

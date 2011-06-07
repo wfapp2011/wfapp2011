@@ -5,7 +5,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class VotingLogger {
+public class VotingLogger implements VotingLoggerInterface {
 	// refactoring has to be done!!
 	private Logging logging;
 	public VotingLogger() {
@@ -45,13 +45,5 @@ public class VotingLogger {
 		changedValues = jsonObject.toString();
 		logging.log(changeDate, email,"changedVoting", changedValues);
 	}
-	
-	
-	public static void main(String[] args){
-		VotingLogger test = new VotingLogger();
-		String[] votings = {"Hallo", "Meinal", "Baudisch", "Weske"};
-		test.logNewVote("hallo", votings);
-		
-	} 
 	
 }

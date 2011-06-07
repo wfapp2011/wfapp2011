@@ -54,7 +54,6 @@ public class LoggingReader {
 		return numberOfProjectProposals;*/
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Collection<String[]> getVotingsOf(String email) {
 		/** This Method returns all Votings of the specified student.
 		 * The email is the regular HPI-Email-Address. 
