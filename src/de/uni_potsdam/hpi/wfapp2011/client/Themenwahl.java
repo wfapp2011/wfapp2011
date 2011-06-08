@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -27,12 +27,15 @@ public class Themenwahl implements EntryPoint {
 	private Label btnMeineWahl;
 	private Label btnStatistik;
 	private Label btnLogout;
+	private VerticalPanel mainPanel;
 	private Frame frame;
 	private ArrayList<Topic> Topics;
-	//private FlexTable topicTable;
 	private Topictable topicTable;
 	private HTML htmlFooter;
-	private DockPanel dockPanel_1;
+	private VotingView vVoting;
+	private MyVotingView myVoting;
+	private StatisticView vStatistic;
+
 	
 	public void onModuleLoad() {
 		loadTopics();
@@ -45,13 +48,12 @@ public class Themenwahl implements EntryPoint {
 		menuPanel = new HorizontalPanel();
 		menuPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		rootPanel.add(menuPanel, 190, 110);
-		menuPanel.setSize("437px", "41px");
+		menuPanel.setSize("450px", "41px");
 		
 		btnHome = new Label("Home");
 		btnHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				frame.setVisible(true);
-				topicTable.setVisible(false);
+				showElement(frame);				
 				frame.setUrl("https://google.de");
 			}
 		});
@@ -60,48 +62,76 @@ public class Themenwahl implements EntryPoint {
 		btnThemenbersicht = new Label("Themen\u00FCbersicht");
 		btnThemenbersicht.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				frame.setVisible(false);
-				topicTable.setVisible(true);
+				showElement(topicTable);
 			}
 		});
 		menuPanel.add(btnThemenbersicht);
 		
 		btnThemenwahl = new Label("Themenwahl");
+		btnThemenwahl.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showElement(vVoting);
+			}
+		});
 		menuPanel.add(btnThemenwahl);
 		
 		btnMeineWahl = new Label("Meine Wahl");
+		btnMeineWahl.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showElement(myVoting);
+			}
+		});
+		btnMeineWahl.setWidth("100px");
 		menuPanel.add(btnMeineWahl);
-		btnMeineWahl.setWidth("84px");
 		
 		btnStatistik = new Label("Statistik");
+		btnStatistik.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showElement(vStatistic);
+			}
+		});
 		menuPanel.add(btnStatistik);
 		
 		btnLogout = new Label("Logout");
 		menuPanel.add(btnLogout);
 		btnLogout.setWidth("44px");
 		
-		dockPanel_1 = new DockPanel();
-		dockPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-		rootPanel.add(dockPanel_1, 0, 150);
-		dockPanel_1.setWidth("99%");
+		mainPanel = new VerticalPanel();
+		rootPanel.add(mainPanel, 0, 150);
+		mainPanel.setWidth("99%");
+				
+		topicTable = new Topictable(Topics);
+		mainPanel.add(topicTable);
+		topicTable.setWidth("100%");
+		mainPanel.setCellWidth(topicTable, " ");
+						
+		frame = new Frame("http://www.google.com");
+		mainPanel.add(frame);
+		frame.setSize("100%", "412px");
+		frame.setVisible(false);
+		
+		vVoting = new VotingView();
+		mainPanel.add(vVoting);
+		vVoting.setWidth("100%");
+		vVoting.setVisible(false);
+		
+		myVoting = new MyVotingView();
+		mainPanel.add(myVoting);
+		myVoting.setWidth("100%");
+		myVoting.setVisible(false);
+		
+		vStatistic = new StatisticView();
+		mainPanel.add(vStatistic);
+		vStatistic.setWidth("100%");
+		vStatistic.setVisible(false);
 		
 		htmlFooter = new HTML("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<hr>\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"100\">\r\n    \t\t\t<col width=\"100\">\r\n  \t\t\t</colgroup>\r\n  \t\t\t<td></td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"https://www.hpi.uni-potsdam.de/support/impressum.html\">Impressum</a>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"mailto:test@test.com?subject=Bug in Themenwahl\">Report a Bug</a>\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t</body>\r\n</html>", true);
 		htmlFooter.setStyleName("hr");
-		dockPanel_1.add(htmlFooter, DockPanel.SOUTH);
+		mainPanel.add(htmlFooter);
 		htmlFooter.setWidth("100%");
-		
-		topicTable = new Topictable(Topics);
-		dockPanel_1.add(topicTable, DockPanel.CENTER);
-		topicTable.setWidth("100%");
-		dockPanel_1.setCellWidth(topicTable, " ");
-						
-		frame = new Frame("http://www.google.com");
-		dockPanel_1.add(frame, DockPanel.NORTH);
-		frame.setSize("100%", "412px");
-		frame.setVisible(false);		
 	}
 	
-	void loadTopics()
+	private void loadTopics()
 	{
 		// Test Themen erstellen
 		Topics = new ArrayList<Topic>();
@@ -124,5 +154,16 @@ public class Themenwahl implements EntryPoint {
 		
 		for (int i=0; i < 100; i++)
 			Topics.add(new Topic(new Integer(i+3).toString(), "Test" + (i+3), "T" + (i+3), "Beschreibung", 3, 6, "Testlehrstuhl", ""));
+	}
+	
+	private void showElement(Widget w)
+	{
+		frame.setVisible(false);
+		topicTable.setVisible(false);
+		vVoting.setVisible(false);
+		myVoting.setVisible(false);
+		vStatistic.setVisible(false);
+		
+		w.setVisible(true);
 	}
 }
