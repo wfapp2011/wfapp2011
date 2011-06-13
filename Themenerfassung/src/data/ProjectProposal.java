@@ -149,14 +149,14 @@ public class ProjectProposal {
 
 
 
-	public void setContactPersons(ArrayList<Person> contactPersons) {
-		this.contactPersons = contactPersons;
+	public void setContactPersons(ArrayList<Person> contactPers) {
+		this.contactPersons = contactPers;
 	}
 
 
 
 	public ArrayList<Person> getContactPersons() {
-		return contactPersons;
+		return this.contactPersons;
 	}
 
 

@@ -54,7 +54,7 @@
 	<p>
 		<h4> Projektbeschreibung: </h4>
 		<% if (projectToShow.getProjectDescription() != null && projectToShow.getProjectDescription().trim().length() > 0) {%>
-			<h2><%= projectToShow.getProjectDescription()%></h2>		
+			<%= projectToShow.getProjectDescription()%>		
 		<% } else { %>
 			<div class="invalidElement"> Es wurde bisher keine Projektbeschreibung angegeben. </div>
 		<% } %>		

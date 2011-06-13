@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import data.*;
 
 /**
- * Servlet implementation class createProject
+ * Servlet implementation class saveProject
  */
-@WebServlet("/createProject")
-public class CreateProject extends HttpServlet {
+@WebServlet("/saveProject")
+public class SaveProject extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	DummyDatabase db = DummyDatabase.getInstance();
@@ -28,18 +26,27 @@ public class CreateProject extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateProject() {
+    public SaveProject() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// Create new project proposal and set fields
-		ProjectProposal projectProp = new ProjectProposal();
+		boolean projectIsNew = true;
+		ProjectProposal projectToSave = new ProjectProposal();
+		
+		if (request.getParameter("projectID") != null) {
+			String projectID = request.getParameter("projectID");	
+			ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
+			for (ProjectProposal project : projectProposals){
+				if (project.toString().equals(projectID)){
+					projectToSave = project;
+					projectIsNew = false;
+				}
+			}
+		}
+		
 		
 		String projectName = (request.getParameter("projectName"));		
 		String projectDescription = (request.getParameter("projectDescription"));
@@ -49,13 +56,13 @@ public class CreateProject extends HttpServlet {
 		Integer minStud = Integer.parseInt(request.getParameter("minStud"));
 		Integer maxStud = Integer.parseInt(request.getParameter("maxStud"));
 		
-		projectProp.setProjectName(projectName);
-		projectProp.setProjectDescription(projectDescription);
-		projectProp.setKeywords(keywords);
-		projectProp.setPartnerName(partnerName);
-		projectProp.setPartnerDescription(partnerDescription);
-		projectProp.setMinStud(minStud);
-		projectProp.setMaxStud(maxStud);
+		projectToSave.setProjectName(projectName);
+		projectToSave.setProjectDescription(projectDescription);
+		projectToSave.setKeywords(keywords);
+		projectToSave.setPartnerName(partnerName);
+		projectToSave.setPartnerDescription(partnerDescription);
+		projectToSave.setMinStud(minStud);
+		projectToSave.setMaxStud(maxStud);
 		
 	
 		// Add contact persons
@@ -68,6 +75,8 @@ public class CreateProject extends HttpServlet {
 			if ((request.getParameter("contactPersonName_"+i)!=null)&&(request.getParameter("contactPersonEmail_"+i)!=null)){
 				contactPersonName = (request.getParameter("contactPersonName_"+i));
 				contactPersonEmail = (request.getParameter("contactPersonEmail_"+i));
+				if (contactPersonName.equals("Name")) contactPersonName = "";
+				if (contactPersonEmail.equals("E-Mail-Adresse")) contactPersonEmail = "";
 				// at least one field must not be empty!
 				if (contactPersonName.trim().length()>0 || contactPersonEmail.trim().length()>0){
 					Person contactPerson = new Person(contactPersonName, contactPersonEmail);			
@@ -75,7 +84,7 @@ public class CreateProject extends HttpServlet {
 				}
 			}
 		}
-		projectProp.setContactPersons(contactPersons);	
+		projectToSave.setContactPersons(contactPersons);	
 		
 
 		// Add estimated begin
@@ -85,38 +94,30 @@ public class CreateProject extends HttpServlet {
 			Date estimatedBegin = null;
 			try {
 				estimatedBegin = df.parse(dateString);
-				projectProp.setEstimatedBegin(estimatedBegin);
+				projectToSave.setEstimatedBegin(estimatedBegin);
 			} catch (Exception e) {
 				// ignore invalid Date
 			}	
 		}
 	
-		projectProp.setLastModifiedAt(new Date());
-		// this should be done according to user logged in
-		projectProp.setDepartment(db.getDepartments()[(new Random().nextInt(db.getDepartments().length))]);
-		projectProp.setLastModifiedBy(new Person("Matthias Kunze", "matthias.kunze@hpi-web.de"));
+		if (projectIsNew){
+			projectToSave.setDepartment(db.getDepartments()[(new Random().nextInt(db.getDepartments().length))]);
+		}
+		
+		projectToSave.setLastModifiedAt(new Date());
+		// TODO this should be done according to user logged in
+		projectToSave.setLastModifiedBy(new Person("Matthias Kunze", "matthias.kunze@hpi-web.de"));
 		
 		
-		// TODO get from Database/Engine 
-		Department dep = db.getDepartments()[2];
-		Person prof = new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de");
-		dep.setProf(prof);
-		projectProp.setDepartment(dep);
-		
-				
+	
 		//TODO save project in activiti-database
-		db.addProjectProposal(projectProp);
+		if (projectIsNew){
+			db.addProjectProposal(projectToSave);
+		}
+			
+		//TODO log change of project proposal in DB
 		
-		//TODO log creation of project proposal in DB
-
 		response.sendRedirect("listOwnDepartment.jsp");
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

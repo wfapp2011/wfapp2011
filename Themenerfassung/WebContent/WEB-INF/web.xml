@@ -15,18 +15,8 @@
     <servlet-name>HelloWorldServlet</servlet-name>
     <servlet-class>HelloWorldServlet</servlet-class>
   </servlet>
-  <servlet>
-    <description></description>
-    <display-name>CreateProject</display-name>
-    <servlet-name>CreateProject</servlet-name>
-    <servlet-class>CreateProject</servlet-class>
-  </servlet>
   <servlet-mapping>
     <servlet-name>HelloWorldServlet</servlet-name>
     <url-pattern>/hello</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>CreateProject</servlet-name>
-    <url-pattern>/createProject</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -60,10 +60,7 @@
 							out.println(file.getName()); %><br>
 					<% }}%></td>
 				<td>
-					<!-- <a href="editProject.jsp?projectID=<%= proposal.toString()%>">
-						<img src="img\edit.png" alt="edit" width="16" height="16" />
-					</a> -->
-					<a href="showProject.jsp?projectID=<%= proposal.toString()%>">
+					<a href="editProject.jsp?projectID=<%= proposal.toString()%>">
 						<img src="img/edit.png" alt="edit" width="16" height="16" />
 					</a>
 					
