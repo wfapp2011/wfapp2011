@@ -388,3 +388,11 @@ hr {
 	font-weight: bold;
 	text-decoration:none;
 }
+.gwt-VoteItem {
+	color: Black;
+	font-size: medium;
+	font-style: normal;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	background:url(Menu.png) repeat-x;
+}

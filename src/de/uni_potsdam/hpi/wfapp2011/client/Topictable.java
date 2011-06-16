@@ -10,11 +10,11 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class Topictable extends Composite{
+public class Topictable extends Composite implements ChildClosable{
 	private VerticalPanel verticalPanel;
 	private FlexTable flexTable;
-	private TopicDetailView topicDetail;
 	private ArrayList<Topic> Topics;
 
 	public ArrayList<Topic> getTopics() {
@@ -46,11 +46,11 @@ public class Topictable extends Composite{
 		verticalPanel.add(flexTable);
 		verticalPanel.setCellHeight(flexTable, "");
 		
-		topicDetail = new TopicDetailView(new Topic(), this);
+		/*topicDetail = new TopicDetailView(new Topic(), this);
 		topicDetail.setWidth("100%");
 		topicDetail.setVisible(false);
 		verticalPanel.add(topicDetail);
-		verticalPanel.setCellHeight(topicDetail, "");
+		verticalPanel.setCellHeight(topicDetail, "");*/
 		
 		
 		setupTableStyle();
@@ -96,15 +96,14 @@ public class Topictable extends Composite{
 	
 	private void showProjectDetail(Topic topic)
 	{
-		verticalPanel.remove(topicDetail);
-		topicDetail = new TopicDetailView(topic, this);
+		TopicDetailView topicDetail = new TopicDetailView(topic, this);
 		verticalPanel.add(topicDetail);
 		flexTable.setVisible(false);		
 	}
 	
-	public void closeProjectDetail()
+	public void closeChild(Widget Child)
 	{
-		topicDetail.setVisible(false);
+		verticalPanel.remove(Child);
 		flexTable.setVisible(true);
 	}
 }

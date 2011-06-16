@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TopicDetailView extends Composite {
-	private Topictable parent;
+	private ChildClosable parent;
 	private FlexTable flexTable;
 	private final Topic topic;
 	private VerticalPanel verticalPanel;
@@ -21,9 +21,9 @@ public class TopicDetailView extends Composite {
 	private Label lblDescription;
 	private Button btnZurueck;
 	
-	public TopicDetailView(Topic newTopic, Topictable Parent) {
+	public TopicDetailView(Topic newTopic, ChildClosable newParent) {
 		topic = newTopic;
-		parent = Parent;
+		parent = newParent;
 		verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		verticalPanel.setWidth("100%");
@@ -102,6 +102,6 @@ public class TopicDetailView extends Composite {
 	}
 	
 	private void closeWindow() {
-		parent.closeProjectDetail();
+		parent.closeChild(this);
 	}
 }

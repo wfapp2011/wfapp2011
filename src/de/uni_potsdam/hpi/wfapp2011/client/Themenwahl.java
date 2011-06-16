@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -18,7 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Themenwahl implements EntryPoint {
+@SuppressWarnings("deprecation")
+public class Themenwahl implements EntryPoint, HistoryListener {
 	private RootPanel rootPanel;
 	private HorizontalPanel menuPanel;
 	private Label btnHome;
@@ -35,6 +38,7 @@ public class Themenwahl implements EntryPoint {
 	private VotingView vVoting;
 	private MyVotingView myVoting;
 	private StatisticView vStatistic;
+	private String lastHistoryToken = "";
 
 	
 	public void onModuleLoad() {
@@ -48,13 +52,14 @@ public class Themenwahl implements EntryPoint {
 		menuPanel = new HorizontalPanel();
 		menuPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		rootPanel.add(menuPanel, 190, 110);
-		menuPanel.setSize("450px", "41px");
+		menuPanel.setSize("503px", "42px");
 		
 		btnHome = new Label("Home");
 		btnHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showElement(frame);				
 				frame.setUrl("https://google.de");
+				History.newItem("Home");
 			}
 		});
 		menuPanel.add(btnHome);
@@ -63,6 +68,7 @@ public class Themenwahl implements EntryPoint {
 		btnThemenbersicht.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showElement(topicTable);
+				History.newItem("Themenuebersicht");
 			}
 		});
 		menuPanel.add(btnThemenbersicht);
@@ -71,6 +77,7 @@ public class Themenwahl implements EntryPoint {
 		btnThemenwahl.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showElement(vVoting);
+				History.newItem("Themenwahl");
 			}
 		});
 		menuPanel.add(btnThemenwahl);
@@ -79,15 +86,16 @@ public class Themenwahl implements EntryPoint {
 		btnMeineWahl.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showElement(myVoting);
+				History.newItem("MeineWahl");
 			}
 		});
-		btnMeineWahl.setWidth("100px");
 		menuPanel.add(btnMeineWahl);
 		
 		btnStatistik = new Label("Statistik");
 		btnStatistik.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showElement(vStatistic);
+				History.newItem("Statistik");
 			}
 		});
 		menuPanel.add(btnStatistik);
@@ -99,7 +107,7 @@ public class Themenwahl implements EntryPoint {
 		mainPanel = new VerticalPanel();
 		rootPanel.add(mainPanel, 0, 150);
 		mainPanel.setWidth("99%");
-				
+						
 		topicTable = new Topictable(Topics);
 		mainPanel.add(topicTable);
 		topicTable.setWidth("100%");
@@ -110,7 +118,7 @@ public class Themenwahl implements EntryPoint {
 		frame.setSize("100%", "412px");
 		frame.setVisible(false);
 		
-		vVoting = new VotingView();
+		vVoting = new VotingView(Topics);
 		mainPanel.add(vVoting);
 		vVoting.setWidth("100%");
 		vVoting.setVisible(false);
@@ -129,6 +137,8 @@ public class Themenwahl implements EntryPoint {
 		htmlFooter.setStyleName("hr");
 		mainPanel.add(htmlFooter);
 		htmlFooter.setWidth("100%");
+		
+		 History.addHistoryListener(this);
 	}
 	
 	private void loadTopics()
@@ -165,5 +175,27 @@ public class Themenwahl implements EntryPoint {
 		vStatistic.setVisible(false);
 		
 		w.setVisible(true);
+	}
+
+	@Override
+	public void onHistoryChanged(String historyToken) {
+		if (historyToken.equals(lastHistoryToken))
+			return;
+		
+		lastHistoryToken = historyToken;
+		
+		if (historyToken.equals("Home"))
+			showElement(frame);
+		else if (historyToken.equals("Themenuebersicht"))
+			showElement(topicTable);
+		else if (historyToken.equals("Themenwahl"))
+			showElement(vVoting);
+		else if (historyToken.equals("MeineWahl"))
+			showElement(myVoting);
+		else if (historyToken.equals("Statistik"))
+			showElement(vStatistic);
+		else
+			showElement(topicTable);
+		
 	}
 }
