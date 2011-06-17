@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="data.ProjectProposal"%>
-<%@page import="data.Person"%>
-<%@page import="data.DummyDatabase"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.ProjectProposal"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.Person"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase"%>
 <%@page import="java.text.DateFormat"%>
 
 <%@page import="java.util.Locale "%>

@@ -1,3 +1,5 @@
+package de.uni_potsdam.hpi.wfapp2011;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data.*;
+import de.uni_potsdam.hpi.wfapp2011.data.*;
 
 /**
  * Servlet implementation class saveProject

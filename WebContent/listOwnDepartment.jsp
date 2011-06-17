@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="data.ProjectProposal"%>
-<%@page import="data.Person"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.ProjectProposal"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.Person"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase"%>
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -33,7 +34,7 @@
 			<td></td>
 		</tr>
 		
-		<% data.DummyDatabase db = data.DummyDatabase.getInstance();
+		<% DummyDatabase db = DummyDatabase.getInstance();
 		ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
 		for (ProjectProposal proposal : projectProposals){
 			if (/*check for department here &&*/ !(proposal.getIsDeleted())){%>

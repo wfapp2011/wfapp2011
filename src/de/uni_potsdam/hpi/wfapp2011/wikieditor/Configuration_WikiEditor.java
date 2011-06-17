@@ -1,4 +1,4 @@
-package wikieditor;
+package de.uni_potsdam.hpi.wfapp2011.wikieditor;
 
 //package com.ckeditor.samples;
 

@@ -1,4 +1,4 @@
-package data;
+package de.uni_potsdam.hpi.wfapp2011.data;
 
 import java.util.Date;
 

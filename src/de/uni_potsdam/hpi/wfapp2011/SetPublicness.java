@@ -1,4 +1,4 @@
-
+package de.uni_potsdam.hpi.wfapp2011;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data.ProjectProposal;
+import de.uni_potsdam.hpi.wfapp2011.data.*;
 
 @WebServlet("/SetPublicness")
 public class SetPublicness extends HttpServlet {
@@ -23,7 +23,7 @@ public class SetPublicness extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<ProjectProposal> proposals = data.DummyDatabase.getInstance().getProjectProposals();
+		ArrayList<ProjectProposal> proposals = DummyDatabase.getInstance().getProjectProposals();
 		String projectID = request.getParameter("projectID");
 		String checked = request.getParameter("checked");
 		for (ProjectProposal proposal : proposals){

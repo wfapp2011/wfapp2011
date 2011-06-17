@@ -1,8 +1,9 @@
 <%@page import="java.util.Random"%>
-<%@page import="data.Department"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.Department"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="data.ProjectProposal"%>
-<%@page import="data.Person"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.ProjectProposal"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.Person"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase"%>
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -32,7 +33,7 @@
 			<td>Teamgröße</td>
 			<td>Dateien</td>
 		</tr>
-		<% data.DummyDatabase db = data.DummyDatabase.getInstance();
+		<% DummyDatabase db = DummyDatabase.getInstance();
 		for (Department department : db.getDepartments()) { %>
 			<tr bgcolor="#CFCFCF">
 				<th colspan="7" align="left"><b>Projektvorschläge vom Fachgebiet <%= department.getName() %></b></th>
