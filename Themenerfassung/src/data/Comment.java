@@ -4,11 +4,20 @@ import java.util.Date;
 
 public class Comment {
 
-	private String message;
+	private String message = "";
 	private Person author;
 	private Date date;
 	
+	public Comment(Person author, String message){
+		setAuthor(author);
+		setMessage(message);
+		setDate(new Date());
+	}
 	
+	public Comment() {
+		setDate(new Date());
+	}
+
 	public void setDate(Date date) {
 		this.date = date;
 	}

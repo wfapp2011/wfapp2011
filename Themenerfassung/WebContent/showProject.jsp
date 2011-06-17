@@ -4,6 +4,7 @@
 <%@page import="data.ProjectProposal"%>
 <%@page import="data.DummyDatabase"%>
 <%@page import="data.Person"%>
+<%@page import="data.Comment"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -118,6 +119,28 @@
 						 </li>	
 				<% }}} %>
 		</ul>
+	</p>
+	
+	<p>
+	<hr>
+	<h4>Kommentare:</h4>
+	<% for (Comment comment : projectToShow.getComments()){ %>
+		<% if (comment.getAuthor() == null) {%>
+			<b>niemand</b>
+		<% } else {%>
+			<b><%= comment.getAuthor().getName() %></b>
+		<% }%>
+		schrieb am <%= df.format(comment.getDate()) %> 
+		um <%= comment.getDate().getHours()%>:<%= comment.getDate().getMinutes()%> 
+		Uhr: <br>
+	<%= comment.getMessage() %> <br><br>
+	<% }%>
+	<form name="input" method="post" action="AddComment">
+		<textarea id="commentMessage" name="commentMessage" cols="80" rows="5"></textarea>
+		<input type=hidden name="author" value="unbekannt" /> <!-- hier sollte der Nutzer stehen -->
+		<input type=hidden name="projectID" value=<%= projectToShow %> />
+		<input type="submit" value="Kommentieren" />
+	</form>
 	</p>
 	
 

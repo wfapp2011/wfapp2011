@@ -18,13 +18,13 @@ public class Delete extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		data.DummyDatabase db = data.DummyDatabase.getInstance();
 		String proposalToDelete = request.getParameter("projectID");
 		db.deleteProjectProposal(proposalToDelete);
 		response.sendRedirect("listOwnDepartment.jsp");
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

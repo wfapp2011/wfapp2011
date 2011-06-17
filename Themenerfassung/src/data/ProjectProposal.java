@@ -21,7 +21,7 @@ public class ProjectProposal {
 	private Boolean isDeleted; 
 	private Boolean isPublic;  
 	private enum status {retained, submitted, rejected, accepted};
-	private ArrayList<Comment> comments;
+	private ArrayList<Comment> comments = new ArrayList<Comment>();
 	private String keywords = "";
 	private Date lastModifiedAt;
 	private Person lastModifiedBy;

@@ -38,11 +38,15 @@
 		for (ProjectProposal proposal : projectProposals){
 			if (/*check for department here &&*/ !(proposal.getIsDeleted())){%>
 			<tr>
-				<td align="center"><form action="SetPublicness" method="post">
-					<input type="checkbox" <%= proposal.getIsPublic() ? "checked" : "" %> onClick="submit()">
-					<input type="hidden" name="projectID" value="<%= proposal %>">
-					<input type="hidden" name="checked" value=<%= proposal.getIsPublic() ? "false" : "true" %>>
-					</form></td>
+				<% if (false /*Frist überschritten*/) {%>
+					<td><input type="checkbox" <%= proposal.getIsPublic() ? "checked" : "" %> disabled></td>
+				<% } else { %>
+					<td align="center"><form action="SetPublicness" method="post">
+						<input type="checkbox" <%= proposal.getIsPublic() ? "checked" : "" %> onClick="submit()">
+						<input type="hidden" name="projectID" value="<%= proposal %>">
+						<input type="hidden" name="checked" value=<%= proposal.getIsPublic() ? "false" : "true" %>>
+						</form></td>
+				<% }%>
 				<td><a href="showProject.jsp?projectID=<%= proposal.toString()%>"><%= proposal.getProjectName() %></a></td>
 				<td><% for (String keyword : proposal.getKeywords().split("\\;|,")){%>
 					<% out.println(keyword); %><br>
@@ -65,7 +69,7 @@
 					</a>
 					
 				</td>
-				<td><form name="delete" action="Delete" method="get">
+				<td><form name="delete" action="Delete" method="post">
             		<input type="image" src="img/trash.gif" alt="delete" 
             			onClick="return(confirm('Möchten Sie den Projektvorschlag <%= proposal.getProjectName() %> wirklich löschen?'))"/>
             		<input type="hidden" name="projectID" value="<%= proposal %>"/>

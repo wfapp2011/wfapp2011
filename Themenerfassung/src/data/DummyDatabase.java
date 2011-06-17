@@ -26,6 +26,15 @@ public class DummyDatabase {
 	public void addProjectProposal(ProjectProposal projectProp) {
 		projects.add(projectProp);
 	}
+	
+	public ProjectProposal getProposal(String projectID){
+		for (ProjectProposal project : projects) {
+			if (project.toString().equals(projectID)) {
+				return project;
+			}
+		}
+		return null;
+	}
 
 	public void deleteProjectProposal(String projectID) {
 		for (ProjectProposal project : projects) {
@@ -67,6 +76,13 @@ public class DummyDatabase {
 		projectProposal.setIsPublic(true);
 		projectProposal.setLastModifiedAt(new Date());
 		projectProposal.setLastModifiedBy(new Person("Prof. Weske", "mathias.weske@hpi.uni-potsdam.de"));
+		
+		Comment dummyComment = new Comment(p1, "Test");
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+		comments.add(dummyComment);
+		Comment anotherComment = new Comment(null, "blubb");
+		comments.add(anotherComment);
+		projectProposal.setComments(comments);
 		
 		return projectProposal;	
 	}

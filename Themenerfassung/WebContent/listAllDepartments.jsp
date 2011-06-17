@@ -22,20 +22,21 @@
 	</p>
 
 	<h1>Alle Themenvorschlaege</h1>
+	<table>
+		<tr>
+			<td>Status</td>
+			<td>Projektname</td>
+			<td>Keywords</td>
+			<td>Partner</td>
+			<td>Betreuer</td>
+			<td>Teamgröße</td>
+			<td>Dateien</td>
+		</tr>
 		<% data.DummyDatabase db = data.DummyDatabase.getInstance();
 		for (Department department : db.getDepartments()) { %>
-		<h3>Projektvorschläge vom Fachgebiet <%= department.getName() %></h3>
-			<table border="1">
-			<tr>
-				<td>Status</td>
-				<td>Projektname</td>
-				<td>Keywords</td>
-				<td>Partner</td>
-				<td>Betreuer</td>
-				<td>Teamgröße</td>
-				<td>Dateien</td>
+			<tr bgcolor="#CFCFCF">
+				<th colspan="7" align="left"><b>Projektvorschläge vom Fachgebiet <%= department.getName() %></b></th>
 			</tr>
-			
 			<%for (ProjectProposal proposal : db.getProjectProposals()){
 				if (proposal.getIsPublic() && proposal.getDepartment() == department && !(proposal.getIsDeleted())){%>
 				<tr>
@@ -58,8 +59,11 @@
 						<% }}%></td>				
 				</tr>
 		<% }} %>
-	</table><br>
+		<tr>
+			<th colspan="7">&#160</th>
+		</tr>
 	<% }%>
+	</table><br>
 		
 </body>
 
