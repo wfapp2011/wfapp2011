@@ -13,7 +13,7 @@
     <description></description>
     <display-name>HelloWorld</display-name>
     <servlet-name>HelloWorldServlet</servlet-name>
-    <servlet-class>HelloWorldServlet</servlet-class>
+    <servlet-class>de.uni_potsdam.hpi.wfapp2011.HelloWorldServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloWorldServlet</servlet-name>
