@@ -1,9 +1,0 @@
-INDEX VERSION 1.126
-C:\Users\Josi\Documents\uni\SS 2011\wfapp2011\git\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3667217283.index
-\wfapp
-C:\Users\Josi\Documents\uni\SS 2011\wfapp2011\git\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\9106078.index
-\Themenerfassung
-C:\Users\Josi\Documents\uni\SS 2011\wfapp2011\git\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\450507803.index
-\Themenwahl
-C:\Users\Josi\Documents\uni\SS 2011\wfapp2011\git\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4083544873.index
-\Themenwahl

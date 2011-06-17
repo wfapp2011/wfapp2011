@@ -1,6 +1,0 @@
-INDEX VERSION 1.122+C:\Users\Josi\Documents\uni\SS 2011\wfapp2011\git\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-3653639918.index
-2228169331.index
-3858034422.index
-3461492610.index
-487075975.index

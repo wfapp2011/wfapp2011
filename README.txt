@@ -1,1 +1,0 @@
-This is the README file of wfapp2011 repository. This might be changed after some time.
