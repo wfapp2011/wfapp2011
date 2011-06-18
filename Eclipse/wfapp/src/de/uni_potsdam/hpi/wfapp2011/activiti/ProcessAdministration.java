@@ -52,7 +52,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 			//Setting the deadlines, which will be changeable from outside the process. 
 			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.START_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(startProposalDate));
 			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_TOPISCS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
 			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
 			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endMatchingDate));
 			
