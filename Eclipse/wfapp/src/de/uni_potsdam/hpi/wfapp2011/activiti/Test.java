@@ -12,12 +12,12 @@ import java.net.URLEncoder;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
-import org.apache.http.client.methods.HttpPost;
+/*import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.h2.util.IOUtils;
 import org.restlet.engine.http.HttpResponse;
-
+*/
 public class Test {
 
 	/**
@@ -30,13 +30,13 @@ public class Test {
 
 	}
 	public void testStartProcess() {
-	   try {
+	 /*  try {
 		   DefaultHttpClient dhc = new DefaultHttpClient();
 		   HttpPost hp = new HttpPost("http://localhost:8080/activiti-rest/service/process-instance");
 		   hp.setEntity(new StringEntity("{\"processDefinitionId\":\"helloworld:1\"}", "UTF-8"));
 		   HttpResponse processResponse = (HttpResponse) dhc.execute(hp);
-		   System.out.println(IOUtils.toString(processResponse.getEntity().getContent()));
-		   dhc.getConnectionManager().shutdown();
+		 //  System.out.println(IOUtils.toString(processResponse.getEntity().getContent()));
+		  // dhc.getConnectionManager().shutdown();*/
 	}
 	
 	public static String httpPost(String urlStr, String[] paramName,
