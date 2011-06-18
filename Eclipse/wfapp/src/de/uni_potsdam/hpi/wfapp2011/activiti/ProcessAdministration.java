@@ -1,13 +1,16 @@
 package de.uni_potsdam.hpi.wfapp2011.activiti;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
+
+import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
 
 public class ProcessAdministration implements ProcessAdministrationInterface {
 	
@@ -16,70 +19,69 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * 
 	 * */
 	public String startProcess(String processName, 
-			Date startProposalDate, 
-			Date endProposalDate, Date startVotingDate, Date endVotingDate, Date endMatchingDate){
-		System.out.println("Administration:Start  " +new Date().toString());
-		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
-	
-		String processInstanceId = "DateError";
-		ProcessDefinitionQuery query = processEngine.getRepositoryService().createProcessDefinitionQuery().
-			processDefinitionName(processName);
+			GregorianCalendar startProposalDate, 
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar startVotingDate, 
+			GregorianCalendar endVotingDate, 
+			GregorianCalendar endMatchingDate)
+	{
+		String processInstanceId = Constants.DATE_ERROR;
 		
+		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
+		
+		//Get all process definitions with the given process name
+		ProcessDefinitionQuery query = processEngine.getRepositoryService().
+			createProcessDefinitionQuery().processDefinitionName(processName);
+		
+		// Get only the latest process definition 
 		ProcessDefinition processDefinition = query.orderByProcessDefinitionVersion().desc().listPage(0, 10).get(0);
 		String id = processDefinition.getId();
 		
+		// make sure that the dates have the correct order.
 		if (startProposalDate.before(endProposalDate) && 
 				endProposalDate.before(startVotingDate) && 
 				startVotingDate.before(endVotingDate) && 
 				endVotingDate.before(endMatchingDate))
 		{
 			ProcessInstance processInstance = ProcessEngines.getProcessEngine("default").getRuntimeService().startProcessInstanceById(id);
-			
 			processInstanceId = processInstance.getId();
-			processEngine.getRuntimeService().setVariable(processInstanceId, "changed", 2);
-			processEngine.getRuntimeService().setVariable(processInstanceId, "vonProzessadministration", "gesetzt");
-			processEngine.getRuntimeService().setVariable(processInstanceId, "defaultDeadlineProcess", dateToISO8601(endMatchingDate));
-			System.out.println("Administration: DefaultDeadlineProcess: "+dateToISO8601(endMatchingDate));
-			//Setting the changeable deadlines
-			processEngine.getRuntimeService().setVariable(processInstanceId, "startProposalCollectionInput", dateToISO8601(startProposalDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineProposalCollectionInput", dateToISO8601(endProposalDate));
-			System.out.println("Administration: deadlineProposalCollectionInput "+ dateToISO8601(endProposalDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineTopicsPublicationInput", dateToISO8601(startVotingDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineVotingInput", dateToISO8601(endVotingDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineProcessInput", dateToISO8601(endMatchingDate));
-			//Setting the deafault-deadlines used for the timeEvents 
 			
-			processEngine.getRuntimeService().setVariable(processInstanceId, "startProposalCollection", dateToISO8601(startProposalDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineProposalCollection", dateToISO8601(endProposalDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineTopicsPublication", dateToISO8601(startVotingDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineVoting", dateToISO8601(endVotingDate));
-			processEngine.getRuntimeService().setVariable(processInstanceId, "deadlineProcess", dateToISO8601(endMatchingDate));
+			//Setting the Default Deadline of the whole process, used for the boundary Events
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endMatchingDate));
+		
+			//Setting the deadlines, which will be changeable from outside the process. 
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.START_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(startProposalDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_TOPISCS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endMatchingDate));
+			
+			//Setting the deadlines used for the timeEvents. Changes will be copied in the service task. 
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.START_PROPOSAL_COL, DateConverter.dateToISO8601(startProposalDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROPOSAL_COL, DateConverter.dateToISO8601(endProposalDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_TOPICS_PUBL, DateConverter.dateToISO8601(startVotingDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_VOTING, DateConverter.dateToISO8601(endVotingDate));
+			processEngine.getRuntimeService().setVariable(processInstanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endMatchingDate));
+			
 			processEngine.close();
-			System.out.println("Administration:Ende  " +new Date().toString()+ "\n");
 		}
 		return processInstanceId;
-	}
-	
-	public String dateToISO8601(Date date) {
-		SimpleDateFormat iso = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		return iso.format(date);
 	}
 	
 	public static void main(String[] args){
 		
 		ProcessAdministration process = new ProcessAdministration();
-		Date startCollection = new Date();
-		Date deadlineCollection = new Date();
-		Date deadlineTopics = new Date();
-		Date deadlineVoting = new Date();
-		Date deadlineProcess = new Date();
-		System.out.println("Main-Methode: Deadline Collection: "+ process.dateToISO8601(deadlineCollection));
-		startCollection.setMinutes(startCollection.getMinutes() + 5);
-		deadlineCollection.setMinutes(deadlineCollection.getMinutes() + 10);
-		deadlineTopics.setMinutes(deadlineTopics.getMinutes()+15);
-		deadlineVoting.setMinutes(deadlineVoting.getMinutes()+ 20);
-		deadlineProcess.setMinutes(deadlineProcess.getMinutes()+25);
+		GregorianCalendar startCollection = new GregorianCalendar();
+		GregorianCalendar deadlineCollection = new GregorianCalendar();
+		GregorianCalendar deadlineTopics = new GregorianCalendar();
+		GregorianCalendar deadlineVoting = new GregorianCalendar();
+		GregorianCalendar deadlineProcess = new GregorianCalendar();
 		
+		startCollection.add(Calendar.MINUTE, +5);
+		deadlineCollection.add(Calendar.MINUTE, +10);
+		deadlineTopics.add(Calendar.MINUTE, +15);
+		deadlineVoting.add(Calendar.MINUTE, +20);
+		deadlineProcess.add(Calendar.MINUTE, +25);
 		
 		System.out.println("Ende Main: "+process.startProcess("DegreeProjectProcessNew2", startCollection, deadlineCollection, deadlineTopics, deadlineVoting, deadlineProcess));
 		

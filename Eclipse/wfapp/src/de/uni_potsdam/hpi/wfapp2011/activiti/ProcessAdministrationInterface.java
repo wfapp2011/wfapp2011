@@ -1,14 +1,14 @@
 package de.uni_potsdam.hpi.wfapp2011.activiti;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public interface ProcessAdministrationInterface {
 	
 	public String startProcess(String processName,
-							Date startProposalDate, 
-							Date endProposalDate, 
-							Date startVotingDate, 
-							Date endVotingDate, 
-							Date endMatchingDate);
+							GregorianCalendar startProposalDate, 
+							GregorianCalendar endProposalDate, 
+							GregorianCalendar startVotingDate, 
+							GregorianCalendar endVotingDate, 
+							GregorianCalendar endMatchingDate);
 	
 }

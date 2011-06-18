@@ -1,6 +1,6 @@
-package de.uni_potsdam.hpi.wfapp2011.Logging.Test;
+package de.uni_potsdam.hpi.wfapp2011.Testing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,3 +32,4 @@ public class TestLoggingReader {
 		assertEquals("Result", 2, loggingReader.getNumberOfProjectProposals());
 	}
 }
+
