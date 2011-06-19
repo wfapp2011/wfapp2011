@@ -1,10 +1,14 @@
 package de.uni_potsdam.hpi.wfapp2011.Logging;
 
+//###########
+//# imports	#
+//###########
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,38 +17,49 @@ import java.util.Map;
 import org.h2.jdbc.JdbcSQLException;
 
 /**
- * Provides the functionality to interact with the H2-Database
- * 
- * 	DbInterface():			Loads the Jdbc-Driver for the H2-Database and initializes the TABLEOVERVIEW-Table
- * 	connect():				Connects this instance of the DbInterface to the H2-Database
- * 	disconnect():			Disconnects this instance of the DbInterface from the H2-Database
- * 	executeQuery(String):	Executes the given SQL-Query
- * 	executeUpdate(String):	Executes the given Update-Query
- */
+* Provides the functionality to interact with the H2-Database
+* 
+* !!! For easier parsing all SQL queries are converted into lower case Strings !!!
+* 
+* 	DbInterface():					Loads the Jdbc-Driver for the H2-Database
+* 	initializeDatabase(String, String, int):Initializes the database
+*  initializeMetaTabelles():		Creates the meta-information database and all of its tabelles
+* 	connect(String, String, int):			Connects this instance of the DbInterface to the H2-Database
+* 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database
+* 	executeQuery(String):			Executes the given SQL-Query
+* 	executeUpdate(String):			Executes the given Update-Query
+* 	executeQueryDirectly(String):	Executes the given query directly (any Jdbc-Stuff has to be handled by the user)
+*/
 
 public class DbInterface {
-	
-	private static boolean isInit = false;
-	
+
 	private Connection dbConnection;
-	private Class driverClass;
-	
-	private String driver = "org.h2.Driver";
-	private String server = "localhost";
-	//private String port = "8080";
-	private String dbName = "activiti";
-	private String userName = "sa";
-	private String pw = "";
-	
-	
+	@SuppressWarnings({ "unused", "rawtypes" })
+	private static Class driverClass;
+
+	//#########################
+	//# database informations #
+	//#########################
+	private static String driver = "org.h2.Driver";
+	private static String server = "localhost";
+		//private static String port = "8082";
+	private static String userName = "sa";
+	private static String pw = "";
+
+
 	/**
 	 * Constructor
 	 * 
-	 * Loads the Jdbc-Driver for H2-Databases and initializes the TABLEOVERVIEW-Table
+	 * Loads the Jdbc-Driver for H2-Databases
 	 */
-	
+
 	public DbInterface(){
-		
+
+		//########################
+		//#						 #
+		//# load the Jdbc-Driver #
+		//#						 #
+		//########################
 		try {
 			driverClass = Class.forName(driver);
 		}
@@ -52,50 +67,173 @@ public class DbInterface {
 			System.err.println("Class not found!");
 			e.printStackTrace();
 		}
-		
-		if(!isInit){
-			this.connect();
-			try{
-				dbConnection.createStatement().executeUpdate("CREATE TABLE tableoverview (tableName CHAR(30), countAttributes INT, nameAttributes VARCHAR(255))");
+	}
+
+	/**
+	 * initializeDatabase(String, String, int)
+	 * 
+	 * Initializes the database
+	 * 
+	 * @param String type: Ba/Ma
+	 * @param String semester: SS/WS
+	 * @param int: the year which the database should created for
+	 */
+
+	public static void initializeDatabase(String type, String semester, int year){
+
+		//#####################################
+		//#									  #
+		//# Connect to the specified database #
+		//#									  #
+		//#####################################
+		Connection con = null;
+		try{
+			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+
+		//#######################################################
+		//#							  							#
+		//# Creates all needed tables if this is a new database #
+		//#							  							#
+		//#######################################################
+		boolean newDatabase = true;
+
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name= 'LOGTABLE';");
+
+			if(result.next()){
+				newDatabase = false;
 			}
-			catch(JdbcSQLException f){
-				isInit = true;
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
-			this.disconnect();
-			
-			isInit = true;
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+
+		if(newDatabase){
+			TableCreater creater = new TableCreater(con);
+			creater.create();
+		}
+
+		try{
+			con.close();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * connect()
+	 * initializeMetaTabelles()
+	 * 
+	 * if needed this method creates the meta-information database
+	 */
+	public static void initializeMetaTabelles(){
+		Connection con = null;
+
+		//################################
+		//#								 #
+		//# Connect to the meta database #
+		//#								 #
+		//################################
+		try{
+			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatabelles", userName, pw);
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+
+		//#######################################################
+		//#							  							#
+		//# Creates all needed tables if this is a new database #
+		//#							  							#
+		//#######################################################
+		boolean newDatabase = true;
+
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name= 'EXISTING_PROJECTS';");
+
+			if(result.next()){
+				newDatabase = false;
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+
+		if(newDatabase){
+			TableCreater creater = new TableCreater(con);
+			creater.createMetaTabelles();
+		}
+
+		try{
+			con.close();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * connectToMetaTabelles()
+	 * 
+	 * connects this instance to the meta-database
+	 */
+	public void connectToMetaTabelles(){
+		try{
+			dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatabelles", userName, pw);
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * connect(String, String, int)
 	 * 
 	 * Connects this instance of DbInterface to the H2-Database
 	 * if the Connection already exists this method does nothing
+	 * 
+	 * @param String type: Ba/Ma
+	 * @param String semester: SS/WS
+	 * @param int: the year which the database should created for
 	 */
-	
-	public synchronized void connect(){
+
+	public synchronized void connect(String type, String semester, int year){
+
+		//########################################
+		//#										 #
+		//# try to connect to the given database #
+		//#										 #
+		//########################################
 		try{
 			if(dbConnection == null){
-				dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/"+ dbName, userName, pw);
+				dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 			}
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * disconnect()
 	 * 
 	 * Disconnects this instance of DbInterface from the H2-Database
-	 * if there is no activ connection this method does nothing
+	 * if there is no active connection this method does nothing
 	 */
-	
+
 	public synchronized void disconnect(){
+
+		//##########################################################
+		//#														   #
+		//# disconnect from the database and delete the connection #
+		//#														   #
+		//##########################################################
 		try{
 			if(dbConnection != null){
 				dbConnection.close();
@@ -106,129 +244,159 @@ public class DbInterface {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
+
+
+	/**
+	 * executeQuery(String)
+	 * 
+	 * Restrictions: 	If you use '*' in your SELECT-clause, please DONT use nested queries (SELECT * FROM (SELECT ...)).
+	 * 					If you want to use nested queries please use explicit attribute-names in your SELECT-clause.
+	 * 
+	 * @param String q: the Query which should be executed on the database 
+	 * @return Collection of maps,
+	 * 			each map holds one tuple of the result, where the attribute-name is the key and the attribute-value is the value of the map
+	 */
+
 	public synchronized final Collection<Map<String, String>> executeQuery(String q){
 		Collection<Map<String, String>> result = new ArrayList<Map<String, String>>();
-		
+
+		//############################################################################
+		//#																			 #
+		//# convert query into lower case string and delete ';' from the queries end #
+		//#																			 #
+		//############################################################################
 		String query = " "+ q.toLowerCase();
 		if(query.endsWith(";")){
 			query = query.substring(0, query.length()-1);
 		}
-		
+
+		//##############################################
+		//#											   #
+		//# parse the attribute names out of the query #
+		//#											   #
+		//##############################################
 		String[] parsedAttributes = query.substring(8 , query.indexOf(" from ")).split(",");
 		String[] attributes = new String[parsedAttributes.length];
-		
+
 		for(int i=0; i < parsedAttributes.length; i++){
+			while(parsedAttributes[i].startsWith(" ")){
+				parsedAttributes[i] = parsedAttributes[i].substring(1, parsedAttributes[i].length());
+			}
 			attributes[i] = parsedAttributes[i].split(" ")[0];
 		}
-		
+
+		//########################################################################################
+		//#																						 #
+		//# if '*' is used instead of explicit names, get attribute names from meta-informations #
+		//#																						 #
+		//########################################################################################
 		if(attributes[0].equals("*")){
 			String tablename = query.substring(query.indexOf(" from ") + 6, query.length());
 			tablename = tablename.split(" where ")[0];
-			
-			String[] tableAttributes = this.getTableOverviewData(tablename);
-			
-			attributes = tableAttributes[2].split("___");
+
+			String tableAttributes = this.getTableOverviewData(tablename);
+
+			attributes = tableAttributes.split("___");
 		}
-		
+
+		//###########################################################################
+		//#																			#
+		//# execute the given query and convert the result to an collection of maps #
+		//#																			#
+		//###########################################################################
 		try{
 			Statement stmt = dbConnection.createStatement();
-			ResultSet resultSet = stmt.executeQuery(query);
-			
+			ResultSet resultSet = stmt.executeQuery(q);
+
 			while (resultSet.next()){
 				HashMap<String, String> tuple = new HashMap<String, String>();
-				
+
 				for(int j=0; j<attributes.length; j++){
 					tuple.put(attributes[j], resultSet.getString(attributes[j]));
 				}
-				
+
 				result.add(tuple);
 			}
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
-	public synchronized final void executeUpdate(String u) throws TableAlreadyExistsException{
-		String update = u;//.toLowerCase();
-		
+
+
+	/**
+	 * executeUpdate(String)
+	 * 
+	 * @param String u:	the update which should be performed on the database
+	 * @throws SQLTableException: if an the update fails, this exception will be thrown
+	 */
+
+	public synchronized final void executeUpdate(String u) throws SQLTableException{
+
+		//######################
+		//#					   #
+		//# execute the update #
+		//#					   #
+		//######################
 		try{
-			if(update.endsWith(";")){
-				update = update.substring(0, update.length()-1);
-			}
-			
 			Statement stmt = dbConnection.createStatement();
-			
-			stmt.executeUpdate(update);
+
+			stmt.executeUpdate(u);
 		}
 		catch(JdbcSQLException f){
-			f.printStackTrace();
-			throw new TableAlreadyExistsException();
+			SQLTableException ex = new SQLTableException(f.getOriginalMessage());
+
+			throw ex;
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
-		
-		if(update.contains("create table")){
-			String tableName = update.split(" ")[2];
-			
-			String[] attributesAndTypes = update.substring(update.indexOf("(") + 1, update.length()-1).split(",");
-			String attr = "";
-			
-			for(int i=0; i< attributesAndTypes.length; i++){
-				if(attributesAndTypes[i].startsWith(" ")){
-					attr += attributesAndTypes[i].split(" ")[1];
-					if(i!=attributesAndTypes.length-1) attr += "___";
-				}
-				else{
-					attr += attributesAndTypes[i].split(" ")[0];
-					if(i!=attributesAndTypes.length-1) attr += "___";
-				}
-			}
-			this.executeUpdate("INSERT INTO tableoverview(tableName,countAttributes,nameAttributes) VALUES('"+ tableName +"',"+ attributesAndTypes.length +",'"+ attr +"')");
-		}
 	}
-	
-	private synchronized String[] getTableOverviewData(String tableName){
-		String[] result = new String[3];
-		
+
+	/**
+	 * executeQueryDirectly(String)
+	 * @param String query:	the query which should be executed on the database
+	 * @return ResultSet
+	 * @throws SQLException
+	 */
+	public synchronized ResultSet executeQueryDirectly(String query) throws SQLException{
+
+		//##############################################
+		//#											   #
+		//# Create the Statement and execute the query #
+		//#											   #
+		//##############################################
+		Statement stmt = dbConnection.createStatement();
+
+		return stmt.executeQuery(query);
+	}
+
+	private synchronized String getTableOverviewData(String tableName){
+
+		//########################################
+		//#										 #
+		//# get all data for the given tablename #
+		//#										 #
+		//########################################
+		String result = "";
+
 		try{
 			Statement stmt = dbConnection.createStatement();
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM tableoverview;");
+			ResultSet resultSet = stmt.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name= '"+ tableName.toUpperCase() +"'");
+
 			resultSet.next();
-			
-			result[0] = resultSet.getString(1);
-			result[1] = resultSet.getString(2);
-			result[2] = resultSet.getString(3);
+			result += resultSet.getString(1).toLowerCase();
+
+			while(resultSet.next()){
+				result += "___"+ resultSet.getString(1).toLowerCase();
+			}
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
-		
+
 		return result;
-	}
-	
-	public Connection getDbConnection() {
-		return dbConnection;
-	}
-	
-	public ResultSet executeQuery1(String sql){
-		ResultSet resultset;
-		try {
-			Statement stmnt =dbConnection.createStatement();
-			resultset = stmnt.executeQuery(sql);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			resultset = null;
-		}
-		return resultset;
-		
 	}
 }
