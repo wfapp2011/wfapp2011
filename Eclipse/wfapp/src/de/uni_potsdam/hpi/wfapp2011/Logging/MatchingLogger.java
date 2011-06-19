@@ -5,45 +5,78 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Logger for the Matching Phase of the process
+ * 
+ * This class is used to log events from the 
+ * Matching-Phase of the process. 
+ * It converts the changed data into a JSON Object,
+ * so that they can be saved together in the Log-Table
+ *
+ */
+
 public class MatchingLogger implements MatchingLoggerInterface {
-	// refactoring has to be done!!
 	private Logging logging;
 	
 	public MatchingLogger(String type, String semester, int year) {
 		logging = new Logging(type, semester, year);
 	}
 	
-	public void logMatchingExecuted(String processName) {
+	/**
+	 * Logs the execution of the matching algorithm for the given process name.
+	 */
+	public void logMatchingExecuted(String email, String processName) {
 		Date changeDate = new Date();
+		String changedValues = createProcessNameJSON(processName).toString();
+		logging.log(changeDate, email, LogDescriptions.MATCHING_EXECUTED, changedValues);
+	}
+
+	/**
+	 * Logs all changes manual changes of the matching
+	 */
+	public void logChangedMatching(String email, String projectName) {
+		Date changeDate = new Date();
+		String changedValues = createProjectNameJSON(projectName).toString();
+		logging.log(changeDate, email, LogDescriptions.MATCHING_CHANGED, changedValues);
+	}
+	
+	/**
+	 * Logs, if the Matching is completed, so that the next phase can start
+	 */
+
+	public void logMatchingCompleted(String email) {
+		Date changeDate = new Date();
+		logging.log(changeDate, email, LogDescriptions.MATCHING_COMPLETED, "");
+	}	
+	
+	
+	/**
+	 * creates a JSON Object, which can be stored in the Log-Table
+	 * @param processName
+	 * @return a JSON-Object with the process name
+	 */
+	private JSONObject createProcessNameJSON(String processName) {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("processName", processName);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String changedValues = null;
-		changedValues = jsonObject.toString();
-		logging.log(changeDate, "System","matchingExecuted", changedValues);
+		return jsonObject;
 	}
 	
-	
-	public void logChangedMatching(String email, String projectName) {
-		Date changeDate = new Date();
+	/**
+	 * Creates a JSON Object, which can be stored in the Log-Table
+	 * @param projectName 
+	 * @return a JSON-Object with the project name
+	 */
+	private JSONObject createProjectNameJSON(String projectName) {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("projectName", projectName);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String changedValues = null;
-		changedValues = jsonObject.toString();
-		logging.log(changeDate, email,"matchingChanged", changedValues);
+		return jsonObject;
 	}
-	
-	public void logMatchingCompleted(String email) {
-		Date changeDate = new Date();
-		logging.log(changeDate, email,"matchingCompleted", "");
-	}	
 }
