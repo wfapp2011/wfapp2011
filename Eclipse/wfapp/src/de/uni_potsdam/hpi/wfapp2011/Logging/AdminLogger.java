@@ -18,13 +18,13 @@ public class AdminLogger implements AdminLoggerInterface {
 			jsonObject.put("deadlineType", deadlineType);
 			jsonObject.put("deadline", deadline.getTime());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;
 		changedValues = jsonObject.toString();
 		logging.log(changeDate, email,"newDeadline", changedValues);
 	}
+	
 	
 	public void logChangedDeadlineEntry(String email, String deadlineType, Date deadline) {
 		Date changeDate = new Date();
@@ -33,7 +33,6 @@ public class AdminLogger implements AdminLoggerInterface {
 			jsonObject.put("deadlineType", deadlineType);
 			jsonObject.put("deadline", deadline.getTime());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;
@@ -47,7 +46,6 @@ public class AdminLogger implements AdminLoggerInterface {
 		try {
 			jsonObject.put("processName", processName);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;
@@ -61,7 +59,6 @@ public class AdminLogger implements AdminLoggerInterface {
 		try {
 			jsonObject.put("conditions", conditions);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;

@@ -17,7 +17,6 @@ public class TestLoggingReader {
 	public void clearDatabase() throws TableAlreadyExistsException, SQLTableException{
 		DbInterface dbinterface = new DbInterface();
 		DbInterface.initializeDatabase("Ba", "SS", 2011);
-		//dbinterface.connect();
 		dbinterface.connect("Ba", "SS", 2011);
 		dbinterface.executeUpdate("DELEte from logtable");
 		dbinterface.disconnect();
