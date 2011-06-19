@@ -23,7 +23,6 @@ public class VotingLogger implements VotingLoggerInterface {
 		try {
 			jsonObject.put("projectNames", projectNames);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;
@@ -38,7 +37,6 @@ public class VotingLogger implements VotingLoggerInterface {
 		try {
 			jsonObject.put("projectNames", projectNames);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String changedValues = null;

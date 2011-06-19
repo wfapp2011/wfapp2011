@@ -20,6 +20,13 @@ public class LogDescriptions {
 	public static final String[] matchingChanged = {"email", "projectName"};
 	public static final String[] matchingCompleted = {};
 	
+	public static String NEW_DEADLINE = "newDeadline";
+	public static String CHANGED_DEADLINE = "changedDeadline";
+	public static String PROCESS_STARTED = "processStarted";
+	public static String SET_VOTING_CONDITIONS = "setVotingConditions";
+	
+	
+	
 	
 	static {
 		logDescriptions.put("newDeadline", newDeadline);

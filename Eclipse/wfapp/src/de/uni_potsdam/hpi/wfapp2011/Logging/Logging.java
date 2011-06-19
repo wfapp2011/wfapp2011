@@ -4,14 +4,15 @@ import java.util.Date;
 
 
 /**
- * General Logging Class, which is able to write the Log-Data in the Database. 
+ * Logging Class, which is able to write the Log-Data in the Database. 
+ *
  *
  */
 public class Logging {
 	private DbInterface dbConnection;
-	String type;
-	String semester; 
-	int year;
+	private String type;
+	private String semester; 
+	private int year;
 	
 	
 	public Logging(String type, String semester, int year) {
@@ -22,10 +23,10 @@ public class Logging {
 	}
 	
 	/**
-	 * This Method logs the given data in the database
+	 * inserts the given Log-data in the database
 	 * 
 	 * @param changeDate the time of the changes
-	 * @param email the email from the user, who has done the changes
+	 * @param email the HPI-Email-Address from the user, who has done the changes
 	 * @param description: describes, which event has triggered the logging
 	 * @param changedValues: The values, which has been changed as a JSON-String
 	 */
