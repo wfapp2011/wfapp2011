@@ -7,8 +7,8 @@ import org.json.JSONObject;
 
 public class AdminLogger implements AdminLoggerInterface {
 	private Logging logging;
-	public AdminLogger() {
-		logging = new Logging();
+	public AdminLogger(String type, String semester, int year) {
+		logging = new Logging(type, semester, year);
 	}
 	
 	public void logNewDeadlineEntry(String email, String deadlineType, Date deadline) {

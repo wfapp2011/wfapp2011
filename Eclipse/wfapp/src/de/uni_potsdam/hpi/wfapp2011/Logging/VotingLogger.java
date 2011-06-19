@@ -8,8 +8,8 @@ import org.json.JSONObject;
 public class VotingLogger implements VotingLoggerInterface {
 	// refactoring has to be done!!
 	private Logging logging;
-	public VotingLogger() {
-		logging = new Logging();
+	public VotingLogger(String type, String semester, int year) {
+		logging = new Logging(type, semester, year);
 	}
 	
 	public void logStudentLogin(String email) {

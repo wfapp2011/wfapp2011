@@ -8,8 +8,8 @@ import org.json.JSONObject;
 public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 	// refactoring has to be done!!
 	private Logging logging;
-	public ProjectProposalLogger() {
-		logging = new Logging();
+	public ProjectProposalLogger(String type, String semester, int year) {
+		logging = new Logging(type, semester, year);
 	}
 	
 	public void logNewProjectProposal(String email, String projectName, String department) {

@@ -8,17 +8,26 @@ import java.util.Date;
 
 public class LoggingReader {
 	private DbInterface dbConnection;
-	public LoggingReader() {
+	String type;
+	String semester; 
+	int year;
+	
+	
+	public LoggingReader(String type, String semester, int year) {
 		dbConnection = new DbInterface();
-		dbConnection.connect();
+		this.type = type;
+		this.semester = semester;
+		this.year = year;
 	}
 	
 	public int getNumberOfVotings() {
 		//Collection<Map<String, String>> result =dbConnection.executeQuery("SELECT COUNT(*) as number FROM logTable WHERE changedescription = 'newVoting';");
 		int numberOfVotings = -1;
 		String sql = "SELECT COUNT(*) as number FROM logTable WHERE changedescription = 'newVoting';";
-		ResultSet resultset = dbConnection.executeQuery1(sql);
+		
 		try {
+			dbConnection.connect(type, semester, year);
+			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			if(resultset.next()) {
 				numberOfVotings = resultset.getInt(1);
 				}
@@ -36,8 +45,10 @@ public class LoggingReader {
 	public int getNumberOfProjectProposals() {
 		int numberOfVotings = -1;
 		String sql = "SELECT COUNT(*) as number FROM logTable WHERE changedescription = 'newProject'";
-		ResultSet resultset = dbConnection.executeQuery1(sql);
+		
 		try {
+			dbConnection.connect(type, semester, year);
+			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			if(resultset.next()) {
 				numberOfVotings = resultset.getInt(1);
 				}
@@ -45,6 +56,7 @@ public class LoggingReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		dbConnection.disconnect();
 		return numberOfVotings;
 		
 		/*Collection<Map<String, String>> result = dbConnection.executeQuery("SELECT COUNT(*) as number FROM logTable WHERE changedescription = 'newProject'");
@@ -61,8 +73,10 @@ public class LoggingReader {
 		String sql = "SELECT * FROM logTable WHERE " +
 			"(descriptions = 'newVoting' OR descriptions = 'changedVoting') AND person = '" +email+"'";
 		Collection<String[]> votingsOfStudent = new ArrayList<String[]>();
-		ResultSet resultset = dbConnection.executeQuery1(sql);
+		
 		try {
+			dbConnection.connect(type, semester, year);
+			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			while(resultset.next()){
 				String[] tuple = new String[4];
 				for(int i = 0; i<4; i++){
@@ -74,6 +88,7 @@ public class LoggingReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		dbConnection.disconnect();
 		return votingsOfStudent;
 		
 		
@@ -96,8 +111,9 @@ public class LoggingReader {
 		String sql = "SELECT * FROM tableLog " +
 		"WHERE CAST(changedDate AS BIGINT) >= '"+fromDate.getTime 	 	() +"' AND CAST(changedDate AS BIGINT) <= '"+untilDate.getTime()+"'";
 		Collection<String[]> log = new ArrayList<String[]>();
-		ResultSet resultset = dbConnection.executeQuery1(sql);
 		try {
+			dbConnection.connect(type, semester, year);
+			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			while(resultset.next()){
 				String[] tuple = new String[4];
 				for(int i = 0; i<4; i++){
@@ -109,6 +125,7 @@ public class LoggingReader {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	dbConnection.disconnect();
 	return log;
 		
 		

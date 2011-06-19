@@ -8,14 +8,17 @@ import org.junit.Test;
 import de.uni_potsdam.hpi.wfapp2011.Logging.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.Logging.LoggingReader;
 import de.uni_potsdam.hpi.wfapp2011.Logging.ProjectProposalLogger;
+import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.Logging.TableAlreadyExistsException;
 
 
 public class TestLoggingReader {
 	@Before
-	public void clearDatabase() throws TableAlreadyExistsException{
+	public void clearDatabase() throws TableAlreadyExistsException, SQLTableException{
 		DbInterface dbinterface = new DbInterface();
-		dbinterface.connect();
+		DbInterface.initializeDatabase("Ba", "SS", 2011);
+		//dbinterface.connect();
+		dbinterface.connect("Ba", "SS", 2011);
 		dbinterface.executeUpdate("DELEte from logtable");
 		dbinterface.disconnect();
 	}
@@ -23,13 +26,22 @@ public class TestLoggingReader {
 	
 	@Test
 	public void testLoggingReader() {
-		ProjectProposalLogger projectProposalLogger = new ProjectProposalLogger();
-		projectProposalLogger.logNewProjectProposal("jannik@web","Extraction", "Meinel");
-		projectProposalLogger.logNewProjectProposal("yanina@web", "Extraction3", "Meinel");
-		projectProposalLogger.logChangedProjectProposal("meinel@hpi", "Extraction2");
-		projectProposalLogger.logFileUpload("baudisch", "Extraction2", "description.pdf");
-		LoggingReader loggingReader = new LoggingReader();
+		ProjectProposalLogger projectProposalLogger = new ProjectProposalLogger("Ba", "SS", 2011);
+		LoggingReader loggingReader = new LoggingReader("Ba", "SS", 2011);
+		assertEquals("Before Logging", 0, loggingReader.getNumberOfProjectProposals());
+		
+		projectProposalLogger.logNewProjectProposal("email@example.com","Extraction", "Professor2");
+		assertEquals("Before Logging", 1, loggingReader.getNumberOfProjectProposals());
+		
+		projectProposalLogger.logNewProjectProposal("mail@example.com", "ExampleProject", "Professor1");
+		assertEquals("Before Logging", 2, loggingReader.getNumberOfProjectProposals());
+		
+		projectProposalLogger.logChangedProjectProposal("newMail@example.com", "Extraction");
+		
+		projectProposalLogger.logFileUpload("baudisch", "Extraction", "description.pdf");
 		assertEquals("Result", 2, loggingReader.getNumberOfProjectProposals());
+		
+		
 	}
 }
 
