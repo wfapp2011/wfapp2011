@@ -1,11 +1,18 @@
-﻿/*
-Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
-
-CKEDITOR.editorConfig = function( config )
+﻿CKEDITOR.editorConfig = function( config )
 {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+	CKEDITOR.config.toolbar = [
+	
+	['Font','FontSize', 'Format'],	
+	['Bold','Italic','Underline', 'StrikeThrough'],
+	['Subscript', 'Superscript'], 	
+	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+	
+	'/',	
+	['NumberedList','BulletedList','-','Outdent','Indent'],
+	['TextColor','BGColor'],	
+	['Image','Table', '-',  'HorizontalRule', 'SpecialChar', '-', 'Link', 'Unlink'],
+	['Templates', 'Maximize', 'SpellCheck', 'RemoveFormat'],
+	['Source'] 
+	
+	];
 };
