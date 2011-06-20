@@ -11,8 +11,8 @@ public class DummyDatabase {
 	private static DummyDatabase db = null;
 	static String DATE_FORMAT = "yyyy-MM-dd";
 	Department[] departments = createDummyDepartments();
-		
 	private ArrayList<ProjectProposal> projects = new ArrayList<ProjectProposal>();
+	private ArrayList<ProjectProposal> approvedProjects = new ArrayList<ProjectProposal>();
 
 	public static DummyDatabase getInstance() {
 		if (db == null) {
@@ -34,6 +34,21 @@ public class DummyDatabase {
 			}
 		}
 		return null;
+	}
+	
+	public void addApprovedProject(ProjectProposal projectPro){
+		approvedProjects.add(projectPro);
+	}
+	
+	public ArrayList<ProjectProposal> getApprovedProjects(){
+		return approvedProjects;		
+	}
+	
+	public boolean isApproved(ProjectProposal projectProp){
+		if (approvedProjects.contains(projectProp)){
+			return true;
+		}
+		return false;
 	}
 
 	public void deleteProjectProposal(String projectID) {
