@@ -32,6 +32,9 @@
 			<td>Betreuer</td>
 			<td>Teamgröße</td>
 			<td>Dateien</td>
+			<% if (true /*check for deadline here*/) {%>
+				<td></td>
+			<% }%>
 		</tr>
 		<% DummyDatabase db = DummyDatabase.getInstance();
 		for (Department department : db.getDepartments()) { %>
@@ -41,7 +44,11 @@
 			<%for (ProjectProposal proposal : db.getProjectProposals()){
 				if (proposal.getIsPublic() && proposal.getDepartment() == department && !(proposal.getIsDeleted())){%>
 				<tr>
-					<td>n/a</td>
+					<% if (db.isApproved(proposal)) {%>
+						<td>Zur Wahl gestellt</td>
+					<%  } else {%>
+						<td>n/a</td>
+					<% }%>
 					<td><a href="showProject.jsp?projectID=<%= proposal.toString()%>"><%= proposal.getProjectName() %></a></td>
 					<td><% /*for (String keyword : proposal.getKeywords()){*/%>
 						<% out.println(proposal.getKeywords()); %><br>
@@ -57,7 +64,13 @@
 							if (proposal.getProjectFile() != null) {%> <b><% out.println(proposal.getProjectFile());%></b><br><% }
 							for (File file : proposal.getAdditionalFiles()){%>
 								<% out.println(file.getName()); %><br>
-						<% }}%></td>				
+						<% }}%></td>
+					<% if (true /*check for deadline here*/ && !db.isApproved(proposal)) {%>
+						<td><form name="acceptForVoting" action="AcceptForVoting" method="post">
+            				<input type="submit" value="Zur Wahl stellen"/>
+            				<input type="hidden" name="projectID" value="<%= proposal %>"/></form>
+						</td>
+					<% }%>			
 				</tr>
 		<% }} %>
 		<tr>

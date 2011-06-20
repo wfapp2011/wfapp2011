@@ -2,6 +2,7 @@
 <%@page import="de.uni_potsdam.hpi.wfapp2011.data.ProjectProposal"%>
 <%@page import="de.uni_potsdam.hpi.wfapp2011.data.Person"%>
 <%@page import="de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase"%>
+<%@page import="de.uni_potsdam.hpi.wfapp2011.*"%>
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
