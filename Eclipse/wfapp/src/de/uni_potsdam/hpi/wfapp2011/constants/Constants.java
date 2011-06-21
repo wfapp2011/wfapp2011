@@ -13,6 +13,7 @@ public class Constants {
 	public static String DEADLINE_TOPICS_PUBL = "deadlineTopicsPublication";
 	public static String DEADLINE_VOTING = "deadlineVoting";
 	public static String DEADLINE_PROCESS = "deadlineProcess";
+	public static String DEADLINE_MATCHING = "deadlineMatching";
 	
 	public static String PROCESS_PHASE = "phase";
 	
@@ -23,5 +24,5 @@ public class Constants {
 	public static String VOTING = "Voting";
 	public static String PROJECTMATCHING = "ProjectMatching";
 	
-	
+	public static String PROCESS_NAME = "DegreeProjectProcessNew2";
 }
