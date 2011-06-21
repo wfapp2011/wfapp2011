@@ -5,25 +5,25 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectProposal {
-
-	private String projectName;
-	private String projectDescription;
-	private int minStud;
-	private int maxStud;
+	private int projectID;
+	private String projectName = "";
+	private String projectDescription = "";
+	private int minStud = 0;
+	private int maxStud = 0;
 	private String partnerName = "";
-	private String partnerDescription;
+	private String partnerDescription = "";
 	private ArrayList<Person> contactPersons = new ArrayList<Person>();
-	private Date estimatedBegin;
-	private Date year;
-	private Department department;
-	private File projectFile;
+	private Date estimatedBegin = new Date();
+	private Date year = new Date();
+	private Department department = new Department(null);
+	private File projectFile = new File("");
 	private ArrayList<File> additionalFiles = new ArrayList<File>();
-	private Boolean isDeleted; 
-	private Boolean isPublic;  
+	private Boolean isDeleted = false; 
+	private Boolean isPublic = false;  
 	private enum status {retained, submitted, rejected, accepted};
 	private ArrayList<Comment> comments = new ArrayList<Comment>();
 	private String keywords = "";
-	private Date lastModifiedAt;
+	private Date lastModifiedAt = new Date();
 	private Person lastModifiedBy;
 			
 

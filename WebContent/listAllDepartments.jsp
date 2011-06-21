@@ -47,7 +47,7 @@
 					<% if (db.isApproved(proposal)) {%>
 						<td>Zur Wahl gestellt</td>
 					<%  } else {%>
-						<td>n/a</td>
+						<td>Nicht zur Wahl gestellt</td>
 					<% }%>
 					<td><a href="showProject.jsp?projectID=<%= proposal.toString()%>"><%= proposal.getProjectName() %></a></td>
 					<td><% /*for (String keyword : proposal.getKeywords()){*/%>
@@ -65,10 +65,16 @@
 							for (File file : proposal.getAdditionalFiles()){%>
 								<% out.println(file.getName()); %><br>
 						<% }}%></td>
-					<% if (true /*check for deadline here*/ && !db.isApproved(proposal)) {%>
+					<% if (true /*check for deadline here*/) {%>
 						<td><form name="acceptForVoting" action="AcceptForVoting" method="post">
-            				<input type="submit" value="Zur Wahl stellen"/>
-            				<input type="hidden" name="projectID" value="<%= proposal %>"/></form>
+							<% if (db.isApproved(proposal)) {%>
+								<input type="submit" value="Von der Wahl ausschließen"/>
+            				<% } else {%>
+								<input type="submit" value="Zur Wahl stellen"/>
+            				<% }%>
+            				<input type="hidden" name="projectID" value="<%= proposal %>"/>
+            				<input type="hidden" name="approved" value="<%= db.isApproved(proposal) %>"/>
+            				</form>
 						</td>
 					<% }%>			
 				</tr>

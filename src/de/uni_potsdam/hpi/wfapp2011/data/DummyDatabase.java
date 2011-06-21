@@ -12,7 +12,7 @@ public class DummyDatabase {
 	static String DATE_FORMAT = "yyyy-MM-dd";
 	Department[] departments = createDummyDepartments();
 	private ArrayList<ProjectProposal> projects = new ArrayList<ProjectProposal>();
-	private ArrayList<ProjectProposal> approvedProjects = new ArrayList<ProjectProposal>();
+	private ArrayList<ProjectTopic> approvedProjects = new ArrayList<ProjectTopic>();
 
 	public static DummyDatabase getInstance() {
 		if (db == null) {
@@ -36,17 +36,28 @@ public class DummyDatabase {
 		return null;
 	}
 	
-	public void addApprovedProject(ProjectProposal projectPro){
-		approvedProjects.add(projectPro);
+	public void addApprovedProject(ProjectTopic projectTopic){
+		approvedProjects.add(projectTopic);
 	}
 	
-	public ArrayList<ProjectProposal> getApprovedProjects(){
+	public void deleteApprovedProject(ProjectProposal projectPro){
+		for (ProjectTopic topic : approvedProjects){
+			if (topic.getProposal() == projectPro){
+				approvedProjects.remove(topic);
+				return;
+			}
+		}
+	}
+	
+	public ArrayList<ProjectTopic> getApprovedProjects(){
 		return approvedProjects;		
 	}
 	
 	public boolean isApproved(ProjectProposal projectProp){
-		if (approvedProjects.contains(projectProp)){
-			return true;
+		for (ProjectTopic topic : approvedProjects){
+			if ((projectProp).equals(topic.getProposal())) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -58,6 +69,15 @@ public class DummyDatabase {
 				return;
 			}
 		}
+	}
+	
+	public ProjectTopic getProjectTopic(ProjectProposal projectProp){
+		for (ProjectTopic topic : approvedProjects){
+			if (topic.getProposal() == projectProp){
+				return topic;
+			}
+		}
+		return null;
 	}
 
 	public ArrayList<ProjectProposal> getProjectProposals() {

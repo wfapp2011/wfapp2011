@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase;
 import de.uni_potsdam.hpi.wfapp2011.data.ProjectProposal;
+import de.uni_potsdam.hpi.wfapp2011.data.ProjectTopic;
 
 @WebServlet("/AcceptForVoting")
 public class AcceptForVoting extends HttpServlet {
@@ -28,15 +29,14 @@ public class AcceptForVoting extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<ProjectProposal> proposals = DummyDatabase.getInstance().getProjectProposals();
 		String projectID = request.getParameter("projectID");
-		for (ProjectProposal proposal : proposals){
-			if (proposal.toString().equals(projectID)){
-				DummyDatabase db = DummyDatabase.getInstance();
-				System.out.println(db.isApproved(proposal));
-				db.addApprovedProject(proposal);
-				System.out.println(proposal.getProjectName());
-				System.out.println(db.isApproved(proposal));
-			}
-		}	
+		Boolean approved = Boolean.valueOf(request.getParameter("approved"));
+		DummyDatabase db = DummyDatabase.getInstance();
+		ProjectProposal proposal = db.getProposal(projectID);
+		if (approved) {
+			db.deleteApprovedProject(proposal);
+		} else {
+			db.addApprovedProject(new ProjectTopic(proposal));
+		}
 		response.sendRedirect("listAllDepartments.jsp");
 	}
 
