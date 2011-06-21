@@ -30,7 +30,7 @@ public class StudentGenerator {
     
   //Generate RandomStudents
 	public Student[] getList (){
-	int numberOfStudents = 80;
+	int numberOfStudents = 45;
 	Student[] TestStudents = new Student[numberOfStudents];
 	for (int i=0; i<numberOfStudents; i++){
 		shuffle(ProjectList);

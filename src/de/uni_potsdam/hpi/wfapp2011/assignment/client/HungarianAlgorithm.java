@@ -42,15 +42,17 @@ import java.util.*;
 public class HungarianAlgorithm {
 	
 	static HashMap<String, int[]> ProjectTable;
-	static HashMap<Integer, Student> StudentTable;
+	public static int MaxProjectTableIndex;
+	private static HashMap<Integer, Student> StudentTable;
 	static Project[] ProjectList;
 	static Student[] StudentList;
 	static int[][] Assignment;
-	static double[][] VotesMatrix;
+	static double[][] VotesMatrix;		//without any ignored projects
 	
 	public static void initHg(Project[] Projects, Student[] Students){
 		ProjectList = Projects;
 		StudentList = Students;
+		VotesMatrix = generateMatrix();
 		
 		if (checkVotingData() > 0){
 			int[][] ass = {{-1, checkVotingData()}};
@@ -59,13 +61,17 @@ public class HungarianAlgorithm {
 		else{
 			while(checkVotingData() < 0){
 				ignoreWorstProject();
-				System.out.println("Ignoring a project");
 			}
-			System.out.println("voting data checked");
 			Assignment = hgAlgorithm(generateMatrix());
 			System.out.println("assignment generated");
 			fixErrors(Assignment);
-			System.out.println("errors fixed");
+			setPlacements();
+		}
+	}
+
+	private static void setPlacements() {
+		for(int i=0; i<StudentList.length; i++){
+			StudentList[i].placement = lookUpProject(Assignment[i][1]);
 		}
 	}
 
@@ -87,6 +93,7 @@ public class HungarianAlgorithm {
 	
 	public static int checkVotingData(){
 		int max = maxStudents(), min = minStudents(), NoSt = StudentList.length;
+		System.out.println("checking voting data");
 		if (NoSt > max){
 			return (NoSt - max); 	//will be positive
 		}
@@ -96,6 +103,14 @@ public class HungarianAlgorithm {
 		return 0;
 	}
 	
+	private static void ignoreWorstProject(){
+		Project[] SortedProjectList = getProjectRanking();
+		ProjectList = new Project[ProjectList.length -1];
+		for (int i=1; i<SortedProjectList.length; i++){
+			ProjectList[i-1] = SortedProjectList[i];
+		}
+		System.out.println("Ignoring " + SortedProjectList[0].ProjectID);
+	}
 	public static Project[] getProjectRanking() {
 		int prIndex = 0;
 		double[][] matrix = generateMatrix();
@@ -124,30 +139,18 @@ public class HungarianAlgorithm {
 		return Array;
 	}
 	
-	private static void ignoreWorstProject(){
-		Project[] SortedProjectList = getProjectRanking();
-		ProjectList = new Project[ProjectList.length -1];
-		for (int i=1; i<SortedProjectList.length; i++){
-			ProjectList[i-1] = SortedProjectList[i];
-		}
-	}
-
-	//should be removed soon!
-	public static double[][] generateMatrix(Project[] testProjects, Student[] testStudents) {
-		initHg(testProjects, testStudents);
-		return generateMatrix();
-	}
 
 	public static double[][] generateMatrix() {
 		double[][] matrix = new double[StudentList.length][maxStudents()];
-		int PrNo = 0, i = 0;
+		int PrNo = 0;
+		MaxProjectTableIndex = 0;
 		ProjectTable = new HashMap<String,int[]>();
 		StudentTable = new HashMap<Integer, Student>();
 		
 		while (PrNo < ProjectList.length){
-			int[] x = {i, i + ProjectList[PrNo].maxStudents - 1};
+			int[] x = {MaxProjectTableIndex, MaxProjectTableIndex + ProjectList[PrNo].maxStudents - 1};
 			ProjectTable.put(ProjectList[PrNo].ProjectID, x);
-			i = i + ProjectList[PrNo].maxStudents;
+			MaxProjectTableIndex = MaxProjectTableIndex + ProjectList[PrNo].maxStudents;
 			PrNo++;
 		}
 		
@@ -156,14 +159,15 @@ public class HungarianAlgorithm {
 			Student student = StudentList[StNo];
 			StudentTable.put(StNo, student);
 			for (int j=0; j < 5; j++){
-				int[] inputPlaces = ProjectTable.get(student.votes[j]);
-				for (int k = inputPlaces[0]; k <= inputPlaces[1]; k++){
-					matrix[StNo][k] = 5-j;	//replace 5 by number of permitted votes
+				if (ProjectTable.containsKey(student.votes[j])){
+					int[] inputPlaces = ProjectTable.get(student.votes[j]);
+					for (int k = inputPlaces[0]; k <= inputPlaces[1]; k++){
+						matrix[StNo][k] = 5-j;	//replace 5 by number of permitted votes
+					}
 				}
 			}
 			StNo++;
 		}
-		VotesMatrix = matrix;
 		return matrix;
 	}
 	
@@ -274,18 +278,6 @@ public class HungarianAlgorithm {
 		return re;	
 	}
 
-	//********************************//
-	//METHODS FOR CONSOLE INPUT-OUTPUT//
-	//********************************//
-	
-	/*public static int readInput(String prompt)	//Reads input,returns double.
-	{
-		Scanner in = new Scanner(System.in);
-		System.out.print(prompt);
-		int input = in.nextInt();
-		return input;
-	}*/
-	
 	//*******************************************//
 	//METHODS THAT PERFORM ARRAY-PROCESSING TASKS//
 	//*******************************************//

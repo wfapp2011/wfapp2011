@@ -23,4 +23,12 @@ public class Project {
 	public int checkCorrectSize(int[][] assignment) {
 		return minStudents-count(assignment);
 	}
+
+	public int getFirstFreeSpot() {
+		if (!HungarianAlgorithm.ProjectTable.containsKey(ProjectID)){
+			int[] ProjectTableEntry = {HungarianAlgorithm.MaxProjectTableIndex++, HungarianAlgorithm.MaxProjectTableIndex + 1};
+			HungarianAlgorithm.ProjectTable.put(ProjectID, ProjectTableEntry);
+		}
+		return HungarianAlgorithm.ProjectTable.get(ProjectID)[0];
+	}
 }

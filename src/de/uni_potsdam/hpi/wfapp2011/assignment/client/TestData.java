@@ -47,7 +47,7 @@ public class TestData {
 		
 	public Student[] TestStudents = new StudentGenerator(ProjectList()).getList();
 	
-	public double[][] array = HungarianAlgorithm.generateMatrix(TestProjects, TestStudents);
+	public double[][] array = HungarianAlgorithm.VotesMatrix;
 
 	
 }

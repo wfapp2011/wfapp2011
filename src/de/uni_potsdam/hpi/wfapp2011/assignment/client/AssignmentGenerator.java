@@ -1,0 +1,124 @@
+package de.uni_potsdam.hpi.wfapp2011.assignment.client;
+
+import java.util.HashMap;
+
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.allen_sauer.gwt.dnd.client.drop.HorizontalPanelDropController;
+import com.allen_sauer.gwt.dnd.client.drop.VerticalPanelDropController;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MouseListener;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+public class AssignmentGenerator implements MouseListener{
+	private static final HashMap<HTML, PopupPanel> PopupMap = new HashMap<HTML, PopupPanel>();
+	public static HashMap<VerticalPanel, Project> PanelHashMap = new HashMap<VerticalPanel, Project>();
+	public static HashMap<HTML, Integer> LabelHashMap = new HashMap<HTML, Integer>();
+	public static String[] widgetcolors = {"#FF3300","white","#FFFF66","#FFCC66","#FF9933","#FF6600"};
+	private Widget currentwidget;
+	
+	public void setUpAssignmentPage(AbsolutePanel boundaryPanel) {
+		// initialize our column drag controller
+	    PickupDragController dragController = new PickupDragController(boundaryPanel, false);
+		dragController.setBehaviorConstrainedToBoundaryPanel(true);
+	    dragController.setBehaviorMultipleSelection(false);
+
+	    // initialize our widget drag controller
+	    PickupDragController widgetDragController = new PickupDragController(boundaryPanel, false);
+	    widgetDragController.setBehaviorMultipleSelection(false);
+
+	    // initialize horizontal panel to hold our columns
+	    HorizontalPanel horizontalPanel = new HorizontalPanel();
+	    horizontalPanel.setSpacing(1);
+	    horizontalPanel.setSize("100%","");
+	    boundaryPanel.add(horizontalPanel);
+
+	    // initialize our column drop controller
+	    HorizontalPanelDropController columnDropController = new HorizontalPanelDropController(
+	        horizontalPanel);
+	    dragController.registerDropController(columnDropController);
+
+	    // initialize ProjectHashMap
+		HashMap<String, VerticalPanel> ProjectHashMap = new HashMap<String, VerticalPanel>();
+		
+	    for (int col = 0; col < TestData.TestProjects.length; col++) {
+	      // initialize a vertical panel to hold the heading and a second vertical panel
+	      VerticalPanel columnCompositePanel = new VerticalPanel();
+
+	      // initialize inner vertical panel to hold individual widgets
+	      VerticalPanel verticalPanel = new VerticalPanel(); //VerticalPanelWithSpacer()
+	      verticalPanel.setSpacing(1);
+	      verticalPanel.setSize("20px","20px");
+	      horizontalPanel.add(columnCompositePanel);
+	      PanelHashMap.put(verticalPanel, TestData.TestProjects[col]);
+
+	      // initialize a widget drop controller for the current column
+	      AssignmentDropController widgetDropController = new AssignmentDropController(verticalPanel);
+	      widgetDragController.registerDropController(widgetDropController);
+
+	      // Put together the column pieces
+	      Project project = TestData.TestProjects[col];
+	      Label heading = new Label(project.ProjectID + " ("+ project.minStudents + "|" + project.maxStudents+")");
+	      columnCompositePanel.add(heading);
+	      columnCompositePanel.add(verticalPanel);
+	      columnCompositePanel.addStyleName("project-Panel");
+	      ProjectHashMap.put(project.ProjectID, verticalPanel);	      
+
+	      // make the column draggable by its heading
+	      dragController.makeDraggable(columnCompositePanel, heading);
+	    }
+	   
+	    int [][] assignment = HungarianAlgorithm.getAssignment();
+
+	    for (int i = 0; i < HungarianAlgorithm.StudentList.length; i++) {
+	        // initialize a student-widget
+	    	Student student = HungarianAlgorithm.StudentList[i];
+	    	int wish = student.findVote(HungarianAlgorithm.lookUpProject(assignment[i][1]).ProjectID);
+	    	String bgcolor = widgetcolors[wish];
+	        HTML widget = new HTML("<html><body><table bgcolor="+ bgcolor +"><tr><td>"+student.firstname +" <br> " + student.lastname + " </td><td><h3>" + wish + "</h3></td></tr></table></body></html>");
+	        LabelHashMap.put(widget, i);
+	        
+	        widget.addMouseListener(this);
+			PopupPanel pop = new PopupPanel(true);
+			pop.setWidget(new HTML(student.votes[0] + " <br> " + 
+					student.votes[1] + " <br> " + 
+					student.votes[2] + " <br> " + 
+					student.votes[3] + " <br> " + 
+					student.votes[4] ));
+			PopupMap.put(widget,pop);
+	
+	        String ProjectID = HungarianAlgorithm.StudentList[i].placement.ProjectID;
+	        ProjectHashMap.get(ProjectID).add(widget);
+
+	        // make the widget draggable
+	        widgetDragController.makeDraggable(widget);
+	        
+	      }
+	    
+	}
+
+	public void onMouseDown(Widget sender, int x, int y) {		
+	}
+
+	public void onMouseEnter(Widget sender) {
+		if (currentwidget != sender){
+			if (currentwidget != null) PopupMap.get(currentwidget).hide();
+			PopupMap.get(sender).setPopupPosition(sender.getAbsoluteLeft()+sender.getOffsetWidth(),sender.getAbsoluteTop());
+			PopupMap.get(sender).show();	
+			currentwidget = sender;
+		}			
+	}
+
+	public void onMouseLeave(Widget sender) {		
+	}
+
+	public void onMouseMove(Widget sender, int x, int y) {	
+	}
+
+	public void onMouseUp(Widget sender, int x, int y) {	
+	}
+}
