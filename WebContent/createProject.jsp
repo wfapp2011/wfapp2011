@@ -57,7 +57,7 @@
 		
 	<h2>Neues Projekt erstellen</h2>
 
-	<form name="input" method="post" action="saveProject">		
+	<form name="input" method="post" action="saveFile" enctype="multipart/form-data">		
 	<div class="inputForm">
 		
 		<div class="formRow">
@@ -143,29 +143,31 @@
 				</select> 
 				Studenten
 			</span>
-		</div>				
-		
+		</div>		
+					
+			
 		<div class="formRow">
 			<span class="formLabel">Projektdatei:</span>
 			<span class="formInput"><input type="file" name="projectFile"/></span> 
 		</div>	
 		
+		 
 		<div class="formRow">
 			<span class="formLabel">weitere Dateien:</span>
 			<span class="formInput"><input type="file" name="additionalFiles" /></span> 
-		</div>	
-
+		</div>	 
+	
 		<div class="formButtons">
 			<span><input type="submit" value="Speichern" /></span>
 			<span><input type="reset" value="Verwerfen" /></span>
 			<span><input type="button" value="PDF erzeugen" /></span>		
-		</div>		
-							
+		</div>
+		
 		<div>
 			<input type="hidden" name="projectID" value=""/>
-		</div>	
-			
-	</div>
+		</div>		
+		
+	</div> 
 	</form>
 	
 </body>
