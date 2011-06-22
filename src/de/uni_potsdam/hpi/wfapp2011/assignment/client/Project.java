@@ -20,15 +20,13 @@ public class Project {
 		return count;
 	}
 
-	public int checkCorrectSize(int[][] assignment) {
-		return minStudents-count(assignment);
-	}
-
-	public int getFirstFreeSpot() {
-		if (!HungarianAlgorithm.ProjectTable.containsKey(ProjectID)){
-			int[] ProjectTableEntry = {HungarianAlgorithm.MaxProjectTableIndex++, HungarianAlgorithm.MaxProjectTableIndex + 1};
-			HungarianAlgorithm.ProjectTable.put(ProjectID, ProjectTableEntry);
+	public int countStudents() {
+		int count = 0;
+		Student[] StudList = HungarianAlgorithm.StudentList;
+		for (int i=0; i<StudList.length; i++){
+			Student student = StudList[i];
+			if (student.placement == this) count++;
 		}
-		return HungarianAlgorithm.ProjectTable.get(ProjectID)[0];
+		return count;
 	}
 }

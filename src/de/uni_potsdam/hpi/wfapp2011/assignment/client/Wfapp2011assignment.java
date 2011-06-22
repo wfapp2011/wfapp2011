@@ -31,14 +31,15 @@ public class Wfapp2011assignment implements EntryPoint {
 	private Label btnVotesTable;
 	private Label btnAssignment;
 	private Label btnStatistics;
-	//private Label btnLogout;
+	private Label btnLogout;
 	private FlexTable VotesTable;
 	private Frame frame;
 	private HTML htmlFooter;
 	private DockPanel dockPanel_1;
 	private HTML Statistics;
 	private VerticalPanel warningPanel;
-	private HorizontalPanel warningList;
+	public static Label warningLabel;
+	public static HorizontalPanel warningList;
 
 	/**
 	 * This is the entry point method.
@@ -56,7 +57,7 @@ public class Wfapp2011assignment implements EntryPoint {
 		rootPanel.add(menuPanel, 190, 110);
 		menuPanel.setSize("437px", "41px");
 		
-		btnHome = new Label("Startseite");
+		btnHome = new Label("Home");
 		btnHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				frame.setVisible(true);
@@ -101,6 +102,13 @@ public class Wfapp2011assignment implements EntryPoint {
 		});
 		menuPanel.add(btnStatistics);
 		
+		btnLogout = new Label("Logout");
+		btnLogout.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+			}
+		});
+		menuPanel.add(btnLogout);
+		
 		dockPanel_1 = new DockPanel();
 		dockPanel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		dockPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
@@ -133,7 +141,7 @@ public class Wfapp2011assignment implements EntryPoint {
         boundaryPanel.add(warningPanel);
         
         //add WarningLabel to Warning-Panel
-        Label warningLabel = new Label("Warnungen anzeigen");
+        warningLabel = new Label("Warnungen anzeigen");
         warningLabel.setSize("30%", "");
         warningLabel.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -144,7 +152,8 @@ public class Wfapp2011assignment implements EntryPoint {
         
         //add WarningList to Warning-Panel
         warningList = new HorizontalPanel();
-        warningList.add(new HTML("Warnings!"));  
+        //warningList.add(new HTML("Warnings!"));  
+        AssignmentDropController.createWarnings();
         warningList.setSize("100%","");
         warningPanel.add(warningList);
         warningList.setVisible(false);

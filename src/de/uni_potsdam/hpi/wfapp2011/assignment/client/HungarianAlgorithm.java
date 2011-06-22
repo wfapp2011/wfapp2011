@@ -192,10 +192,11 @@ public class HungarianAlgorithm {
 		int[] errors = new int[ProjectList.length];
 		while(prIndex < ProjectList.length){
 			Project pr = ProjectList[prIndex];
-			if (pr.count(assignment) < pr.minStudents){
+			int noSt = pr.count(assignment);
+			if (noSt < pr.minStudents){
 					System.out.println("Projekt "+ pr.ProjectID +
 						" hat nicht genug Studenten!" );
-					errors[prIndex]=pr.checkCorrectSize(assignment);
+					errors[prIndex]=pr.minStudents - noSt;
 			}
 			prIndex++;
 		}

@@ -6,17 +6,17 @@ public class TestData {
 	
 	static Project[] TestProjects = 
 	   {new Project("N1", 4, 8), 
-		new Project("N2", 4, 8), 
-		new Project("A1", 4, 8),
-		new Project("W1", 4, 8), 
+		new Project("N2", 3, 8), 
+		new Project("A1", 5, 7),
+		new Project("W1", 4, 6), 
 		new Project("D1", 4, 8),
-		new Project("T1", 4, 8),
+		new Project("T1", 4, 6),
 		new Project("M1", 4, 8),
-		new Project("F1", 4, 8),
-		new Project("F2", 4, 8),
-		new Project("T2", 4, 8),
-		new Project("E2", 4, 8),
-		new Project("E1", 4, 8)};
+		new Project("F1", 6, 8),
+		new Project("F2", 5, 9),
+		new Project("T2", 2, 4),
+		new Project("E2", 3, 6),
+		new Project("E1", 4, 7)};
 	
 	/*Student[] TestStudents =
 	   {new Student("Stud1", " ", "N1", "N2", "A1", "W1", "D1"), 
