@@ -56,6 +56,13 @@ public class LdapModul {
 	}
 	
 	public static String getUserdata(String name){
+		//##########################################################################
+		//#																		   #
+		//# returns the role of the given username or null if no username is found #
+		//# possible roles: Student - Prof - Staff_[Fachgebiet] - Studienreferat   #
+		//# Fachgebiet -> BPT,INTERNET,EPIC,HCI,CGS,OS,SWA,IS,MOD				   #
+		//#																		   #
+		//##########################################################################
 		String role = null;
 		
 		for(String[] user : accounts){
