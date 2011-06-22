@@ -2,19 +2,18 @@ package de.uni_potsdam.hpi.wfapp2011.server;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.io.FileNotFoundException;
 
-public class KerberosModul {
+public class LdapModul {
 	
-	private static KerberosModul instance;
+	private static LdapModul instance;
 	
 	private static ArrayList<String[]> accounts;
 	
-	private KerberosModul(){
-		
+	private LdapModul(){
 		DbInterface.initializeMetaTables();
 		
 		accounts = new ArrayList<String[]>();
@@ -29,12 +28,11 @@ public class KerberosModul {
 			String line = reader.readLine();
 				
 			while(line != null){
-				String[] account = new String[2];
+				String[] account = new String[3];
 				
 				account[0] = line.split("#")[0];
 				account[1] = line.split("#")[1];
-					
-				System.out.println(account[0] +" | "+ account[1]);
+				account[2] = line.split("#")[2];
 					
 				accounts.add(account);
 			
@@ -49,23 +47,27 @@ public class KerberosModul {
 		}
 	}
 	
-	public static KerberosModul getInstance(){
+	public static LdapModul getInstance(){
 		if(instance == null){
-			instance = new KerberosModul();
+			instance = new LdapModul();
 		}
 		
 		return instance;
 	}
 	
-	public boolean authenticate(String name, String pwd){
-		boolean loginCorrect = false;
+	public static String getUserdata(String name){
+		String role = null;
 		
-		for(String[] acc : accounts){
-			if(acc[0].equals(name) && acc[1].equals(pwd)){
-				loginCorrect = true;
+		for(String[] user : accounts){
+			String username = user[0].split(" ")[0].toLowerCase() +"."+ user[0].split(" ")[1].toLowerCase();
+			
+			if(name.equals(username)){
+				role = user[2];
+				
+				break;
 			}
 		}
 		
-		return loginCorrect;
+		return role;
 	}
 }

@@ -23,7 +23,7 @@ import org.h2.jdbc.JdbcSQLException;
  * 
  * 	DbInterface():					Loads the Jdbc-Driver for the H2-Database
  * 	initializeDatabase(String, String, int):Initializes the database
- *  initializeMetaTabelles():		Creates the meta-information database and all of its tables
+ *  initializeMetaTables():		Creates the meta-information database and all of its tables
  * 	connect(String, String, int):			Connects this instance of the DbInterface to the H2-Database
  * 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database
  * 	executeQuery(String):			Executes the given SQL-Query
