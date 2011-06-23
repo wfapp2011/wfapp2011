@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="wfapp.css" />
 	
 	<script type="text/javascript" src="dynamicContactPersons.js"></script>
+	<script type="text/javascript" src="dynamicFiles.js"></script>
 	
 	<!-- jQuery-UI for datepicker -->
 	<link type="text/css" href="jquery-ui-1.8.13.custom/css/smoothness/jquery-ui-1.8.13.custom.css" rel="stylesheet" />	
@@ -25,10 +26,16 @@
 		.formTextinputPerson {width: 40%}	
 		.formLabel {width: 15%;  text-align:left; float:left}
 		.formInput {width: 85%; float:right; }
-		.formEditorButtons {width: 100%; text-align:right; float:right}
-		.formButtons {float: right}
+				
 		.formInputContactPerson {width: 25%; color:grey; margin-right: 1%;}
 		.formInputAddPerson {width: 54%; float:right;}
+		
+		.formAddFile {width: 54%; float:right}
+		.trashFiles {margin-left: 10px;}
+		.trashImage {width: 17px; vertical-align: bottom;}
+		
+		.formButtons {float: right; clear:both}
+
 	</style>
 
 	
@@ -46,7 +53,7 @@
 	<title>Projektvorschlag erstellen</title>
 </head>
 
-<body onload="addDefaultContactPerson();">
+<body onload="addDefaultContactPerson(); addDefaultFile();">
 
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
@@ -57,7 +64,7 @@
 		
 	<h2>Neues Projekt erstellen</h2>
 
-	<form name="input" method="post" action="saveFile" enctype="multipart/form-data">		
+	<form name="input" method="post" action="saveProject" enctype="multipart/form-data">		
 	<div class="inputForm">
 		
 		<div class="formRow">
@@ -148,15 +155,24 @@
 			
 		<div class="formRow">
 			<span class="formLabel">Projektdatei:</span>
-			<span class="formInput"><input type="file" name="projectFile"/></span> 
+			<span class="formInput"><input type="file" name="projectFile" size="70px"/></span> 
 		</div>	
 		
 		 
 		<div class="formRow">
 			<span class="formLabel">weitere Dateien:</span>
-			<span class="formInput"><input type="file" name="additionalFiles" /></span> 
+			<div id="additionalFiles" class="formInput">
+					<!-- items are generated via javascript -->	
+				</div>
+			    <div class="formAddFile">
+			    	<input type="button" value="weitere Datei" onclick="addDefaultFile();" />
+				</div>
+				<div>
+					<input type="hidden" name="maxNumberOfAdditionalFiles" id="maxNumberOfAdditionalFiles">	
+				</div>	
 		</div>	 
-	
+		
+		
 		<div class="formButtons">
 			<span><input type="submit" value="Speichern" /></span>
 			<span><input type="reset" value="Verwerfen" /></span>

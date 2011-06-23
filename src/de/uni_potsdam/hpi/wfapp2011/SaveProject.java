@@ -58,6 +58,7 @@ public class SaveProject extends HttpServlet {
 			ServletFileUpload upload = new ServletFileUpload();
 	
 			// parse the request
+			// TODO more exception handling!!
 			try {
 				FileItemIterator iter = upload.getItemIterator(request);
 				
@@ -77,21 +78,26 @@ public class SaveProject extends HttpServlet {
 				    	String filename = item.getName();
 				    	System.out.println("File field " + field + " with file name "+ filename + " detected.");
 	 
-				    	//String uploadedStream 	= item.getContentType();
+				    	//String uploadedStream = item.getContentType();
 	
 				        // store file
 				        BufferedInputStream  is = null;
 				        BufferedOutputStream os = null;
+				        BufferedOutputStream tmps = null;
 				        File file = new File (filename);
 				        try {
 				        	is = new BufferedInputStream( stream );
 					        os = new BufferedOutputStream(new FileOutputStream(file));
+					        //will be redirected to ftp-server in "saveProject"
+					        tmps = new BufferedOutputStream( 
+					        			new FileOutputStream ("C://Users/lum/wfapp2011/WebContent/uploads/"+filename));					    
 					        byte[] buff = new byte[8192]; //check this!
 					        int len;
 					        while( 0 < (len = is.read(buff))){
 					        	os.write( buff, 0, len );
+					        	tmps.write( buff, 0, len );
 					        }
-					        //store file if read was successful
+					        
 					        files.put(field, file);	
 				        } 
 				        finally {
@@ -101,6 +107,10 @@ public class SaveProject extends HttpServlet {
 				        	if( os != null ) {
 				        		os.flush();
 				        		os.close();
+				        	}
+				        	if( tmps != null ) {
+				        		tmps.flush();
+				        		tmps.close();
 				        	}
 				        }
 				        
@@ -127,8 +137,8 @@ public class SaveProject extends HttpServlet {
 	
 	boolean projectIsNew = true;
 	ProjectProposal projectToSave = new ProjectProposal();
-	
-	if (parameters.get("projectID") != null) {
+	System.out.println("ID"+parameters.get("projectID"));
+	if (parameters.get("projectID").length() > 0) {
 		String projectID = parameters.get("projectID");	
 		ArrayList<ProjectProposal> projectProposals = db.getProjectProposals();
 		for (ProjectProposal project : projectProposals){
@@ -183,9 +193,25 @@ public class SaveProject extends HttpServlet {
 	}
 
 	
-	// Add files
+	// TODO exception handling!!
+	
+	// Add project file
 	projectToSave.setProjectFile(files.get("projectFile"));
 
+	// Add additional files
+	ArrayList<File> additionalFiles = new ArrayList<File>();
+	Integer maxNumberOfAdditionalFiles = Integer.parseInt(parameters.get("maxNumberOfAdditionalFiles"));
+	File file;
+
+	for (int i=1; i<=maxNumberOfAdditionalFiles; i++){
+		// check for existent additional files due to flexible add/remove of additional files
+		if (files.get("additionalFile_"+i) != null){		
+			file = files.get("additionalFile_"+i);
+			additionalFiles.add(file);	
+		}
+	}
+	projectToSave.setAdditionalFiles(additionalFiles);	
+	
 	
 	
 	if (projectIsNew){

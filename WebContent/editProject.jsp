@@ -3,7 +3,7 @@
 <%@page import="de.uni_potsdam.hpi.wfapp2011.data.Person"%>
 <%@page import="de.uni_potsdam.hpi.wfapp2011.data.DummyDatabase"%>
 <%@page import="java.text.DateFormat"%>
-
+<%@page import="java.io.File"%>
 <%@page import="java.util.Locale "%>
 
 
@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="wfapp.css" />
 	
 	<script type="text/javascript" src="dynamicContactPersons.js"></script>
+	<script type="text/javascript" src="dynamicFiles.js"></script>
 		
 	<!-- jQuery-UI for datepicker -->
 	<link type="text/css" href="jquery-ui-1.8.13.custom/css/smoothness/jquery-ui-1.8.13.custom.css" rel="stylesheet" />	
@@ -33,10 +34,16 @@
 		.formTextinputPerson {width: 40%}	
 		.formLabel {width: 15%;  text-align:left; float:left}
 		.formInput {width: 85%; float:right; }
-		.formEditorButtons {width: 100%; text-align:right; float:right}
-		.formButtons {float: right}
+				
 		.formInputContactPerson {width: 25%; color:grey; margin-right: 1%;}
 		.formInputAddPerson {width: 54%; float:right;}
+		
+		.formAddFile {width: 54%; float:right}
+		.trashFiles {margin-left: 10px;}
+		.trashImage {width: 17px; vertical-align: bottom;}
+		.formFile {width: 85%; float:right; margin-bottom: 5px;}
+		
+		.formButtons {float: right; clear:both}
 	</style>
 
 	<%
@@ -77,8 +84,6 @@
 		
 		var partnerName = document.getElementById("partnerName");     
 		partnerName.setAttribute("value", "<%=projectToEdit.getPartnerName()%>");		
-
-
 						
 		<% if (projectToEdit.getEstimatedBegin() != null) {%>
 			$('#estimatedBegin').datepicker("setDate", new Date(<%=projectToEdit.getEstimatedBegin().getTime()%>));
@@ -105,6 +110,15 @@
 		<%}%>
 		
 	}
+	
+	<%--
+	<% if (projectToEdit.getProjectFile() != null) { %>;
+		var projectFile = document.getElementById("projectFileName");
+		projectFile.value = <%= projectToEdit.getProjectFile().getName()%>;
+	<%}%>
+	--%>
+	
+
 
 	function insertHTML(editor, content){
 		// Check the active editing mode.
@@ -139,7 +153,7 @@
 <title>Projektvorschlag bearbeiten</title>
 </head>
 
-<body onload="initForm();">
+<body onload="initForm(); addDefaultFile();">
 
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
@@ -150,7 +164,7 @@
 	
 	<h2>Projektvorschlag bearbeiten</h2>
 
-	<form name="input" method="post" action="saveProject">		
+	<form name="input" method="post" action="saveProject" enctype="multipart/form-data">		
 	<div class="inputForm">		
 		
 		<div class="formRow">
@@ -236,17 +250,45 @@
 				</select> 
 				Studenten
 			</span>
-		</div>				
-		
-		<div class="formRow">
-			<span class="formLabel">Projektdatei:</span>
-			<span class="formInput"><input type="file" name="projectFile"/></span> 
 		</div>	
-		
-		<div class="formRow">
-			<span class="formLabel">weitere Dateien:</span>
-			<span class="formInput"><input type="file" name="additionalFiles" /></span> 
-		</div>	
+			
+		<div class="formRow" id="projectFile">
+		<span class="formLabel">Projektdatei:</span>	
+			<div id="divProjectFile">	
+			<% if (projectToEdit.getProjectFile() == null) {	 %>
+					<span class="formFile"><input type="file" name="projectFile" id="projectFile" size="70px"/></span> 
+				<%}
+				else {%>
+					<div>
+					<b><a onClick="window.location.href='uploads/'+'<%=projectToEdit.getProjectFile()%>'"> 
+						<%= projectToEdit.getProjectFile().getName() %> </a></b>
+					<img class="trashImage" src="img/trash.gif" onclick="removeProjectFile(this.parentNode)";/>	
+					<br>
+					</div>							
+				<%}%>								   		
+			</div>	   		
+		<div class="formRow" id="files">
+			<span class="formLabel">weitere Dateien:</span>		
+			<ul>	
+				<% if (projectToEdit.getAdditionalFiles().isEmpty() == false) {
+						for (File file : projectToEdit.getAdditionalFiles()){%>
+							<%-- must be replaced by ftp-link --%>
+							<li class="formFile"> <a onClick="window.location.href='uploads/'+'<%=file.getName()%>'"> <%= file.getName() %> </a>
+								<img class="trashImage" src="img/trash.gif" onclick="removeAdditionalFile(this.parentNode)";/> </li>						
+						<%}	
+				}%>
+			
+			</ul>
+			<div id="additionalFiles" class="formInput">
+					<!-- items are generated via javascript -->	
+			</div>
+			<div class="formAddFile">
+			    <input type="button" value="weitere Datei" onclick="addDefaultFile();" />
+			</div>
+			<div>
+				<input type="hidden" name="maxNumberOfAdditionalFiles" id="maxNumberOfAdditionalFiles">	
+			</div>	
+		</div>	 
 
 		<div class="formButtons">
 			<span><input type="submit" value="Speichern" /></span>

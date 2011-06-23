@@ -10,10 +10,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" type="text/css" href="wfapp.css" />
+<link rel="stylesheet" type="text/css" href="wfapp.css" />		
 <title>Project proposals (own department)</title>
 </head> 
- 
+ 						
+								
 <body>
 	<p>
 		<a href="listAllDepartments.jsp">Alle Themenvorschläge</a>&nbsp;|&nbsp;
@@ -59,12 +60,21 @@
 					<% out.println(person.getName()); %><br>
 					<% }}%></td>
 				<td><%= proposal.getMinStud() %> - <%= proposal.getMaxStud() %></td>
-				<td><% if (proposal.getProjectFile() == null && proposal.getAdditionalFiles().isEmpty()) {out.println("bisher keine");}
-					else {
-						if (proposal.getProjectFile() != null) {%> <b><% out.println(proposal.getProjectFile());%></b><br><% }
-						for (File file : proposal.getAdditionalFiles()){
-							out.println(file.getName()); %><br>
-					<% }}%></td>
+				<td><% if (proposal.getProjectFile() == null && proposal.getAdditionalFiles().isEmpty()) {
+							out.println("bisher keine");
+						}
+						else {
+							if (proposal.getProjectFile() != null) {%> 
+								<%-- must be replaced by ftp-link --%>
+								<b><a onClick="window.location.href='uploads/'+'<%=proposal.getProjectFile()%>'"> 
+										<%= proposal.getProjectFile().getName() %> </a></b><br>							
+							<%}
+							for (File file : proposal.getAdditionalFiles()){%>
+								<%-- must be replaced by ftp-link --%>
+								<a onClick="window.location.href='uploads/'+'<%=file.getName()%>'"> 
+										<%= file.getName() %> </a><br>							
+							<%}
+				   		}%></td>
 				<td>
 					<a href="editProject.jsp?projectID=<%= proposal.toString()%>">
 						<img src="img/edit.png" alt="edit" width="16" height="16" />
