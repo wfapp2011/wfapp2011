@@ -25,4 +25,8 @@ public class Constants {
 	public static String PROJECTMATCHING = "ProjectMatching";
 	
 	public static String PROCESS_NAME = "DegreeProjectProcessNew2";
+	
+	public static String PROCESS_ID_VARIABLE_NAME = "processInstanceId";
+	
+	
 }

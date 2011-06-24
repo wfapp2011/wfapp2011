@@ -17,24 +17,23 @@ import java.util.Map;
 import org.h2.jdbc.JdbcSQLException;
 
 /**
-* Provides the functionality to interact with the H2-Database
-* 
-* !!! For easier parsing all SQL queries are converted into lower case Strings !!!
-* 
-* 	DbInterface():					Loads the Jdbc-Driver for the H2-Database
-* 	initializeDatabase(String, String, int):Initializes the database
-*  initializeMetaTabelles():		Creates the meta-information database and all of its tabelles
-* 	connect(String, String, int):			Connects this instance of the DbInterface to the H2-Database
-* 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database
-* 	executeQuery(String):			Executes the given SQL-Query
-* 	executeUpdate(String):			Executes the given Update-Query
-* 	executeQueryDirectly(String):	Executes the given query directly (any Jdbc-Stuff has to be handled by the user)
-*/
+ * Provides the functionality to interact with the H2-Database
+ * 
+ * !!! For easier parsing all SQL queries are converted into lower case Strings !!!
+ * 
+ * 	DbInterface():					Loads the Jdbc-Driver for the H2-Database
+ * 	initializeDatabase(String, String, int):Initializes the database
+ *  initializeMetaTabelles():		Creates the meta-information database and all of its tables
+ * 	connect(String, String, int):			Connects this instance of the DbInterface to the H2-Database
+ * 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database
+ * 	executeQuery(String):			Executes the given SQL-Query
+ * 	executeUpdate(String):			Executes the given Update-Query
+ * 	executeQueryDirectly(String):	Executes the given query directly (any Jdbc-Stuff has to be handled by the user)
+ */
 
 public class DbInterface {
 
 	private Connection dbConnection;
-	@SuppressWarnings({ "unused", "rawtypes" })
 	private static Class driverClass;
 
 	//#########################
@@ -79,20 +78,40 @@ public class DbInterface {
 	 * @param int: the year which the database should created for
 	 */
 
-	public static void initializeDatabase(String type, String semester, int year){
+	public static void initializeDatabase(String type, String semester, int year) throws SQLTableException{
 
+		//########################################################
+		//#														 #
+		//# check if the given values are correct database-names #
+		//#														 #
+		//########################################################
+		if(!checkDatabaseValues(type,semester)){
+			throw new SQLTableException("Wether type or semester was no valid value!");
+		}
+		else{
 		//#####################################
 		//#									  #
 		//# Connect to the specified database #
 		//#									  #
 		//#####################################
-		Connection con = null;
-		try{
-			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
+			Connection con = null;
+			try{
+				con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+
+		//###########################
+		//#						    #
+		//# resets the DB if needed #
+		//#							#
+		//###########################
+			if(!databaseExists(String.valueOf(year) +"_"+ semester +"_"+ type)){
+				TableCreater creater = new TableCreater(con);
+
+				creater.reset();
+			}
 
 		//#######################################################
 		//#							  							#
@@ -114,6 +133,18 @@ public class DbInterface {
 		}
 
 		if(newDatabase){
+				try {
+					Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+
+					Statement stmt = metaConnection.createStatement();
+					stmt.executeUpdate("INSERT INTO existing_projects(name) VALUES('"+ String.valueOf(year) +"_"+ semester +"_"+ type +"');");
+
+					metaConnection.close();
+				}
+				catch(SQLException f){
+					f.printStackTrace();
+				}
+
 			TableCreater creater = new TableCreater(con);
 			creater.create();
 		}
@@ -124,6 +155,7 @@ public class DbInterface {
 		catch(SQLException e){
 			e.printStackTrace();
 		}
+		}
 	}
 
 	/**
@@ -131,7 +163,7 @@ public class DbInterface {
 	 * 
 	 * if needed this method creates the meta-information database
 	 */
-	public static void initializeMetaTabelles(){
+	public static void initializeMetaTables(){
 		Connection con = null;
 
 		//################################
@@ -140,7 +172,7 @@ public class DbInterface {
 		//#								 #
 		//################################
 		try{
-			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatabelles", userName, pw);
+			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -167,7 +199,7 @@ public class DbInterface {
 
 		if(newDatabase){
 			TableCreater creater = new TableCreater(con);
-			creater.createMetaTabelles();
+			creater.createMetaTables();
 		}
 
 		try{
@@ -183,9 +215,9 @@ public class DbInterface {
 	 * 
 	 * connects this instance to the meta-database
 	 */
-	public void connectToMetaTabelles(){
+	public void connectToMetaTables(){
 		try{
-			dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatabelles", userName, pw);
+			dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -203,20 +235,34 @@ public class DbInterface {
 	 * @param int: the year which the database should created for
 	 */
 
-	public synchronized void connect(String type, String semester, int year){
+	public synchronized void connect(String type, String semester, int year) throws SQLTableException{
+
+		//###########################################################################################
+		//#														 								    #
+		//# check if the given values are correct database-names and if the database already exists #
+		//#														 								    #
+		//###########################################################################################
+		if(!checkDatabaseValues(type,semester)){
+			throw new SQLTableException("Wether type or semester was no valid value!");
+		}
+		else if(!databaseExists(String.valueOf(year) +"_"+ semester +"_"+ type)){
+			throw new SQLTableException("This database dont exists! Please call 'initializeDatabase first!'");
+		}
+		else{
 
 		//########################################
 		//#										 #
 		//# try to connect to the given database #
 		//#										 #
 		//########################################
-		try{
-			if(dbConnection == null){
-				dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+			try{
+				if(dbConnection == null){
+					dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				}
 			}
-		}
-		catch(SQLException e){
-			e.printStackTrace();
+			catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -373,6 +419,21 @@ public class DbInterface {
 		return stmt.executeQuery(query);
 	}
 
+	public static void deleteDatabase(String type, String semester, int year){
+		try{
+			Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+
+			Statement stmt = metaConnection.createStatement();
+			stmt.executeUpdate("DELETE FROM existing_projects WHERE name='"+ String.valueOf(year) +"_"+ semester +"_"+ type +"';");
+
+			metaConnection.close();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+
 	private synchronized String getTableOverviewData(String tableName){
 
 		//########################################
@@ -398,5 +459,41 @@ public class DbInterface {
 		}
 
 		return result;
+	}
+
+	private static synchronized boolean checkDatabaseValues(String type, String semester){
+		boolean typeOK = false;
+		boolean semesterOK = false;
+
+		if(type.equals("Ba") || type.equals("Ma")){
+			typeOK = true;
+		}
+		if(semester.equals("SS") || semester.equals("WS")){
+			semesterOK = true;
+		}
+
+		return (typeOK && semesterOK);
+	}
+
+	private static synchronized boolean databaseExists(String name){
+		boolean exists = false;
+
+		try {
+			Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+
+			Statement stmt = metaConnection.createStatement();
+			ResultSet result = stmt.executeQuery("SELECT * FROM existing_projects WHERE name='"+ name +"';");
+
+			if(result.next()){
+				exists = true;
+			}
+
+			metaConnection.close();
+		}
+		catch(SQLException f){
+			f.printStackTrace();
+		}
+
+		return exists;
 	}
 }

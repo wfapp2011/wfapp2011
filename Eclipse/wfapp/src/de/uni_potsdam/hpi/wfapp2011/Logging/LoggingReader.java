@@ -44,6 +44,9 @@ public class LoggingReader {
 		} catch (SQLException e) {
 			numberOfVotings = -1;
 			e.printStackTrace();
+		} catch (SQLTableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		dbConnection.disconnect();
 		return numberOfVotings;
@@ -67,6 +70,9 @@ public class LoggingReader {
 				}
 		} catch (SQLException e) {
 			numberOfVotings =-1;
+			e.printStackTrace();
+		} catch (SQLTableException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		dbConnection.disconnect();
@@ -98,6 +104,9 @@ public class LoggingReader {
 				votingsOfStudent.add(tuple);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SQLTableException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		dbConnection.disconnect();
@@ -131,6 +140,9 @@ public class LoggingReader {
 				log.add(tuple);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SQLTableException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		dbConnection.disconnect();
