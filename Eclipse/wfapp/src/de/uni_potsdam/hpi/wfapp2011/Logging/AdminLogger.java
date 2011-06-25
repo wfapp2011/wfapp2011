@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 /**
  * Logger for the Admin Component
@@ -17,47 +19,62 @@ import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
  */
 
 public class AdminLogger implements AdminLoggerInterface {
+	private static AdminLogger theInstance;
 	private Logging logging;
 	
-	public AdminLogger(String type, String semester, int year) {
-		logging = new Logging(type, semester, year);
+	private AdminLogger() {}
+	
+	public static AdminLogger getInstance(){
+		if(theInstance == null){
+			theInstance = new AdminLogger();
+			theInstance.logging = Logging.getInstance(); 
+		}
+		return theInstance;
 	}
 	
 	/**
 	 * Logs a new Deadline, which has been set by the Admin.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
 	 * @param deadlineType: The deadline, which has been set (definied in the Class Constants);
 	 * @param deadline: the Date to which the deadline was changed; 
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logNewDeadlineEntry(String email, String deadlineType, Date deadline) {
+	public void logNewDeadlineEntry(ProcessIdentifier processIdentifier, String email, String deadlineType, Date deadline) 
+			throws ProcessIdentifierException  {
 		Date changeDate = new Date();
 		JSONObject jsonObject = createDeadlineJSON(deadlineType, deadline);
 		String changedValues = null;
 		changedValues = jsonObject.toString();
-		logging.log(changeDate, email, LogDescriptions.NEW_DEADLINE, changedValues);
+		logging.log(processIdentifier, changeDate, email, LogDescriptions.NEW_DEADLINE, changedValues);
 	}
 	
 	/**
 	 * Logs a Deadline, which has been changed by the Admin.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
 	 * @param deadlineType: The deadline, which has been set (definied in the Class Constants);
 	 * @param deadline: the Date to which the deadline was changed; 
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid
 	 */
-	public void logChangedDeadlineEntry(String email, String deadlineType, Date deadline) {
+	public void logChangedDeadlineEntry(ProcessIdentifier processIdentifier, String email, String deadlineType, Date deadline) 
+			throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		JSONObject jsonObject = createDeadlineJSON(deadlineType, deadline);
 		String changedValues = null;
 		changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.CHANGED_DEADLINE, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.CHANGED_DEADLINE, changedValues);
 	}
 
 	/**
 	 * Logs the start of a process
-	 * 
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
 	 * @param processName: The process Name, which has been started 
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid
 	 */
-	public void logStartedProcess(String email, String processName) {
+	public void logStartedProcess(ProcessIdentifier processIdentifier, String email, String processName)
+			throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -67,17 +84,19 @@ public class AdminLogger implements AdminLoggerInterface {
 		}
 		String changedValues = null;
 		changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.PROCESS_STARTED, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.PROCESS_STARTED, changedValues);
 	}
 	
 	/**
 	 * Logs a voting condition, which was added to a process
-	 * 
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who added the condition
 	 * @param conditions: a String, which describes the conditions
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid
 	 */
 	
-	public void logVotingConditions(String email, String conditions) {
+	public void logVotingConditions(ProcessIdentifier processIdentifier, String email, String conditions) 
+			throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -87,7 +106,7 @@ public class AdminLogger implements AdminLoggerInterface {
 		}
 		String changedValues = null;
 		changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.SET_VOTING_CONDITIONS, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.SET_VOTING_CONDITIONS, changedValues);
 	}
 	
 	/**

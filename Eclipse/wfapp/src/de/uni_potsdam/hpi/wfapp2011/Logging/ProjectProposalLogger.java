@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 /**
  * Logger for the Project Proposal Phase of the process
@@ -18,19 +20,28 @@ import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
  */
 
 public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
+	private static ProjectProposalLogger theInstance;
 	private Logging logging;
 	
-	public ProjectProposalLogger(String type, String semester, int year) {
-		logging = new Logging(type, semester, year);
-	}
+	private ProjectProposalLogger() {}
 	
+	public static ProjectProposalLogger getInstance() {
+		if(theInstance == null){
+			theInstance = new ProjectProposalLogger();
+			theInstance.logging = Logging.getInstance();
+		}
+		return theInstance;
+	}
+
 	/**
 	 * logs, that a new Project Proposal has been created.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email the HPI email address of the user, who created the project proposal
 	 * @param projectName the Name of the created project
 	 * @param department the department, which created the project proposal
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logNewProjectProposal(String email, String projectName, String department) {
+	public void logNewProjectProposal(ProcessIdentifier processIdentifier, String email, String projectName, String department) throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -40,15 +51,17 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 			e.printStackTrace();
 		}
 		String changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.NEW_PROJECT, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.NEW_PROJECT, changedValues);
 	}
 	
 	/**
 	 * logs, that a Project Proposal has been updated.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email the HPI email address of the user, who updated the project proposal
 	 * @param projectName the Name of the created project
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logChangedProjectProposal(String email, String projectName){
+	public void logChangedProjectProposal(ProcessIdentifier processIdentifier, String email, String projectName) throws ProcessIdentifierException{
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -57,16 +70,18 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 			e.printStackTrace();
 		}
 		String changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.CHANGED_PROJECT, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.CHANGED_PROJECT, changedValues);
 	}
 	
 	/**
 	 * logs, that a Project Proposal has been renamed.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email the HPI email address of the user, who updated the project proposal
 	 * @param oldProjectName the Name the project proposal has had before
 	 * @param newProjectName the new name of the project proposal
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logChangedProposalName(String email, String oldProjectName, String newProjectName){
+	public void logChangedProposalName(ProcessIdentifier processIdentifier, String email, String oldProjectName, String newProjectName) throws ProcessIdentifierException{
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -76,16 +91,18 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 			e.printStackTrace();
 		}
 		String changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.CHANGED_PROJECT_NAME, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.CHANGED_PROJECT_NAME, changedValues);
 	}
 	
 	/**
 	 * logs, that a file has been uploaded for the given project Name
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email the HPI email address of the user, who uploaded the file
 	 * @param projectName the Name of the project for which the file has been uploaded
 	 * @param filename the filename of the uploaded file
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logFileUpload(String email, String projectName, String filename){
+	public void logFileUpload(ProcessIdentifier processIdentifier, String email, String projectName, String filename) throws ProcessIdentifierException{
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -95,17 +112,19 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 			e.printStackTrace();
 		}
 		String changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.FILE_UPLOAD, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.FILE_UPLOAD, changedValues);
 	}
 	
 	
 	/**
 	 * logs, that the project proposals have been exported, 
 	 * so that they can be used for the voting phase
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email:  the HPI email address of the user, who exported the project
 	 * @param processName: name of the procecss 
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logSelectedProjectsExport(String email, String processName){
+	public void logSelectedProjectsExport(ProcessIdentifier processIdentifier, String email, String processName) throws ProcessIdentifierException{
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -114,6 +133,6 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 			e.printStackTrace();
 		}
 		String changedValues = jsonObject.toString();
-		logging.log(changeDate, email,LogDescriptions.PROJECTS_EXPORTED, changedValues);
+		logging.log(processIdentifier, changeDate, email,LogDescriptions.PROJECTS_EXPORTED, changedValues);
 	}
 }

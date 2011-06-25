@@ -1,5 +1,8 @@
 package de.uni_potsdam.hpi.wfapp2011.Logging;
 
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
+
 
 /**
  * Interface for the Voting Phase
@@ -9,8 +12,8 @@ package de.uni_potsdam.hpi.wfapp2011.Logging;
  *
  */
 public interface VotingLoggerInterface {
-	public void logStudentLogin(String email) ;
-	public void logNewVote(String email, String[] projectNames);
-	public void logChangedVote(String email, String[] projectNames);
+	public void logStudentLogin(ProcessIdentifier processIdentifier, String email) throws ProcessIdentifierException ;
+	public void logNewVote(ProcessIdentifier processIdentifier, String email, String[] projectNames) throws ProcessIdentifierException;
+	public void logChangedVote(ProcessIdentifier processIdentifier, String email, String[] projectNames) throws ProcessIdentifierException;
 	
 }

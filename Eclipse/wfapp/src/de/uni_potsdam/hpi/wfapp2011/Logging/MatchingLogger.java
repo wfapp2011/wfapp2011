@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 /**
  * Logger for the Matching Phase of the process
@@ -18,38 +20,52 @@ import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
  */
 
 public class MatchingLogger implements MatchingLoggerInterface {
+	private static MatchingLogger theInstance;
 	private Logging logging;
 	
-	public MatchingLogger(String type, String semester, int year) {
-		logging = new Logging(type, semester, year);
+	private MatchingLogger() {}
+	
+	public static MatchingLogger getInstance(){
+		if (theInstance == null){
+			theInstance = new MatchingLogger();
+			theInstance.logging = Logging.getInstance();
+		}
+		return theInstance;
 	}
 	
 	/**
 	 * Logs the execution of the matching algorithm for the given process name.
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who executed the matching
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logMatchingExecuted(String email, String processName) {
+	public void logMatchingExecuted(ProcessIdentifier processIdentifier, String email, String processName) throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		String changedValues = createProcessNameJSON(processName).toString();
-		logging.log(changeDate, email, LogDescriptions.MATCHING_EXECUTED, changedValues);
+		logging.log(processIdentifier, changeDate, email, LogDescriptions.MATCHING_EXECUTED, changedValues);
 	}
 
 	/**
 	 * Logs all changes manual changes of the matching
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param email: The HPI-Email-Address of the user, who changed the matching
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logChangedMatching(String email, String projectName) {
+	public void logChangedMatching(ProcessIdentifier processIdentifier, String email, String projectName) throws ProcessIdentifierException {
 		Date changeDate = new Date();
 		String changedValues = createProjectNameJSON(projectName).toString();
-		logging.log(changeDate, email, LogDescriptions.MATCHING_CHANGED, changedValues);
+		logging.log(processIdentifier, changeDate, email, LogDescriptions.MATCHING_CHANGED, changedValues);
 	}
 	
 	/**
+	 * 
 	 * Logs, if the Matching is completed, so that the next phase can start
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid 
 	 */
-	public void logMatchingCompleted(String email) {
+	public void logMatchingCompleted(ProcessIdentifier processIdentifier, String email) throws ProcessIdentifierException {
 		Date changeDate = new Date();
-		logging.log(changeDate, email, LogDescriptions.MATCHING_COMPLETED, "");
+		logging.log(processIdentifier, changeDate, email, LogDescriptions.MATCHING_COMPLETED, "");
 	}	
 	
 	

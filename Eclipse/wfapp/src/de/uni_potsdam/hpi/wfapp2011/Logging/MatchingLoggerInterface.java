@@ -1,5 +1,8 @@
 package de.uni_potsdam.hpi.wfapp2011.Logging;
 
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
+
 
 /**
  * Interface for the Matching Logger
@@ -9,7 +12,7 @@ package de.uni_potsdam.hpi.wfapp2011.Logging;
  *
  */
 public interface MatchingLoggerInterface {
-	public void logMatchingExecuted(String email, String processName);
-	public void logChangedMatching(String email, String projectName);
-	public void logMatchingCompleted(String email);
+	public void logMatchingExecuted(ProcessIdentifier processIdentifier, String email, String processName) throws ProcessIdentifierException;
+	public void logChangedMatching(ProcessIdentifier processIdentifier, String email, String projectName) throws ProcessIdentifierException;
+	public void logMatchingCompleted(ProcessIdentifier processIdentifier, String email) throws ProcessIdentifierException;
 }

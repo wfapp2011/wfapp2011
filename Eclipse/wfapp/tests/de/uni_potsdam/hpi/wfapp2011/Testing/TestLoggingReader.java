@@ -10,6 +10,8 @@ import de.uni_potsdam.hpi.wfapp2011.Logging.ProjectProposalLogger;
 import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.database.TableAlreadyExistsException;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 
 public class TestLoggingReader {
@@ -24,20 +26,20 @@ public class TestLoggingReader {
 	
 	
 	@Test
-	public void testLoggingReader() {
-		ProjectProposalLogger projectProposalLogger = new ProjectProposalLogger("Ba", "SS", 2011);
+	public void testLoggingReader() throws ProcessIdentifierException {
+		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", 2011);
 		LoggingReader loggingReader = new LoggingReader("Ba", "SS", 2011);
 		assertEquals("Before Logging", 0, loggingReader.getNumberOfProjectProposals());
 		
-		projectProposalLogger.logNewProjectProposal("email@example.com","Extraction", "Professor2");
+		ProjectProposalLogger.getInstance().logNewProjectProposal(pId, "email@example.com","Extraction", "Professor2");
 		assertEquals("Before Logging", 1, loggingReader.getNumberOfProjectProposals());
 		
-		projectProposalLogger.logNewProjectProposal("mail@example.com", "ExampleProject", "Professor1");
+		ProjectProposalLogger.getInstance().logNewProjectProposal(pId, "mail@example.com", "ExampleProject", "Professor1");
 		assertEquals("Before Logging", 2, loggingReader.getNumberOfProjectProposals());
 		
-		projectProposalLogger.logChangedProjectProposal("newMail@example.com", "Extraction");
+		ProjectProposalLogger.getInstance().logChangedProjectProposal(pId, "newMail@example.com", "Extraction");
 		
-		projectProposalLogger.logFileUpload("baudisch", "Extraction", "description.pdf");
+		ProjectProposalLogger.getInstance().logFileUpload(pId, "baudisch", "Extraction", "description.pdf");
 		assertEquals("Result", 2, loggingReader.getNumberOfProjectProposals());
 		
 		

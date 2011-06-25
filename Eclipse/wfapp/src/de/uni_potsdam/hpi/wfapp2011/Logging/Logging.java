@@ -4,6 +4,8 @@ import java.util.Date;
 
 import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 
 /**
@@ -11,32 +13,42 @@ import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
  *
  */
 public class Logging {
+	private static Logging theInstance;
 	private DbInterface dbConnection;
-	private String type;
-	private String semester; 
-	private int year;
 	
-	
-	public Logging(String type, String semester, int year) {
-		dbConnection = new DbInterface();
-		this.type = type;
-		this.semester = semester;
-		this.year = year;
+	public static Logging getInstance(){
+		if(theInstance == null){
+			theInstance = new Logging();
+			theInstance.dbConnection = new DbInterface(); 
+		}
+		return theInstance;
 	}
+	
+//	public Logging(String type, String semester, int year) {
+//		dbConnection = new DbInterface();
+//		this.type = type;
+//		this.semester = semester;
+//		this.year = year;
+//	}
 	
 	/**
 	 * inserts the given Log-data in the database
 	 * 
+	 * @param processIdentifier: ProcessIdentifier, which identifies the belonging process
 	 * @param changeDate the time of the changes
 	 * @param email the HPI-Email-Address from the user, who has done the changes
 	 * @param description: describes, which event has triggered the logging
 	 * @param changedValues: The values, which has been changed as a JSON-String
+	 * @throws ProcessIdentifierException if the processIdentifier is not valid
 	 */
 	
-	public void log(Date changeDate, String email, String description, String changedValues) {
+	public void log(ProcessIdentifier processIdentifier, Date changeDate, String email, String description, String changedValues) throws ProcessIdentifierException {
 		String timeString = ((Long)changeDate.getTime()).toString();
+		if(!processIdentifier.isComplete()){
+			throw new ProcessIdentifierException();
+		}
 		try {
-			dbConnection.connect(type, semester, year);
+			dbConnection.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
 			dbConnection.executeUpdate("INSERT INTO logTable(changeDate, person, changeDescription, changedValues) " +
 					"VALUES ('"+ timeString+"','" +email+"','" +description+"','" + changedValues+"')");
 		} catch (SQLTableException e) {

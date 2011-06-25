@@ -2,6 +2,9 @@ package de.uni_potsdam.hpi.wfapp2011.Logging;
 
 import java.util.Date;
 
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
+
 /**
  * Interface for the AdminLogger
  * 
@@ -11,9 +14,13 @@ import java.util.Date;
  */
 
 public interface AdminLoggerInterface {
-	public void logNewDeadlineEntry(String email, String deadlineType, Date deadline);
-	public void logChangedDeadlineEntry(String email, String deadlineType, Date deadline) ;
-	public void logStartedProcess(String email, String processName);
-	public void logVotingConditions(String email, String conditions);
+	public void logNewDeadlineEntry(ProcessIdentifier processIdentifier, String email, String deadlineType, Date deadline)
+		throws ProcessIdentifierException;
+	public void logChangedDeadlineEntry(ProcessIdentifier processIdentifier, String email, String deadlineType, Date deadline)
+		throws ProcessIdentifierException;
+	public void logStartedProcess(ProcessIdentifier processIdentifier, String email, String processName)
+		throws ProcessIdentifierException;
+	public void logVotingConditions(ProcessIdentifier processIdentifier, String email, String conditions)
+		throws ProcessIdentifierException;
 	
 }
