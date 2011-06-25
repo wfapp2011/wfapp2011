@@ -24,6 +24,11 @@ import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
 import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 
+/**
+ * This class allows to start a activiti process instance with the given deadlines
+ * The deadlines can be changed as well using this class. 
+ */
+
 public class ProcessAdministration implements ProcessAdministrationInterface {
 	private static ProcessAdministration theInstance = null;
 	private static DbInterface dbInterface;

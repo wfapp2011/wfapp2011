@@ -16,7 +16,7 @@ import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
 public class Test2 {
 	private ProcessInstance processInstance;
 	
-	private void changeDeadline(String executionId, String variableName, GregorianCalendar newDeadlineDate) {
+	/*private void changeDeadline(String executionId, String variableName, GregorianCalendar newDeadlineDate) {
 		
 		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
 		String newDeadline = DateConverter.dateToISO8601(newDeadlineDate);
@@ -103,7 +103,7 @@ public class Test2 {
 			processEngine.close();
 		}
 		return processInstanceId;
-	}
+	}*/
 	
 	
 	

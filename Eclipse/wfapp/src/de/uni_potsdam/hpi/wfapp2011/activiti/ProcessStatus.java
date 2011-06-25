@@ -5,10 +5,15 @@ import org.activiti.engine.ProcessEngines;
 
 import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+/**
+ * This class provides the functionality to get the current 
+ * phase of a given activiti process instance. 
+ */
 
 public class ProcessStatus implements ProcessStatusInterface {
 	private ProcessEngine processEngine;
 	private String executionId;
+	
 	
 	public ProcessStatus(ProcessIdentifier process){
 		processEngine = ProcessEngines.getDefaultProcessEngine();
@@ -34,21 +39,24 @@ public class ProcessStatus implements ProcessStatusInterface {
 	/**
 	 * This Method allows to get the current phase of the process instance. 
 	 * 
-	 * The exact variables are definied in the Constants Class
+	 * @return String, which identifies the phase. 
+	 * 			The exact Strings are  definied in the Constants Class
 	 * 
 	 */
-	
 	public String getCurrentPhase(){
 		return readVariable(executionId);
 	}
 	
-	
+	/**
+	 * This method gets the current phase for the given execution-Id
+	 * @param executionId: Id of the process instance.
+	 * @return a String, which identifies the String of the phase
+	 * 			The exact Strings are definied in the Constants Class
+	 */
 	private String readVariable(String executionId) {
-		String phase = (String) processEngine.getRuntimeService().getVariable(executionId, Constants.PROCESS_PHASE);
+		String phase = (String) processEngine.getRuntimeService().getVariable(executionId, Constants.PROCESS_PHASE_VARIABLE_NAME);
 		return phase;
-
 	}
-	
 	
 	/**
 	 * Main Method for first testing
