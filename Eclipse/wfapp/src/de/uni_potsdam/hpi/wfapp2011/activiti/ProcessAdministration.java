@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -36,7 +37,6 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * 
 	 * @return the Singleton Instance of ProcessAdministration
 	 */
-	
 	public synchronized static ProcessAdministration getInstance() {
 		if(theInstance == null){
 			theInstance = new ProcessAdministration();
@@ -52,7 +52,6 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * 			for the given ProcessIdentifier exists already. 
 	 * @throws SQLTableException 
 	 */
-	
 	public boolean startProcess(ProcessIdentifier processIdentifier) throws ActivitiProcessException {
 		boolean result = false;
 		if(hasExistingProcess(processIdentifier)){
@@ -86,15 +85,16 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 			dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
 			ResultSet resultSet = dbInterface.executeQueryDirectly(sql);
 			while(resultSet.next()){
-				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
-				Date startdate = df.parse(resultSet.getString(2));
-				startdate.setHours(23);
-				startdate.setMinutes(59);
-				startdate.setSeconds(59);
-				System.out.println(df.format(startdate));
-				mapDeadlines.put(resultSet.getString(1), startdate);
+				//###############################################				
+				//# Parse String into Date     					#
+				//###############################################
+				DateFormat df = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+				Date deadline = df.parse(resultSet.getString(2));
+				deadline.setHours(23);
+				deadline.setMinutes(59);
+				deadline.setSeconds(59);
+				mapDeadlines.put(resultSet.getString(1), deadline);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SQLTableException e) {
@@ -111,13 +111,12 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * This Method updates the deadlines for the Activiti-Process
 	 * It will use the deadlines set in the database
 	 * 
+	 * @param ProcessIdentifier, which identifies the process to start (type, semester, year)
 	 * @return boolean[], which indicates which deadlines could be changed successfully.
 	 * 			- false if the newDeadlines is in the past.
 	 * 			- 		if the newDeadline is before the oldDeadline
 	 * 			-		if the oldDeadline is in the past.  
-
 	 */
-	
 	public boolean[] changedDeadlines(ProcessIdentifier processIdentifier){
 		HashMap<String, Date> mapDeadlines = loadDeadlinesFromDatabase(processIdentifier);
 		boolean[] success = new boolean[5];
@@ -134,20 +133,20 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		success[4] = changeDeadline(processIdentifier, Constants.DEADLINE_PROCESS_INPUT, endProcessDate);
 		return success;
 	}
-	
 
 	/** 
 	 * This method starts a process instance of the given ProcessName.
 	 * 
-	 * @return boolean, which indicates, if the process could start successfull.  
-	 * 
 	 * @param processIdentifier: identifies the process (type, semester, year), which should be started.
+	 * @param String processName: The name of the process in activiti, which should be started. 
 	 * @param endProposalDate: date/time, when the Proposal Collection Phase will finish.
 	 * @param startVotingDate: date/time up to which the final Topics have to be choosen and the voting phase starts.
 	 * @param endVotingDate: date/time, which specifies the end of the voting phase
 	 * @param endMatchingDate: date/time up to which the project matching has to be finished. 
-	 * @param endProcessDate: date/time to finish the whole process.  
-	 * */
+	 * @param endProcessDate: date/time to finish the whole process. 
+	 * 
+	 * @return boolean, which indicates, if the process could start successfull. 
+	 */
 	private boolean startProcess(
 			ProcessIdentifier processIdentifier,
 			String processName, 
@@ -158,53 +157,75 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 			Date endProcessDate)
 	{
 		boolean successfull = false;
-		String instanceId = Constants.DATE_ERROR;
-
+		String instanceId = null;
+		
+		//###################################################
+		//# Get the default Process Engine of Activiti. 	#
+		//# Therefore the activiti.cfg.xml from Activiti 	#
+		//# has to be on the Classpath						#
+		//###################################################
 		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		
-		//Get all process definitions with the given process name
+		//###########################################################
+		//# Get all process definitions with the given process name	#
+		//###########################################################
 		ProcessDefinitionQuery query = processEngine.getRepositoryService().
-			createProcessDefinitionQuery().processDefinitionName(processName);
+					createProcessDefinitionQuery().processDefinitionName(processName);
 		
-		// Get only the latest process definition 
+		//###########################################################
+		//# Get only the latest process definition 					#
+		//###########################################################
 		ProcessDefinition processDefinition = query.orderByProcessDefinitionVersion().desc().listPage(0, 10).get(0);
 		String id = processDefinition.getId();
-		// make sure that the dates have the correct order.
+		
+		//###########################################################
+		//#    make sure that the dates have the correct order.		#
+		//###########################################################
 		if (	endProposalDate.before(startVotingDate) && 
 				startVotingDate.before(endVotingDate) && 
 				endVotingDate.before(endMatchingDate) &&
 				endMatchingDate.before(endProcessDate))
 		{
-			ProcessInstance processInstance = ProcessEngines.getProcessEngine("default").getRuntimeService().startProcessInstanceById(id);
+			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(id);
 			instanceId = processInstance.getId();
-			
-			// Setting the Default Deadline of the whole process, used for the boundary Events
-			runtimeService.setVariable(instanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
-		
-			// Setting the deadlines, which will be changeable from outside the process.
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endMatchingDate));
-			
-			// Setting the deadlines used for the timeEvents. Changes will be copied in the service task. 
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL, DateConverter.dateToISO8601(endProposalDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL, DateConverter.dateToISO8601(startVotingDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING, DateConverter.dateToISO8601(endVotingDate));
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING, DateConverter.dateToISO8601(endMatchingDate));
-			
-			runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
-			successfull = true;
-			processEngine.close();
-			try {
-				dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
-				dbInterface.executeUpdate("INSERT INTO configurations (name, value) VALUES ('"+Constants.PROCESS_ID_VARIABLE_NAME +"', '"+instanceId+"');");
-			} catch (SQLTableException e) {
-				successfull = false;
-				e.printStackTrace();
+			if (instanceId != null){
+				//###########################################################
+				//# Setting the deadlines, which will be changeable 		#
+				//# from outside the process. 								#
+				//###########################################################
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endMatchingDate));
+				
+				//###########################################################
+				//#	Setting the deadlines used for the timeEvents. 			#
+				//# Changes of these variables are not allowed.				#
+				//# Changes will be done indirectly through a service task	#
+				//###########################################################
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL, DateConverter.dateToISO8601(endProposalDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL, DateConverter.dateToISO8601(startVotingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING, DateConverter.dateToISO8601(endVotingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING, DateConverter.dateToISO8601(endMatchingDate));
+				
+				//###########################################################
+				//# Setting the Default Deadline of the whole process.		#
+				//# Used for the boundary Events							#
+				//###########################################################
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
+				runtimeService.setVariable(instanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
+				
+				processEngine.close();
+				try {
+					dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
+					String sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.PROCESS_ID_VARIABLE_NAME +"', '"+instanceId+"');";
+					dbInterface.executeUpdate(sql);
+					successfull = true;
+				} catch (SQLTableException e) {
+					e.printStackTrace();
+				}
 			}
-			
 			dbInterface.disconnect();
 		}
 		return successfull;
@@ -233,19 +254,18 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		String oldDeadline = (String) processEngine.getRuntimeService().getVariable(executionId, variableName);
 		Date oldDeadlineDate = DateConverter.ISO8601ToDate(oldDeadline);
 		
-		if (newDeadlineDate.before(oldDeadlineDate) || 
-				newDeadlineDate.before(new Date()) || 
-				oldDeadlineDate.before(new Date())) {
+		if (newDeadlineDate.before(oldDeadlineDate) || newDeadlineDate.before(new Date()) || oldDeadlineDate.before(new Date())) {
 			return false;
 		}
 		
+		//###########################################################
+		//# Set new variable in Activiti							#  
+		//# Set changed Variable for the Activiti Process,			#
+		//#  so that the timer event will check the time again.   	#
+		//###########################################################
 		processEngine.getRuntimeService().setVariable(executionId, variableName, DateConverter.dateToISO8601(newDeadlineDate));
-		
-		//######################################################### 
-		//#  Set changed Variable for the Activiti Process,		  #
-		//#  so that the timer event will check the time again.   #
-		//########################################################
 		processEngine.getRuntimeService().setVariable(executionId, "changed", 1);
+		
 		processEngine.close();
 		return true;
 	}
@@ -257,12 +277,13 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * @return 	- true if there is already a Activiti-Process-Instance
 	 * 			- false if there is no Activiti-Process-Instance 
 	 */
-	
 	private boolean hasExistingProcess(ProcessIdentifier processIdentifier){
 		boolean hasProcess = false;
 		
+		//###########################################################
+		//# Check in database if there is already a Instance-Id		#
+		//###########################################################
 		String sql = "SELECT * FROM configurations WHERE name = '"+Constants.PROCESS_ID_VARIABLE_NAME+"';";
-		
 		try {
 			dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
 			ResultSet resultSet = dbInterface.executeQueryDirectly(sql);
@@ -278,7 +299,11 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		return hasProcess;
 	}
 	
-	
+	/**
+	 * Main function of the ProcessAdministration
+	 * This function starts a process for the next 25 Minutes
+	 * @param args No arguments expected.
+	 */
 	public static void main(String[] args){
 		ProcessIdentifier processIdentifier = new  ProcessIdentifier("Ba", "SS", 2011);
 		ProcessAdministration process = new ProcessAdministration();
@@ -296,19 +321,13 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		deadlineMatching.add(Calendar.MINUTE, +20);
 		deadlineProcess.add(Calendar.MINUTE, +25);
 		
-		System.out.println("Ende Main: "+process.startProcess(processIdentifier, "DegreeProjectProcessNew2", deadlineCollection.getTime(), deadlineTopics.getTime(), deadlineVoting.getTime(), deadlineMatching.getTime(), deadlineProcess.getTime()));
-		
+		System.out.println("Ende Main: "+
+				process.startProcess(processIdentifier, 
+						"DegreeProjectProcessNew2", 
+						deadlineCollection.getTime(),
+						deadlineTopics.getTime(), 
+						deadlineVoting.getTime(), 
+						deadlineMatching.getTime(), 
+						deadlineProcess.getTime()));
 	} 
-	
-	
-/*	public static void main(String[] args){
-		ProcessAdministration activiti = new ProcessAdministration();
-		GregorianCalendar date = new GregorianCalendar();
-		date.add(Calendar.MINUTE, -5);
-		date.add(Calendar.MINUTE, 5);
-		ProcessIdentifier processIdentifier = new ProcessIdentifier("Ba", "SS", 2011, "6010");
-		activiti.changeDeadline(processIdentifier, "deadlineProposalCollectionInput", date );
-	}
-	*/
-	
 }
