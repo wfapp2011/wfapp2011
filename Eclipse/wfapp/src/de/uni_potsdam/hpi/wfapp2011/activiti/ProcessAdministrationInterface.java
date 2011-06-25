@@ -1,6 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.activiti;
 
-import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 
 public interface ProcessAdministrationInterface {

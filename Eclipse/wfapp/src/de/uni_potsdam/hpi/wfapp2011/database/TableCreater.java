@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.wfapp2011.Logging;
+package de.uni_potsdam.hpi.wfapp2011.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;

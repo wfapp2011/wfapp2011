@@ -5,6 +5,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+
 /**
  * Logger for the Project Proposal Phase of the process
  * 
@@ -32,8 +34,8 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("projectName", projectName);
-			jsonObject.put("department", department);
+			jsonObject.put(JSONFields.PROJECT_NAME, projectName);
+			jsonObject.put(JSONFields.DEPARTMENT, department);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +52,7 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("projectName", projectName);
+			jsonObject.put(JSONFields.PROJECT_NAME, projectName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -68,8 +70,8 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("oldProjectName", oldProjectName);
-			jsonObject.put("newProjectName", newProjectName);
+			jsonObject.put(JSONFields.OLD_PROJECT_NAME, oldProjectName);
+			jsonObject.put(JSONFields.NEW_PROJECT_NAME, newProjectName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -87,8 +89,8 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("projectName", projectName);
-			jsonObject.put("filename", filename);
+			jsonObject.put(JSONFields.PROJECT_NAME, projectName);
+			jsonObject.put(JSONFields.FILENAME, filename);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -107,7 +109,7 @@ public class ProjectProposalLogger implements ProjectProposalLoggerInterface {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("processName", processName);
+			jsonObject.put(JSONFields.PROCESS_NAME, processName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

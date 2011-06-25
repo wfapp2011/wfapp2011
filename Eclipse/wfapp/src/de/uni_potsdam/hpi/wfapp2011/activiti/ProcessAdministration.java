@@ -18,9 +18,9 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 
-import de.uni_potsdam.hpi.wfapp2011.Logging.DbInterface;
-import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 

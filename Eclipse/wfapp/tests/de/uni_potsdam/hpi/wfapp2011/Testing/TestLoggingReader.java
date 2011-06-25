@@ -5,11 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.wfapp2011.Logging.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.Logging.LoggingReader;
 import de.uni_potsdam.hpi.wfapp2011.Logging.ProjectProposalLogger;
-import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
-import de.uni_potsdam.hpi.wfapp2011.Logging.TableAlreadyExistsException;
+import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
+import de.uni_potsdam.hpi.wfapp2011.database.TableAlreadyExistsException;
 
 
 public class TestLoggingReader {

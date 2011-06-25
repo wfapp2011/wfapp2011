@@ -5,6 +5,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+
 /**
  * Logger for the Admin Component
  * 
@@ -12,7 +14,6 @@ import org.json.JSONObject;
  * Admin Component. 
  * It converts the changed data into a JSON Object,
  * so that they can be saved together in the Log-Table
- *
  */
 
 public class AdminLogger implements AdminLoggerInterface {
@@ -23,8 +24,10 @@ public class AdminLogger implements AdminLoggerInterface {
 	}
 	
 	/**
-	 * This method logs a new Deadline, which was set by the Admin.
-	 * 
+	 * Logs a new Deadline, which has been set by the Admin.
+	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
+	 * @param deadlineType: The deadline, which has been set (definied in the Class Constants);
+	 * @param deadline: the Date to which the deadline was changed; 
 	 */
 	public void logNewDeadlineEntry(String email, String deadlineType, Date deadline) {
 		Date changeDate = new Date();
@@ -34,9 +37,11 @@ public class AdminLogger implements AdminLoggerInterface {
 		logging.log(changeDate, email, LogDescriptions.NEW_DEADLINE, changedValues);
 	}
 	
-	
 	/**
-	 * This methed logs a Deadline, which was changed by the Admin
+	 * Logs a Deadline, which has been changed by the Admin.
+	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
+	 * @param deadlineType: The deadline, which has been set (definied in the Class Constants);
+	 * @param deadline: the Date to which the deadline was changed; 
 	 */
 	public void logChangedDeadlineEntry(String email, String deadlineType, Date deadline) {
 		Date changeDate = new Date();
@@ -46,12 +51,17 @@ public class AdminLogger implements AdminLoggerInterface {
 		logging.log(changeDate, email,LogDescriptions.CHANGED_DEADLINE, changedValues);
 	}
 
-	
+	/**
+	 * Logs the start of a process
+	 * 
+	 * @param email: The HPI-Email-Address of the user, who changed the deadline;
+	 * @param processName: The process Name, which has been started 
+	 */
 	public void logStartedProcess(String email, String processName) {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("processName", processName);
+			jsonObject.put(JSONFields.PROCESS_NAME, processName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -60,11 +70,18 @@ public class AdminLogger implements AdminLoggerInterface {
 		logging.log(changeDate, email,LogDescriptions.PROCESS_STARTED, changedValues);
 	}
 	
+	/**
+	 * Logs a voting condition, which was added to a process
+	 * 
+	 * @param email: The HPI-Email-Address of the user, who added the condition
+	 * @param conditions: a String, which describes the conditions
+	 */
+	
 	public void logVotingConditions(String email, String conditions) {
 		Date changeDate = new Date();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("conditions", conditions);
+			jsonObject.put(JSONFields.CONDITIONS, conditions);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -73,16 +90,20 @@ public class AdminLogger implements AdminLoggerInterface {
 		logging.log(changeDate, email,LogDescriptions.SET_VOTING_CONDITIONS, changedValues);
 	}
 	
+	/**
+	 * creates a JSON Object, which can be stored in the Log-Table
+	 * @param deadlineType: The deadline, which has been set (definied in the Class Constants);
+	 * @param deadline: the Date to which the deadline was changed; 
+	 * @return a JSON-Object with the process name
+	 */
 	private JSONObject createDeadlineJSON(String deadlineType, Date deadline) {
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("deadlineType", deadlineType);
-			jsonObject.put("deadline", deadline.getTime());
+			jsonObject.put(JSONFields.DEADLINE_TYPE, deadlineType);
+			jsonObject.put(JSONFields.DEADLINE, deadline.getTime());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return jsonObject;
 	}
-	
-	
 }

@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.wfapp2011.Logging;
+package de.uni_potsdam.hpi.wfapp2011.database;
 
 //###########
 //# imports	#
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.h2.jdbc.JdbcSQLException;
+
 
 /**
  * Provides the functionality to interact with the H2-Database

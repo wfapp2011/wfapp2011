@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import de.uni_potsdam.hpi.wfapp2011.Logging.DbInterface;
-import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 
 /**
  * This class provides the functionality to identify a specific process.
@@ -108,9 +108,4 @@ public class ProcessIdentifier {
 		}
 		return executionId;
 	}
-	
-	
-	
-	
-
 }

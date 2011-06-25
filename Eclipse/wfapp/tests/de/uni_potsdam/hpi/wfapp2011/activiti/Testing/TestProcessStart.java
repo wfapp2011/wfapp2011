@@ -11,11 +11,11 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.uni_potsdam.hpi.wfapp2011.Logging.DbInterface;
-import de.uni_potsdam.hpi.wfapp2011.Logging.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.activiti.ActivitiProcessException;
 import de.uni_potsdam.hpi.wfapp2011.activiti.ProcessAdministration;
 import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 
 public class TestProcessStart {

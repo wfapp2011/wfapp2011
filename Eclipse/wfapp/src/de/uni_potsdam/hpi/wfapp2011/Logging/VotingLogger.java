@@ -5,6 +5,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+
 
 /**
  * Logger for the Voting Phase of the process
@@ -22,7 +24,10 @@ public class VotingLogger implements VotingLoggerInterface {
 		logging = new Logging(type, semester, year);
 	}
 	
-	
+	/**
+	 * Logs a new Student login
+	 * @param email: The HPI-Email-Address of the student.
+	 */
 	public void logStudentLogin(String email) {
 		Date changeDate = new Date();
 		logging.log(changeDate, email,LogDescriptions.STUDENT_LOGIN, "");
@@ -52,11 +57,16 @@ public class VotingLogger implements VotingLoggerInterface {
 		logging.log(changeDate, email,LogDescriptions.CHANGED_VOTING, changedValues);
 	}
 
-	
+	/**
+	 * Creates a JSON-Object with the Project-Names a Student has voted.
+	 * @param projectNames: The names of the voted projects
+	 * 						On the first position is the project with the highest priority
+	 * @return JSON-Object with the Project-Names.
+	 */
 	private JSONObject createVotingJSON(String[] projectNames) {
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("projectNames", projectNames);
+			jsonObject.put(JSONFields.PROJECT_NAMES, projectNames);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

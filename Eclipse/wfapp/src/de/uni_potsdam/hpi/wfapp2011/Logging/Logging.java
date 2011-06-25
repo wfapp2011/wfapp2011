@@ -2,10 +2,12 @@ package de.uni_potsdam.hpi.wfapp2011.Logging;
 
 import java.util.Date;
 
+import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
+
 
 /**
  * Logging Class, which is able to write the Log-Data in the Database. 
- *
  *
  */
 public class Logging {

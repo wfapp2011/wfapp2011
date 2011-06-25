@@ -5,6 +5,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.uni_potsdam.hpi.wfapp2011.constants.JSONFields;
+
 /**
  * Logger for the Matching Phase of the process
  * 
@@ -24,6 +26,7 @@ public class MatchingLogger implements MatchingLoggerInterface {
 	
 	/**
 	 * Logs the execution of the matching algorithm for the given process name.
+	 * @param email: The HPI-Email-Address of the user, who executed the matching
 	 */
 	public void logMatchingExecuted(String email, String processName) {
 		Date changeDate = new Date();
@@ -33,6 +36,7 @@ public class MatchingLogger implements MatchingLoggerInterface {
 
 	/**
 	 * Logs all changes manual changes of the matching
+	 * @param email: The HPI-Email-Address of the user, who changed the matching
 	 */
 	public void logChangedMatching(String email, String projectName) {
 		Date changeDate = new Date();
@@ -43,7 +47,6 @@ public class MatchingLogger implements MatchingLoggerInterface {
 	/**
 	 * Logs, if the Matching is completed, so that the next phase can start
 	 */
-
 	public void logMatchingCompleted(String email) {
 		Date changeDate = new Date();
 		logging.log(changeDate, email, LogDescriptions.MATCHING_COMPLETED, "");
@@ -58,7 +61,7 @@ public class MatchingLogger implements MatchingLoggerInterface {
 	private JSONObject createProcessNameJSON(String processName) {
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("processName", processName);
+			jsonObject.put(JSONFields.PROCESS_NAME, processName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +76,7 @@ public class MatchingLogger implements MatchingLoggerInterface {
 	private JSONObject createProjectNameJSON(String projectName) {
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("projectName", projectName);
+			jsonObject.put(JSONFields.PROJECT_NAME, projectName);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

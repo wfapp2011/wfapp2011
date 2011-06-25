@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.wfapp2011.Logging;
+package de.uni_potsdam.hpi.wfapp2011.database;
 
 /**
  * 	Exception Class for Exceptions which occur while executing an update
