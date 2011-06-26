@@ -53,11 +53,11 @@ public class TestProcessStart {
 		deadlineMatching = new GregorianCalendar();
 		deadlineProcess = new GregorianCalendar();
 		
-		deadlineCollection.add(Calendar.MINUTE, +2);
-		deadlineTopics.add(Calendar.MINUTE, +4);
-		deadlineVoting.add(Calendar.MINUTE, +6);
-		deadlineMatching.add(Calendar.MINUTE, +8);
-		deadlineProcess.add(Calendar.MINUTE, +10);
+		deadlineCollection.add(Calendar.DATE, +1);
+		deadlineTopics.add(Calendar.DATE, +2);
+		deadlineVoting.add(Calendar.DATE, +3);
+		deadlineMatching.add(Calendar.DATE, +4);
+		deadlineProcess.add(Calendar.DATE, +5);
 	}
 	
 /*	@Test
@@ -71,8 +71,10 @@ public class TestProcessStart {
 	@Test 
 	public void testProcessStartInterface() throws SQLTableException, ActivitiProcessException {
 		dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
-		
 		DateFormat df = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+		System.out.println(df.format(deadlineCollection.getTime()));
+		System.out.println(df.format(deadlineVoting.getTime()));
+		
 		String sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.DEADLINE_PROPOSAL_COL+"','"+df.format(deadlineCollection.getTime())+"');";
 		dbInterface.executeUpdate(sql);
 		sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.DEADLINE_TOPICS_PUBL+"','"+df.format(deadlineTopics.getTime())+"');";
