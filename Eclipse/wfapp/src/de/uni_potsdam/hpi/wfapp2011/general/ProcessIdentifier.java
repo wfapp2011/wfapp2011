@@ -16,8 +16,8 @@ import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
 
 public class ProcessIdentifier {
 	private DbInterface dbInterface;
-	private String type;
-	private String semester;
+	private String type = null;
+	private String semester = null;
 	private int year = 0;
 	private String executionId;
 	

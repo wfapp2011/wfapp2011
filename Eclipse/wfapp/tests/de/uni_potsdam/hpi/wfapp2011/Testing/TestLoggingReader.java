@@ -18,8 +18,8 @@ public class TestLoggingReader {
 	@Before
 	public void clearDatabase() throws TableAlreadyExistsException, SQLTableException{
 		DbInterface dbinterface = new DbInterface();
-		DbInterface.initializeDatabase("Ba", "SS", 2011);
-		dbinterface.connect("Ba", "SS", 2011);
+		DbInterface.initializeDatabase("Ba", "SS", 2014);
+		dbinterface.connect("Ba", "SS", 2014);
 		dbinterface.executeUpdate("DELEte from logtable");
 		dbinterface.disconnect();
 	}
@@ -27,8 +27,8 @@ public class TestLoggingReader {
 	
 	@Test
 	public void testLoggingReader() throws ProcessIdentifierException {
-		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", 2011);
-		LoggingReader loggingReader = new LoggingReader("Ba", "SS", 2011);
+		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", 2014);
+		LoggingReader loggingReader = new LoggingReader("Ba", "SS", 2014);
 		assertEquals("Before Logging", 0, loggingReader.getNumberOfProjectProposals());
 		
 		ProjectProposalLogger.getInstance().logNewProjectProposal(pId, "email@example.com","Extraction", "Professor2");
