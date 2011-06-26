@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RuntimeService;
@@ -134,7 +135,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		success[0] = changeDeadline(processIdentifier, Constants.DEADLINE_PROPOSAL_COL_INPUT, endProposalDate);
 		success[1] = changeDeadline(processIdentifier, Constants.DEADLINE_TOPICS_PUBL_INPUT, endTopicPublication);
 		success[2] = changeDeadline(processIdentifier, Constants.DEADLINE_VOTING_INPUT, endVotingDate);
-		success[3] = changeDeadline(processIdentifier, Constants.DEADLINE_MATCHING, endMatchingDate);
+		success[3] = changeDeadline(processIdentifier, Constants.DEADLINE_MATCHING_INPUT, endMatchingDate);
 		success[4] = changeDeadline(processIdentifier, Constants.DEADLINE_PROCESS_INPUT, endProcessDate);
 		return success;
 	}
@@ -152,7 +153,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * 
 	 * @return boolean, which indicates, if the process could start successfull. 
 	 */
-	private boolean startProcess(
+	public boolean startProcess(
 			ProcessIdentifier processIdentifier,
 			String processName, 
 			Date endProposalDate, 
@@ -202,7 +203,8 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
 				runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
 				runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
-				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endMatchingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING_INPUT, DateConverter.dateToISO8601(endMatchingDate));
+				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endProcessDate));
 				
 				//###########################################################
 				//#	Setting the deadlines used for the timeEvents. 			#
@@ -221,7 +223,6 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 				runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
 				runtimeService.setVariable(instanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
 				
-				processEngine.close();
 				try {
 					dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
 					String sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.PROCESS_ID_VARIABLE_NAME +"', '"+instanceId+"');";
@@ -254,11 +255,18 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	
 	private boolean changeDeadline(ProcessIdentifier processIdentifier, String variableName, Date newDeadlineDate) {
 		String executionId = processIdentifier.getExecutionId();
+		if (executionId == null){
+			return false;
+		}
 		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
-		
-		String oldDeadline = (String) processEngine.getRuntimeService().getVariable(executionId, variableName);
+		RuntimeService runtime = processEngine.getRuntimeService();
+		String oldDeadline;
+		try {
+			oldDeadline = (String) runtime.getVariable(executionId, variableName);
+		} catch(ActivitiException e) {
+			return false;
+		}
 		Date oldDeadlineDate = DateConverter.ISO8601ToDate(oldDeadline);
-		
 		if (newDeadlineDate.before(oldDeadlineDate) || newDeadlineDate.before(new Date()) || oldDeadlineDate.before(new Date())) {
 			return false;
 		}
@@ -271,7 +279,6 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		processEngine.getRuntimeService().setVariable(executionId, variableName, DateConverter.dateToISO8601(newDeadlineDate));
 		processEngine.getRuntimeService().setVariable(executionId, "changed", 1);
 		
-		processEngine.close();
 		return true;
 	}
 	

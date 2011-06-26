@@ -108,4 +108,8 @@ public class ProcessIdentifier {
 		}
 		return executionId;
 	}
+	
+	public void setExecutionId(String id){
+		executionId = id;
+	}
 }

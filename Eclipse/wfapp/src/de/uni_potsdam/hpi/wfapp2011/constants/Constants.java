@@ -9,6 +9,7 @@ public class Constants {
 	public static String DEADLINE_PROPOSAL_COL_INPUT = "deadlineProposalCollectionInput";
 	public static String DEADLINE_TOPICS_PUBL_INPUT = "deadlineTopicsPublicationInput";
 	public static String DEADLINE_VOTING_INPUT = "deadlineVotingInput";
+	public static String DEADLINE_MATCHING_INPUT = "deadlineMatchingInput";
 	public static String DEADLINE_PROCESS_INPUT = "deadlineProcessInput";
 	
 	//###########################################################
