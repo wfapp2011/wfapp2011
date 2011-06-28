@@ -35,30 +35,45 @@ public class TestAdminLogging{
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() throws SQLTableException {
-		logging = AdminLogger.getInstance();
-		dbInterface = new DbInterface();
-		DbInterface.initializeMetaTables();
 		year = new GregorianCalendar().get(Calendar.YEAR);
 		processIdentifier = new ProcessIdentifier("Ba", "SS", year + 2);
+		logging = AdminLogger.getInstance();
+		dbInterface = new DbInterface();
+		
+		DbInterface.initializeMetaTables();
 		DbInterface.initializeDatabase(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
+		
 		email = "test@example.com";
 		deadlineType = Constants.DEADLINE_PROPOSAL_COL;
 		deadline = new Date();
 		deadline.setDate(deadline.getDay() + 1);
 		
 	}
+	
+	/**
+	 * Test if an error will be thrown, if the String for semester is not either "SS" or "WS"
+	 * @throws ProcessIdentifierException: Will be thrown if the processIdentifier is not valid
+	 */
 	@Test(expected = ProcessIdentifierException.class) 
 	public void testExceptionSemester() throws ProcessIdentifierException{
 		ProcessIdentifier pId = new ProcessIdentifier("Ba", "ss", year + 2);
 		logging.logNewDeadlineEntry(pId, email, deadlineType, deadline);
 	}
 
+	/**
+	 * Test if years in the past will not be accecpted. 
+	 * @throws ProcessIdentifierException: Will be thrown if the processIdentifier is not valid
+	 */
 	@Test(expected = ProcessIdentifierException.class) 
 	public void testExceptionYear() throws ProcessIdentifierException{
-		ProcessIdentifier pId = new ProcessIdentifier("Ba", "ss", year - 2);
+		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", year - 2);
 		logging.logNewDeadlineEntry(pId, email, deadlineType, deadline);
 	}
 	
+	/**
+	 * Test if years more than 5 years in future will not be accepted.
+	 * @throws ProcessIdentifierException: Will be thrown if the processIdentifier is not valid
+	 */
 	@Test(expected = ProcessIdentifierException.class) 
 	public void testExceptionYearInFuture() throws ProcessIdentifierException{
 		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", year + 6);
@@ -81,6 +96,7 @@ public class TestAdminLogging{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dbInterface.disconnect();
 	}
 	
 	@After

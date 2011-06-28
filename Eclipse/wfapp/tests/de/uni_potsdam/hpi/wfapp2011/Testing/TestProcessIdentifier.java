@@ -18,12 +18,16 @@ public class TestProcessIdentifier {
 	public void testProcessIdentifier(){
 		ProcessIdentifier pId = new ProcessIdentifier("Ma", "SS", year);
 		assertTrue(pId.isComplete());
-		assertTrue(pId.getSemester() == "SS");
-		assertTrue(pId.getType() == "Ma");
+		assertTrue(pId.getSemester().equals("SS"));
+		assertTrue(pId.getType().equals("Ma"));
 		assertTrue(pId.getYear() == year);
 		pId = new ProcessIdentifier("Ba", "WS", year);
-		assertTrue(pId.getType() == "Ba");
-		assertTrue(pId.getSemester() == "WS");
+		assertTrue(pId.getType().equals("Ba"));
+		assertTrue(pId.getSemester().equals("WS"));
+		assertTrue(pId.getYear() == year);
+		pId.setType("ws");
+		assertTrue(pId.getType().equals("Ba"));
+		
 	} 
 	
 	/**
@@ -33,7 +37,7 @@ public class TestProcessIdentifier {
 	@Test 
 	public void testWrongProcessIdentifier(){
 		ProcessIdentifier pId = new ProcessIdentifier("Ma", "ss", year-2);
-		assertTrue(pId.getType() == "Ma");
+		assertTrue(pId.getType().equals("Ma"));
 		assertTrue(pId.getSemester() == null);
 		assertTrue(pId.getYear() == 0);
 		assertFalse(pId.isComplete());
@@ -48,7 +52,7 @@ public class TestProcessIdentifier {
 	public void testDateInFuture() {
 		ProcessIdentifier pId = new ProcessIdentifier("ma", "SS", year+6);
 		assertTrue(pId.getType() == null);
-		assertTrue(pId.getSemester() == "SS");
+		assertTrue(pId.getSemester().equals("SS"));
 		assertTrue(pId.getYear() == 0);
 		assertFalse(pId.isComplete());
 	}

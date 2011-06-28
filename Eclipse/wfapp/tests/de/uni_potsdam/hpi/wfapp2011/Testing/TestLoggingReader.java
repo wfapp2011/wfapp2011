@@ -2,6 +2,9 @@ package de.uni_potsdam.hpi.wfapp2011.Testing;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,11 +18,16 @@ import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifierException;
 
 
 public class TestLoggingReader {
+	private int year;
+	ProcessIdentifier pId;
+	
 	@Before
 	public void clearDatabase() throws TableAlreadyExistsException, SQLTableException{
+		year = new GregorianCalendar().get(Calendar.YEAR)+2;
+		pId = new ProcessIdentifier("Ba", "SS", year);
 		DbInterface dbinterface = new DbInterface();
-		DbInterface.initializeDatabase("Ba", "SS", 2014);
-		dbinterface.connect("Ba", "SS", 2014);
+		DbInterface.initializeDatabase(pId.getType(), pId.getSemester(), pId.getYear());
+		dbinterface.connect(pId.getType(), pId.getSemester(), pId.getYear());
 		dbinterface.executeUpdate("DELEte from logtable");
 		dbinterface.disconnect();
 	}
@@ -27,8 +35,7 @@ public class TestLoggingReader {
 	
 	@Test
 	public void testLoggingReader() throws ProcessIdentifierException {
-		ProcessIdentifier pId = new ProcessIdentifier("Ba", "SS", 2014);
-		LoggingReader loggingReader = new LoggingReader("Ba", "SS", 2014);
+		LoggingReader loggingReader = new LoggingReader(pId.getType(), pId.getSemester(), pId.getYear());
 		assertEquals("Before Logging", 0, loggingReader.getNumberOfProjectProposals());
 		
 		ProjectProposalLogger.getInstance().logNewProjectProposal(pId, "email@example.com","Extraction", "Professor2");

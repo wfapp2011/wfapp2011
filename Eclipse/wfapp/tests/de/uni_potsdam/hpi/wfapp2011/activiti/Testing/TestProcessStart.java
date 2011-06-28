@@ -120,6 +120,7 @@ public class TestProcessStart {
 		dbInterface.executeUpdate(sql);
 		processIdentifier.setExecutionId("2101");
 		postponeDeadlines();
+		dbInterface.disconnect();
 		
 		//############################################################
 		//# Check, if the deadlines could not be changed in activiti #
@@ -143,6 +144,7 @@ public class TestProcessStart {
 		} catch (SQLTableException e) {
 			e.printStackTrace();
 		}
+		dbInterface.disconnect();
 		
 	}
 	
