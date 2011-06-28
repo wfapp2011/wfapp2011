@@ -30,6 +30,7 @@ public class Constants {
 	public static String TOPICDECISION = "FinalTopicDecision";
 	public static String VOTING = "Voting";
 	public static String PROJECTMATCHING = "ProjectMatching";
+	public static String PROCESS_NOT_RUNNING = "noProcessRunning";
 	
 	//###########################################################
 	//# key to save the process Instance Id in the database	 	#

@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.activiti;
 
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 
@@ -54,7 +55,12 @@ public class ProcessStatus implements ProcessStatusInterface {
 	 * 			The exact Strings are definied in the Constants Class
 	 */
 	private String readVariable(String executionId) {
-		String phase = (String) processEngine.getRuntimeService().getVariable(executionId, Constants.PROCESS_PHASE_VARIABLE_NAME);
+		String phase;
+		try {
+			phase = (String) processEngine.getRuntimeService().getVariable(executionId, Constants.PROCESS_PHASE_VARIABLE_NAME);
+		} catch (ActivitiException e) {
+			phase = Constants.PROCESS_NOT_RUNNING; 
+		}
 		return phase;
 	}
 	
