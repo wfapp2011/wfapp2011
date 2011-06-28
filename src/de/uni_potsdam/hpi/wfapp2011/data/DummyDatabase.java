@@ -13,6 +13,7 @@ public class DummyDatabase {
 	Department[] departments = createDummyDepartments();
 	private ArrayList<ProjectProposal> projects = new ArrayList<ProjectProposal>();
 	private ArrayList<ProjectTopic> approvedProjects = new ArrayList<ProjectTopic>();
+	private String period = "SS 2011 - WS 2012"; //format?
 
 	public static DummyDatabase getInstance() {
 		if (db == null) {
@@ -143,6 +144,14 @@ public class DummyDatabase {
 		
 		Department[] departments = {dep1, dep2, dep3};
 		return departments;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
+	public String getPeriod() {
+		return period;
 	}
 
 }

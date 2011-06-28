@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectTopic {
-	private int topicID;
+	private long topicID;
 	private String projectName;
 	private String projectDescription;
 	private int minStud;
@@ -127,5 +127,13 @@ public class ProjectTopic {
 
 	public ProjectProposal getProposal() {
 		return proposal;
+	}
+
+	public void setTopicID(long topicID) {
+		this.topicID = topicID;
+	}
+
+	public long getTopicID() {
+		return topicID;
 	}
 }

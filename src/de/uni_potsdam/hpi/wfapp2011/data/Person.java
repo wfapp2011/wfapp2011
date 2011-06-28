@@ -4,6 +4,7 @@ public class Person {
 
 	private String name;
 	private String email;
+	private long ID;
 	
 	public Person(String name, String email){
 		this.setName(name);
@@ -21,5 +22,13 @@ public class Person {
 	}
 	public String getEmail() {
 		return email;
+	}
+
+	public void setID(long iD) {
+		ID = iD;
+	}
+
+	public long getID() {
+		return ID;
 	}
 }

@@ -5,6 +5,7 @@ public class Department {
 	private String name;
 	private String symbol;
 	private Person prof;
+	private long ID;
 	
 	
 	public Department(String departmentName) {		
@@ -29,6 +30,15 @@ public class Department {
 	}
 	public String getSymbol() {
 		return symbol;
+	}
+
+
+	public void setID(long iD) {
+		ID = iD;
+	}
+
+	public long getID() {
+		return ID;
 	}
 	
 }
