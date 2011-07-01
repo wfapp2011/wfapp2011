@@ -1,13 +1,12 @@
 package de.uni_potsdam.hpi.wfapp2011.assignment.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-/*import com.gwtext.client.core.Margins;
-import com.gwtext.client.core.RegionPosition;
-import com.gwtext.client.widgets.Panel;  
-import com.gwtext.client.widgets.layout.BorderLayoutData;*/
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
@@ -19,6 +18,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.gwtTableToExcel.client.TableToExcelClient;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -32,23 +33,68 @@ public class Wfapp2011assignment implements EntryPoint {
 	private Label btnAssignment;
 	private Label btnStatistics;
 	private Label btnLogout;
-	private FlexTable VotesTable;
+	private DockPanel VotesPanel;
+	private Button finishAssignment;
 	private Frame frame;
 	private HTML htmlFooter;
 	private DockPanel dockPanel_1;
 	private HTML Statistics;
 	private VerticalPanel warningPanel;
+	private Label excelExportButton;
 	public static Label warningLabel;
 	public static HorizontalPanel warningList;
-
+	
+	/******
+	 *  Imports from other Packages
+	 */
+	
+	public String projecttype = "Bachelorprojekt 2011";
+	
+	
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {		
+
+		
+		//AssignmentDataExchangeServiceAsync assignmentDataInterface = GWT.create(AssignmentDataExchangeService.class);
+
+		//System.out.println("gwt create");
+
+		//public void getData() {
+			//Initialize Interface-RemoteService
+			/*if (assignmentDataInterface == null){
+				assignmentDataInterface = GWT.create(AssignmentDataInterface.class);
+			}*/
+			
+			//AsyncCallback<Project[]> callback = new AsyncCallback<Project[]>() {
+			/*assignmentDataInterface.getProjects(new AsyncCallback<Project[]>() {
+				public void onFailure(Throwable caught) {
+			        // TODO: Do something with errors.
+					System.out.println("Fail");
+					wait=false;
+			      }
+
+			      public void onSuccess(Project[] result) {
+			    	  wait=false;
+			    	  GetData.DBProjects = result;
+			    	  System.out.println("success");
+			    	  buildMain();
+			      }
+			});
+	}
+			
+			//assignmentDataInterface.getProjects(callback);
+		//}*/
+			buildMain();
+	}
+		
+
+	private void buildMain() {
 		rootPanel = RootPanel.get();
 		//rootPanel.setSize("100%", "2000px");
 		
-		HTMLPanel htmlHeader = new HTMLPanel("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<div id=\"menu\">\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"191\">\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"156\">\r\n  \t\t\t</colgroup>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"doktorhut.png\" width=\"191px\" height=\"151px\">\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<h1>Zuordnung</h1>\r\n\t\t\t\t<h2>Bachelorprojekt 2011</h1>\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"HPI_Logo.png\" width=\"156px\" height=\"93px\">\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t\t</div>\r\n\t</body>\r\n</html>");
+		HTMLPanel htmlHeader = new HTMLPanel("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<div id=\"menu\">\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"191\">\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"156\">\r\n  \t\t\t</colgroup>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"doktorhut.png\" width=\"191px\" height=\"151px\">\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<h1>Zuordnung</h1>\r\n\t\t\t\t<h2>"+projecttype+"</h1>\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"HPI_Logo.png\" width=\"156px\" height=\"93px\">\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t\t</div>\r\n\t</body>\r\n</html>");
 		rootPanel.add(htmlHeader, 0, 0);
 		htmlHeader.setSize("100%", "151px");
 		
@@ -61,7 +107,7 @@ public class Wfapp2011assignment implements EntryPoint {
 		btnHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				frame.setVisible(true);
-				VotesTable.setVisible(false);
+				VotesPanel.setVisible(false);
 				boundaryPanel.setVisible(false);
 				Statistics.setVisible(false);
 				frame.setUrl("Startsite.html");
@@ -73,7 +119,7 @@ public class Wfapp2011assignment implements EntryPoint {
 		btnVotesTable.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				frame.setVisible(false);
-				VotesTable.setVisible(true);
+				VotesPanel.setVisible(true);
 				boundaryPanel.setVisible(false);
 				Statistics.setVisible(false);
 			}
@@ -84,7 +130,7 @@ public class Wfapp2011assignment implements EntryPoint {
 		btnAssignment.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				frame.setVisible(false);
-				VotesTable.setVisible(false);
+				VotesPanel.setVisible(false);
 				boundaryPanel.setVisible(true);
 				Statistics.setVisible(false);
 			}
@@ -95,8 +141,13 @@ public class Wfapp2011assignment implements EntryPoint {
 		btnStatistics.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				frame.setVisible(false);
-				VotesTable.setVisible(false);
+				VotesPanel.setVisible(false);
 				boundaryPanel.setVisible(false);
+				if(StatisticsCalculator.changed){
+					dockPanel_1.remove(Statistics);
+					Statistics = StatisticsCalculator.calculateStatistics(HungarianAlgorithm.StudentList.length);
+					dockPanel_1.add(Statistics, DockPanel.NORTH);
+				}
 				Statistics.setVisible(true);
 			}
 		});
@@ -118,7 +169,7 @@ public class Wfapp2011assignment implements EntryPoint {
 		boundaryPanel = new AbsolutePanel();
 		//boundaryPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		dockPanel_1.add(boundaryPanel, DockPanel.NORTH);
-	 	boundaryPanel.setSize("100%","520px");
+	 	boundaryPanel.setSize("100%","100%");
 		boundaryPanel.setVisible(false);
 	 	
 		htmlFooter = new HTML("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<hr>\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"100\">\r\n    \t\t\t<col width=\"100\">\r\n  \t\t\t</colgroup>\r\n  \t\t\t<td></td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"https://www.hpi.uni-potsdam.de/support/impressum.html\">Impressum</a>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"mailto:test@test.com?subject=Bug in Themenwahl\">Report a Bug</a>\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t</body>\r\n</html>", true);
@@ -129,20 +180,30 @@ public class Wfapp2011assignment implements EntryPoint {
 		dockPanel_1.add(frame, DockPanel.NORTH);
 		frame.setSize("100%", "412px");
 		
-		HungarianAlgorithm.initHg(TestData.TestProjects, new TestData().TestStudents);	
+		HungarianAlgorithm.initHg(GetData.DBProjects, GetData.DBStudents);	
 		
-		VotesTable = new FlexTable();
-		VotesTableGenerator.createVotesTable(dockPanel_1,VotesTable);
-		VotesTable.setVisible(false);
+		VotesPanel = new DockPanel();
+		FlexTable VotesTable = new FlexTable();
+		VotesTableGenerator.createVotesTable(VotesPanel,VotesTable);
+        TableToExcelClient votesTableAsExcel = new TableToExcelClient(VotesTable,"Excel Export","VotesTable "+projecttype);
+        VotesPanel.setSize("100%", "");
+		VotesPanel.add(votesTableAsExcel.build(), DockPanel.NORTH);
+		dockPanel_1.add(VotesPanel, DockPanel.CENTER);
+		VotesPanel.setVisible(false);
+
+		
+		//add Assignment-Menu
+		HorizontalPanel assignmentMenuPanel = new HorizontalPanel();
+		assignmentMenuPanel.setSize("100%","");
+        boundaryPanel.add(assignmentMenuPanel);
 		
 		//add Warning-panel 
 		warningPanel = new VerticalPanel();
-        warningPanel.setSize("100%","");
-        boundaryPanel.add(warningPanel);
+        assignmentMenuPanel.add(warningPanel);
         
         //add WarningLabel to Warning-Panel
         warningLabel = new Label("Warnungen anzeigen");
-        warningLabel.setSize("30%", "");
+        warningLabel.setSize(htmlFooter.getOffsetWidth() - 280 + "px", "");
         warningLabel.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 		        warningList.setVisible(!warningList.isVisible());
@@ -152,15 +213,27 @@ public class Wfapp2011assignment implements EntryPoint {
         
         //add WarningList to Warning-Panel
         warningList = new HorizontalPanel();
-        //warningList.add(new HTML("Warnings!"));  
-        AssignmentDropController.createWarnings();
-        warningList.setSize("100%","");
+        warningList.setSize("","");
         warningPanel.add(warningList);
         warningList.setVisible(false);
-		new AssignmentGenerator().setUpAssignmentPage(boundaryPanel);
+		final AssignmentGenerator assignmentGenerator = new AssignmentGenerator();
+		assignmentGenerator.setUpAssignmentPage(boundaryPanel);
+        AssignmentDropController.createWarnings();
+       
+        //Excel-Export for the current assignment
+        TableToExcelClient assignmentAsExcel = new TableToExcelClient(AssignmentGenerator.AssignmentTable,"Excel Export","AssignmentTable "+projecttype);
+		assignmentMenuPanel.add(assignmentAsExcel.build());
+            
+        Label finishButton = new Label("Abschlie\u00dfen");
+        assignmentMenuPanel.add(finishButton);
+        finishButton.addClickHandler(new ClickHandler(){
+        	public void onClick(ClickEvent event){
+        		assignmentGenerator.disableStudentDragging();
+        	}
+        });
 		
-		int students = HungarianAlgorithm.StudentList.length;
-		Statistics = StatisticsCalculator.calculateStatistics(students);
+		int studentNumber = HungarianAlgorithm.StudentList.length;
+		Statistics = StatisticsCalculator.calculateStatistics(studentNumber);
 		dockPanel_1.add(Statistics, DockPanel.NORTH);
 		Statistics.setVisible(false);
 	}

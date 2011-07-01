@@ -57,6 +57,7 @@ public class HungarianAlgorithm {
 		if (checkVotingData() > 0){
 			int[][] ass = {{-1, checkVotingData()}};
 			Assignment = ass;
+			System.out.println("Invalid Data");
 		}
 		else{
 			while(checkVotingData() < 0){
@@ -70,6 +71,7 @@ public class HungarianAlgorithm {
 	}
 
 	private static void setPlacements() {
+		System.out.println("Setting Placements");
 		for(int i=0; i<StudentList.length; i++){
 			StudentList[i].placement = lookUpProject(Assignment[i][1]);
 		}

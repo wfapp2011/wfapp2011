@@ -1,12 +1,24 @@
 package de.uni_potsdam.hpi.wfapp2011.assignment.client;
 
-public class Project {
+import java.io.Serializable;
+
+public class Project implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String ProjectID;
 	int minStudents;
 	int maxStudents;
 	int rankPoints;
 	
-	Project(String a, int b, int c){
+	public Project(){
+		this.ProjectID = "default";
+		this.minStudents = 0;
+		this.maxStudents = 0;
+	}
+	
+	public Project(String a, int b, int c){
 		this.ProjectID = a;
 		this.minStudents = b;
 		this.maxStudents = c;

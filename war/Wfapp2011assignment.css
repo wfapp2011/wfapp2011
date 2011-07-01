@@ -293,7 +293,7 @@ h2 {
 }
 
 .gwt-HorizontalSplitPanel .left {
-  background-color: #E8EEF7;
+  	background-color: #E8EEF7;
 }
 
 .gwt-VerticalSplitPanel {
@@ -356,6 +356,21 @@ hr {
 	background-color: orange; 
 	margin-right: 0px;
 }
+
 .project-Panel {
+	background-color: lightgreen;
+}
+
+.project-Panel-Warning {
+	background-color: red;
+}
+
+.project-Panel-Empty {
 	background-color: lightgrey;
 }
+
+.gwt-table-to-excel-exportWidget {
+	background-image: url(excel-icon.png);
+	text-indent: 25px;
+}
+

@@ -4,19 +4,21 @@ import com.google.gwt.user.client.ui.HTML;
 
 public class StatisticsCalculator {
 
+	public static boolean changed;
+
 	public static HTML calculateStatistics(int students){
 
 		int successsum=0;
 		int [] wishes = new int[3];
-	    int [][] assignment = HungarianAlgorithm.getAssignment();
+	    //int [][] assignment = HungarianAlgorithm.getAssignment();
 	    int permittedVotes = HungarianAlgorithm.StudentList[0].votes.length;
 
 	    for (int i = 0; i < students; i++) {
-	    	int wish = HungarianAlgorithm.StudentList[i].findVote(HungarianAlgorithm.lookUpProject(assignment[i][1]).ProjectID);
+	    	int wish = HungarianAlgorithm.StudentList[i].findVote(HungarianAlgorithm.StudentList[i].placement.ProjectID);
 	    	successsum+=(permittedVotes - wish) + 1;
-			if (wish == 1) {wishes[0]++;}
-	    	if (wish == 2) {wishes[1]++;}
-	    	if (wish == 3) {wishes[2]++;}
+			if (wish == 1) wishes[0]++;
+	    	if (wish == 2) wishes[1]++;
+	    	if (wish == 3) wishes[2]++;
 		}
 		
 		int successrate = (int) successsum*100/(5*students);
@@ -91,5 +93,10 @@ public class StatisticsCalculator {
 				"</tr>" +
 				"</body>" +
 				"</html>");
+	}
+
+	public static void setChanged() {
+		changed = true;
+		
 	}
 }

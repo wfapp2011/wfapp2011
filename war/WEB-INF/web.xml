@@ -11,5 +11,26 @@
   <welcome-file-list>
     <welcome-file>Wfapp2011assignment.html</welcome-file>
   </welcome-file-list>
+  <servlet>
+  	<servlet-name>AssignmentDataExchangeService</servlet-name>
+  	<servlet-class>de.uni_potsdam.hpi.wfapp2011.assignment.server.AssignmentDataExchangeServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AssignmentDataExchangeService</servlet-name>
+  	<url-pattern>/wfapp2011assignment/AssignmentDataExchangeService</url-pattern>
+  </servlet-mapping>
+    <servlet>
+            <servlet-name>gwtTableToExcelServlet</servlet-name>
+            <servlet-class>com.googlecode.gwtTableToExcel.server.TableToExcelServlet</servlet-class>
+            <init-param>
+               <param-name>encoding</param-name>
+               <param-value>UTF-8</param-value>
+ 			</init-param>
+    </servlet>
+
+    <servlet-mapping>
+            <servlet-name>gwtTableToExcelServlet</servlet-name>
+            <url-pattern>/wfapp2011assignment/excel</url-pattern>
+    </servlet-mapping>
 
 </web-app>

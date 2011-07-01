@@ -30,11 +30,12 @@ public class StudentGenerator {
     
   //Generate RandomStudents
 	public Student[] getList (){
-	int numberOfStudents = 45;
+	int numberOfStudents = 37;
 	Student[] TestStudents = new Student[numberOfStudents];
 	for (int i=0; i<numberOfStudents; i++){
 		shuffle(ProjectList);
-		Student aStudent = new Student("Stud "+(i+1), "TestName ", ProjectList[0],ProjectList[1],ProjectList[2],ProjectList[3],ProjectList[4]);
+		String[] votes = {ProjectList[0],ProjectList[1],ProjectList[2],ProjectList[3],ProjectList[4]};
+		Student aStudent = new Student("Stud "+(i+1), "TestName ", votes);
 		TestStudents[i]=aStudent;
 		}
 	return TestStudents;
