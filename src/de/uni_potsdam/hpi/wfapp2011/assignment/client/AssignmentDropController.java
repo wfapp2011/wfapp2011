@@ -29,7 +29,7 @@ public class AssignmentDropController extends VerticalPanelDropController {
 			int wish = movedStudent.findVote(newProject.ProjectID);
 			widget.getElement().setInnerHTML("<html>" +
 					"<body>" +
-					"<table bgcolor="+ AssignmentGenerator.widgetcolors[wish] +">" +
+					"<table width=\"100%\" bgcolor="+ AssignmentGenerator.widgetcolors[wish] +">" +
 							"<tr><td>"+ movedStudent.firstname + "<br> " + movedStudent.lastname + " </td>" +
 							"<td><h3>" + wish + "</h3></td></tr>" +
 					"</table>" +

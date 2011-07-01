@@ -89,8 +89,9 @@ public class AssignmentGenerator implements MouseListener{
 	        // initialize a student-widget
 	    	Student student = HungarianAlgorithm.StudentList[i];
 	    	int wish = student.findVote(HungarianAlgorithm.lookUpProject(assignment[i][1]).ProjectID);
-	    	String bgcolor = widgetcolors[wish];
-	        HTML widget = new HTML("<html><body><table bgcolor="+ bgcolor +"><tr><td>"+student.firstname +" <br> " + student.lastname + " </td><td><h3>" + wish + "</h3></td></tr></table></body></html>");
+	        HTML widget = new HTML("<html><body><table width=\"100%\" bgcolor="+ widgetcolors[wish] +">" +
+	        				"<tr><td>"+student.firstname +" <br> " + student.lastname + " </td>" +
+	        				"<td><h3>" + wish + "</h3></td></tr></table></body></html>");
 	        LabelHashMap.put(widget, i);
 	        
 	        widget.addMouseListener(this);
@@ -103,6 +104,7 @@ public class AssignmentGenerator implements MouseListener{
 			PopupMap.put(widget,pop);
 	
 	        String ProjectID = HungarianAlgorithm.StudentList[i].placement.ProjectID;
+			//widget.setSize(ProjectHashMap.get(ProjectID).setWidth(width)+"px", "");
 	        ProjectHashMap.get(ProjectID).add(widget);
 
 	        // make the widget draggable
