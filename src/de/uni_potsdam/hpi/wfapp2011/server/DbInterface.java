@@ -3,6 +3,8 @@ package de.uni_potsdam.hpi.wfapp2011.server;
 //###########
 //# imports	#
 //###########
+import java.io.File;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,11 +43,10 @@ public class DbInterface {
 	//# database informations #
 	//#########################
 	private static String driver = "org.h2.Driver";
-	private static String server = "localhost";
+		//private static String server = "localhost";
 		//private static String port = "8082";
 	private static String userName = "sa";
 	private static String pw = "";
-	
 	
 	/**
 	 * Constructor
@@ -76,6 +78,7 @@ public class DbInterface {
 	 * @param String type: Ba/Ma
 	 * @param String semester: SS/WS
 	 * @param int: the year which the database should created for
+	 * @throws SQLTableException
 	 */
 	
 	public static void initializeDatabase(String type, String semester, int year) throws SQLTableException{
@@ -96,21 +99,19 @@ public class DbInterface {
 		//#####################################
 			Connection con = null;
 			try{
-				con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 			}
 			catch(SQLException e){
 				e.printStackTrace();
 			}
 		
-		//###########################
-		//#						    #
-		//# resets the DB if needed #
-		//#							#
-		//###########################
-			if(!databaseExists(String.valueOf(year) +"_"+ semester +"_"+ type)){
-				TableCreater creater = new TableCreater(con);
-				
-				creater.reset();
+		//###################################################################################
+		//#						    														#
+		//# if type, semester and year specify an already existing database than do nothing #
+		//#																					#
+		//###################################################################################
+			if(databaseExists(String.valueOf(year) +"_"+ semester +"_"+ type)){
+				return;
 			}
 		
 		//#######################################################
@@ -118,43 +119,29 @@ public class DbInterface {
 		//# Creates all needed tables if this is a new database #
 		//#							  							#
 		//#######################################################
-		boolean newDatabase = true;
 		
-		try{
-			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE table_name= 'LOGTABLE';");
-		
-			if(result.next()){
-				newDatabase = false;
-			}
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
-		
-		if(newDatabase){
-				try {
-					Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
-					
-					Statement stmt = metaConnection.createStatement();
-					stmt.executeUpdate("INSERT INTO existing_projects(name) VALUES('"+ String.valueOf(year) +"_"+ semester +"_"+ type +"');");
+			try {
+				Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 				
-					metaConnection.close();
-				}
-				catch(SQLException f){
-					f.printStackTrace();
-				}
+				Statement stmt = metaConnection.createStatement();
+				stmt.executeUpdate("INSERT INTO existing_projects(name,hasbeenstarted) VALUES('"+ String.valueOf(year) +"_"+ semester +"_"+ type +"',false);");
+			
+				metaConnection.close();
+			}
+			catch(SQLException f){
+				f.printStackTrace();
+			}
 		
-			TableCreater creater = new TableCreater(con);
+			TableCreator creater = new TableCreator(con);
 			creater.create();
-		}
 		
-		try{
-			con.close();
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
+		
+			try{
+				con.close();
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -172,7 +159,7 @@ public class DbInterface {
 		//#								 #
 		//################################
 		try{
-			con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+			con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -198,7 +185,7 @@ public class DbInterface {
 		}
 		
 		if(newDatabase){
-			TableCreater creater = new TableCreater(con);
+			TableCreator creater = new TableCreator(con);
 			creater.createMetaTables();
 		}
 		
@@ -217,7 +204,7 @@ public class DbInterface {
 	 */
 	public void connectToMetaTables(){
 		try{
-			dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+			dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -232,7 +219,8 @@ public class DbInterface {
 	 * 
 	 * @param String type: Ba/Ma
 	 * @param String semester: SS/WS
-	 * @param int: the year which the database should created for
+	 * @param int: the year of the project series
+	 * @throws SQLTableException
 	 */
 	
 	public synchronized void connect(String type, String semester, int year) throws SQLTableException{
@@ -257,7 +245,7 @@ public class DbInterface {
 		//########################################
 			try{
 				if(dbConnection == null){
-					dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+					dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 				}
 			}
 			catch(SQLException e){
@@ -376,7 +364,7 @@ public class DbInterface {
 	 * executeUpdate(String)
 	 * 
 	 * @param String u:	the update which should be performed on the database
-	 * @throws SQLTableException: if an the update fails, this exception will be thrown
+	 * @throws SQLTableException: if the update fails, this exception will be thrown
 	 */
 	
 	public synchronized final void executeUpdate(String u) throws SQLTableException{
@@ -419,10 +407,23 @@ public class DbInterface {
 		return stmt.executeQuery(query);
 	}
 	
+	/**
+	 * deleteDatabase(String, String, int)
+	 * Deletes the specified database from the metainformations and renames the database into oldname_DELETED_AT_timestamp
+	 * 
+	 * @param String type: Ba/Ma
+	 * @param String semester: SS/WS
+	 * @param int: the year of the project series
+	 */
 	public static void deleteDatabase(String type, String semester, int year){
 		try{
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 			
+			//###########################################################
+			//#															#
+			//# delete the specified database from the metainformations #
+			//#															#
+			//###########################################################
 			Statement stmt = metaConnection.createStatement();
 			stmt.executeUpdate("DELETE FROM existing_projects WHERE name='"+ String.valueOf(year) +"_"+ semester +"_"+ type +"';");
 			
@@ -431,8 +432,35 @@ public class DbInterface {
 		catch(SQLException e){
 			e.printStackTrace();
 		}
+		
+		//###########################
+		//#							#
+		//# rename the old database #
+		//#							#
+		//###########################
+		String date = (new Date()).toString().replace(" ", "_").replace(":", "-");
+		
+		try{
+			Connection oldDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+			Connection newDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + "DELETED_"+ String.valueOf(year) +"_"+ semester +"_"+ type +"_AT_"+ date, userName, pw);
+			
+			TableCreator creater = new TableCreator(oldDatabase);
+			creater.copyDB(newDatabase);
+			
+			oldDatabase.close();
+			newDatabase.close();
+			
+			char sep = File.separatorChar;
+			String directory = "C:/"; //System.getProperty("user.dir"); 
+			
+			File oldDb = new File(directory + sep + "wfapp_databases" + sep + String.valueOf(year) +"_"+ semester +"_"+ type +".h2.db");
+			
+			if(oldDb.exists()) oldDb.delete();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
 	}
-	
 	
 	private synchronized String getTableOverviewData(String tableName){
 		
@@ -479,7 +507,7 @@ public class DbInterface {
 		boolean exists = false;
 		
 		try {
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 			
 			Statement stmt = metaConnection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT * FROM existing_projects WHERE name='"+ name +"';");

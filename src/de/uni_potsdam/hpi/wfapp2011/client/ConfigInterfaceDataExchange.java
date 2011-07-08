@@ -22,7 +22,7 @@ public interface ConfigInterfaceDataExchange extends RemoteService {
 			return instance;
 		}
 	}
-	public ArrayList<String> getProjectList();
+	public ArrayList<String[]> getProjectList();
 	public void addProject(String year, String name);
 	public Collection<Map<String,String>> getConfig(String year, String semester, String name);
 	public void saveConfig(String year, String semester, String name, Map<String,String> content);
@@ -30,4 +30,7 @@ public interface ConfigInterfaceDataExchange extends RemoteService {
 	public String getPassword(String type);
 	public void saveMetaData(Map<String,String> map);
 	public Map<String,String> getMetaData();
+	public void deleteProject(String year, String semester, String name);
+	public void startProject (String year, String semester, String name);
+	public void logout(String id);
 }

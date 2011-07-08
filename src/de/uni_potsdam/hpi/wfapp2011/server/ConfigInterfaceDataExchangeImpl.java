@@ -17,7 +17,7 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 	private static final long serialVersionUID = 133742L;
 
 	@Override
-	public ArrayList<String> getProjectList() {
+	public ArrayList<String[]> getProjectList() {
 		
 		DbInterface.initializeMetaTables();
 		
@@ -27,13 +27,15 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 		String sql = "SELECT * FROM existing_projects";
 		Collection<Map<String,String>> result = db.executeQuery(sql);
 		
-		ArrayList<String> projects = new ArrayList<String>();
+		ArrayList<String[]> projects = new ArrayList<String[]>();
 		for (Map<String,String> m:result){
-			String temp = m.get("name").split("_")[0]+" "+m.get("name").split("_")[1]+" - "+m.get("name").split("_")[2];
-			projects.add(temp);
+			String[] answer = new String[2];
+			answer[0] = m.get("name").split("_")[0]+" "+m.get("name").split("_")[1]+" - "+m.get("name").split("_")[2];
+			answer[1] = m.get("hasbeenstarted");
+			projects.add(answer);
 		}
 		
-		db.disconnect();
+		db.disconnect();		
 		return projects;
 	}
 
@@ -100,6 +102,9 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 		}
 		
 		db.disconnect();
+		
+		// Inform projectengine
+		// changeDeadlines(ProcessIdentifier processIdentifier)
 	}
 
 	@Override
@@ -188,4 +193,47 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 		
 		return resultmap;
 	}
+
+	@Override
+	public void deleteProject(String year, String semester, String name) {
+		
+		int iYear = Integer.valueOf(year);
+		DbInterface.deleteDatabase(name, semester, iYear);
+		
+	}
+
+	@Override
+	public void startProject(String year, String semester, String name) {
+
+		int iYear = Integer.valueOf(year);
+		// Yaninas Funktion aufrufen
+		// startProcess(ProcessIdentifier processIdentifier)
+		
+		if(true/*Yaninas Funktion aufrufen*/){
+			DbInterface db = new DbInterface();
+			db.connectToMetaTables();
+			
+			String sql = "UPDATE existing_projects SET hasbeenstarted=true WHERE name='"+year+"_"+semester+"_"+name+"';";
+			
+			try {
+				db.executeUpdate(sql);
+			} catch (SQLTableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			db.disconnect();
+		}
+		
+		System.out.println("New Projekt has been started: "+year+" "+semester+" - "+name);
+		
+	}
+
+	@Override
+	public void logout(String id) {
+
+		SessionManagement.getInstance().logout(Integer.valueOf(id));
+		
+	}
+
 }

@@ -10,23 +10,27 @@ public class SimpleSession {
 	 * The Session terminates itself after 10min
 	 */
 	
+	private boolean debug = false;
+	
 	private int password = 0;
 	private String username = "";
-	private int delay = 30000;//600000;  // in millisec --> 10 min
+	private Integer uid = null;
+	private int delay = 300000;//600000;  // in millisec --> 10 min
 	
-	public SimpleSession(String name,String pwd){
+	public SimpleSession(String name,String pwd, int id){
 		/**
 		 * Constructor and starts Timer with defined "self destroying delay"
 		 */
 		password = pwd.hashCode();
 		username = name;
+		uid = id;
 		
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 	          public void run() {
-	        	  // System.out.println("### TIMEOUT ###");
-	              SessionManagement.getInstance().logout(username);
-	              // System.out.println(username+" loged out!");
+	        	  if (debug) System.out.println("### TIMEOUT ###");
+	              SessionManagement.getInstance().logout(uid);
+	              if (debug) System.out.println(username+" loged out!");
 	          }
 	      }, delay);
 	}

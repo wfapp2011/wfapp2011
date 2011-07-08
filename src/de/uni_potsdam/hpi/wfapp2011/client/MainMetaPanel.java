@@ -21,6 +21,8 @@ public class MainMetaPanel extends Composite {
 	private TextBox ftp_name_tb;
 	private TextBox owa_name_tb;
 	private TextBox ldap_name_tb;
+	private TextBox owa_senderdomain_tb;
+	private TextBox owa_host_tb;
 	
 	private ConfigInterfaceDataExchangeAsync confInterface = GWT.create(ConfigInterfaceDataExchange.class);
 
@@ -84,6 +86,17 @@ public class MainMetaPanel extends Composite {
 		owa_url_tb = new TextBox();
 		owa_url.add(owa_url_tb);
 		owa_url.setCellWidth(owa_url_tb, "100");
+			// Host
+		HorizontalPanel owa_host = new HorizontalPanel();
+		verticalPanel.add(owa_host);
+		
+		Label lblOwaHost = new Label("OWA - Host");
+		owa_host.add(lblOwaHost);
+		owa_host.setCellWidth(lblOwaHost, "110");
+		
+		owa_host_tb = new TextBox();
+		owa_host.add(owa_host_tb);
+		owa_host.setCellWidth(owa_host_tb, "100");
 			// Name
 		HorizontalPanel owa_name = new HorizontalPanel();
 		verticalPanel.add(owa_name);
@@ -94,6 +107,16 @@ public class MainMetaPanel extends Composite {
 		
 		owa_name_tb = new TextBox();
 		owa_name.add(owa_name_tb);
+			// senderdomain
+		HorizontalPanel owa_senderdomain = new HorizontalPanel();
+		verticalPanel.add(owa_senderdomain);
+		
+		Label lblOwaSenderdomain = new Label("OWA - Domain");
+		owa_senderdomain.add(lblOwaSenderdomain);
+		owa_senderdomain.setCellWidth(lblOwaSenderdomain, "110");
+		
+		owa_senderdomain_tb = new TextBox();
+		owa_senderdomain.add(owa_senderdomain_tb);
 			// PWD
 		HorizontalPanel owa_pwd = new HorizontalPanel();
 		verticalPanel.add(owa_pwd);
@@ -210,6 +233,9 @@ public class MainMetaPanel extends Composite {
 				ftp_name_tb.setValue(result.get("ftp_name")==null?"":result.get("ftp_name"));
 				owa_name_tb.setValue(result.get("owa_name")==null?"":result.get("owa_name"));
 				ldap_name_tb.setValue(result.get("ldap_name")==null?"":result.get("ldap_name"));
+				
+				owa_senderdomain_tb.setValue(result.get("owa_senderdomain")==null?"":result.get("owa_senderdomain"));
+				owa_host_tb.setValue(result.get("owa_host")==null?"":result.get("owa_host"));
 			}
 			
 			public void onFailure(Throwable caught) {
@@ -230,6 +256,9 @@ public class MainMetaPanel extends Composite {
 		String owaName = owa_name_tb.getValue();
 		String ldapName = ldap_name_tb.getValue();
 		
+		String owaSenderDomain = owa_senderdomain_tb.getValue();
+		String owaHost = owa_host_tb.getValue();
+		
 		// creating Map of new values
 		Map<String,String> map = new HashMap<String, String>();
 		
@@ -239,6 +268,8 @@ public class MainMetaPanel extends Composite {
 		map.put("ftp_name", ftpName);
 		map.put("owa_name", owaName);
 		map.put("ldap_name", ldapName);
+		map.put("owa_senderdomain", owaSenderDomain);
+		map.put("owa_host", owaHost);
 				
 		// save data to db
 		confInterface.saveMetaData(map, new AsyncCallback<Void>() {

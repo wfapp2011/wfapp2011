@@ -1,2 +1,2 @@
 serviceClass: de.uni_potsdam.hpi.wfapp2011.client.ConfigInterfaceDataExchange
-path: 80CD20A02C197B8E3CD4EA9F612B0E35.gwt.rpc
+path: 7B1C40467D7E31E6A26AE658BCB90BFA.gwt.rpc

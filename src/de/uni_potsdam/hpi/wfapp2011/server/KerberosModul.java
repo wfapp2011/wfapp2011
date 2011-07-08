@@ -31,10 +31,8 @@ public class KerberosModul {
 			while(line != null){
 				String[] account = new String[2];
 				
-				account[0] = line.split("#")[0];
+				account[0] = (line.split("#")[0].split(" ")[0] +"."+ line.split("#")[0].split(" ")[1]).toLowerCase();
 				account[1] = line.split("#")[1];
-					
-				System.out.println(account[0] +" | "+ account[1]);
 					
 				accounts.add(account);
 			
@@ -58,14 +56,20 @@ public class KerberosModul {
 	}
 	
 	public boolean authenticate(String name, String pwd){
-		boolean loginCorrect = false;
+		System.out.println("#####\nTeste Kerberos: "+ name +" "+ pwd +"\n#####");
 		
 		for(String[] acc : accounts){
+			System.out.println(acc[0] +" | "+ acc[1]);
+			
 			if(acc[0].equals(name) && acc[1].equals(pwd)){
-				loginCorrect = true;
+				System.out.println("OK");
+				
+				return true;
 			}
+			
+			System.out.println("FAIL");
 		}
 		
-		return loginCorrect;
+		return false;
 	}
 }

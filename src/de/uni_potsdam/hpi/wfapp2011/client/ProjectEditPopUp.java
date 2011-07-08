@@ -11,78 +11,55 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 public class ProjectEditPopUp extends MySimplePopUp {
 	
-	private DateBox start_dateBox;
-	private DateBox end_dateBox;
+	private DateBox deadlineProposalCollection_dateBox;
+	private DateBox deadlineTopicsPublication_dateBox;
+	private DateBox deadlineVoting_dateBox;
+	private DateBox deadlineMatching_dateBox;
+	private DateBox deadlineProcess_dateBox;
 	private IntegerBox numberOfVotes;
+	private VerticalPanel main = new VerticalPanel();
+	
+	private Date deadlineProposalCollection;
+	private Date deadlineTopicsPublication;
+	private Date deadlineVoting;
+	private Date deadlineMatching;
+	private Date deadlineProcess;
+	
+	private String sdeadlineProposalCollection = "";
+	private String sDeadlineTopicsPublication = "";
+	private String sDeadlineVoting = "";
+	private String sDeadlineMatching = "";
+	private String sDeadlineProcess = "";
+	private int numberVotes = 5;
+	
+	private boolean debug = true; 
 
-	@SuppressWarnings("deprecation")
 	public ProjectEditPopUp(String headline, Collection<Map<String,String>> content) {
 		
-		// Collect all Information from content
-		String sstartdate = "";
-		String senddate = "";
-		int numberVotes = 5;
+		// getInformation
+		extractInformation(content);
 		
-		for (Map<String,String> map:content){
-			// System.out.println(map);
-			String key = map.get("name");
-			if(key.equals("startdate")){
-				sstartdate = map.get("value");
-				continue;
-			}
-			if(key.equals("enddate")){
-				senddate = map.get("value");
-				continue;
-			}
-			if(key.equals("votes")){
-				numberVotes = Integer.valueOf(map.get("value"));
-				continue;
-			}
-		}
+		// create new Dates
+		deadlineProposalCollection = getDate(sdeadlineProposalCollection);
+		deadlineTopicsPublication = getDate(sDeadlineTopicsPublication);
+		deadlineVoting = getDate(sDeadlineVoting);
+		deadlineMatching = getDate(sDeadlineMatching);
+		deadlineProcess = getDate(sDeadlineProcess);
 		
-		Date startdate = new Date();
-		if (!sstartdate.equals("")){
-			startdate.setYear(Integer.valueOf(sstartdate.split(" ")[2])-1900);
-			startdate.setMonth(sMonthToInt(sstartdate.split(" ")[1])-1);
-			startdate.setDate(Integer.valueOf(sstartdate.split(" ")[0]));
-		}
-		Date enddate = new Date();
-		if (!sstartdate.equals("")){
-			enddate.setYear(Integer.valueOf(senddate.split(" ")[2])-1900);
-			enddate.setMonth(sMonthToInt(senddate.split(" ")[1])-1);
-			enddate.setDate(Integer.valueOf(senddate.split(" ")[0]));
-		}		
 		
-		VerticalPanel main = new VerticalPanel();
+		// Generate Content		
 		initWidget(main);
 		
 		// HEADLINE
 		HTML hdln = new HTML("<h2>"+headline+"</h2>");
 		main.add(hdln);
 		
-		// Voting Time start
-		HorizontalPanel voting_start = new HorizontalPanel();
-		main.add(voting_start);
-		
-		Label lblVotingTimestart = new Label("Voting Time (Start)");
-		voting_start.add(lblVotingTimestart);
-		
-		start_dateBox = new DateBox();
-		start_dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd.MM.yyyy")));
-		start_dateBox.setValue(startdate);
-		voting_start.add(start_dateBox);
-				
-		// Voting Time END
-		HorizontalPanel voting_end = new HorizontalPanel();
-		main.add(voting_end);
-		
-		Label lblVotingTimeend = new Label("Voting Time (End)");
-		voting_end.add(lblVotingTimeend);
-		
-		end_dateBox = new DateBox();
-		end_dateBox.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd.MM.yyyy")));
-		end_dateBox.setValue(enddate);
-		voting_end.add(end_dateBox);
+		// Generate Dateboxes
+		deadlineProposalCollection_dateBox = newDatebox("Ende der Einsendung von Projektvorschlägen",deadlineProposalCollection);
+		deadlineTopicsPublication_dateBox = newDatebox("Begin der Votingphase",deadlineTopicsPublication);
+		deadlineVoting_dateBox = newDatebox("Ende der Votingphase",deadlineVoting);		
+		deadlineMatching_dateBox = newDatebox("Ende der Zuteilungsphase",deadlineMatching);
+		deadlineProcess_dateBox = newDatebox("Ende des (Gesamt-)Prozesses",deadlineProcess);
 		
 		// Number of Votes
 		HorizontalPanel votes = new HorizontalPanel();
@@ -100,7 +77,55 @@ public class ProjectEditPopUp extends MySimplePopUp {
 		main.add(buttonbar);
 		
 	}
+
+	@SuppressWarnings("deprecation")
+	private Date getDate(String sDate){
+		
+		Date temp = new Date();
+		
+		if (!sDate.equals("")){
+			temp.setYear(Integer.valueOf(sDate.split(" ")[2])-1900);
+			temp.setMonth(sMonthToInt(sDate.split(" ")[1])-1);
+			temp.setDate(Integer.valueOf(sDate.split(" ")[0]));
+		}
+		
+		return temp;
+	}
 	
+	private void extractInformation(Collection<Map<String,String>> content) {
+
+		// Collect all Information from content
+		for (Map<String,String> map:content){
+			// System.out.println(map);
+			String key = map.get("name");
+			if(key.equals("deadlineProposalCollection")){
+				sdeadlineProposalCollection = map.get("value");
+				continue;
+			}
+			if(key.equals("deadlineTopicsPublication")){
+				sDeadlineTopicsPublication = map.get("value");
+				continue;
+			}
+			if(key.equals("deadlineVoting")){
+				sDeadlineVoting = map.get("value");
+				continue;
+			}
+			if(key.equals("deadlineMatching")){
+				sDeadlineMatching = map.get("value");
+				continue;
+			}
+			if(key.equals("deadlineProcess")){
+				sDeadlineProcess = map.get("value");
+				continue;
+			}
+			if(key.equals("votes")){
+				numberVotes = Integer.valueOf(map.get("value"));
+				continue;
+			}
+		}
+		
+	}
+
 	private int sMonthToInt(String month) {
 		if (month.equals("Jan") || month.equals("1")) return 1;
 		if (month.equals("Feb") || month.equals("2")) return 2;
@@ -119,24 +144,57 @@ public class ProjectEditPopUp extends MySimplePopUp {
 	}
 
 	@SuppressWarnings("deprecation")
-	public Map<String,String> getContent(){
+	private boolean saveCheckedDate(DateBox box, Date oldValue, String name, boolean needToCheck, Map<String,String> returnValues){
+		boolean temp = false;		
+		String value = "";
+		
+		if (debug) {
+			System.out.println(name);
+			System.out.println(box.getValue().getTime());
+			System.out.println(oldValue.getTime());
+			System.out.println(box.getValue().getTime()-oldValue.getTime());
+		}
+		
+		if (box.getValue().getTime()-oldValue.getTime()+86400000>=0 || !needToCheck){
+			
+			value += box.getValue().getDate();
+			value += " "+(box.getValue().getMonth()+1);
+			value += " "+(box.getValue().getYear()+1900);
+			
+			returnValues.put(name, value);
+			
+			temp = true;
+		}	
+		
+		return temp;
+	}
+
+	public Map<String,String> getContent(boolean started){
 		Map<String,String> returnValues = new HashMap<String,String>();
 		
-		String startdate = "";
-		startdate += start_dateBox.getValue().getDate();
-		startdate += " "+(start_dateBox.getValue().getMonth()+1);
-		startdate += " "+(start_dateBox.getValue().getYear()+1900);
+		if (!saveCheckedDate(deadlineProposalCollection_dateBox,deadlineProposalCollection,"deadlineProposalCollection", started,returnValues)) return null;
+		if (!saveCheckedDate(deadlineTopicsPublication_dateBox,deadlineTopicsPublication,"deadlineTopicsPublication", started,returnValues)) return null;
+		if (!saveCheckedDate(deadlineVoting_dateBox,deadlineVoting,"deadlineVoting", started,returnValues)) return null;
+		if (!saveCheckedDate(deadlineMatching_dateBox,deadlineMatching,"deadlineMatching", started,returnValues)) return null;
+		if (!saveCheckedDate(deadlineProcess_dateBox,deadlineProcess,"deadlineProcess", started,returnValues)) return null;		
 		
-		String enddate = "";
-		enddate += end_dateBox.getValue().getDate();
-		enddate += " "+(end_dateBox.getValue().getMonth()+1);
-		enddate += " "+(end_dateBox.getValue().getYear()+1900);
-		
-		returnValues.put("startdate", startdate);
-		returnValues.put("enddate", enddate);
 		returnValues.put("votes", String.valueOf(numberOfVotes.getValue()));
 		
 		return returnValues;
 	}
 
+	private DateBox newDatebox(String lbl, Date value){
+		HorizontalPanel panel = new HorizontalPanel();
+		main.add(panel);
+		
+		Label lbldeadlineProposalCollection = new Label(lbl);
+		panel.add(lbldeadlineProposalCollection);
+		
+		DateBox box = new DateBox();
+		box.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd.MM.yyyy")));
+		box.setValue(value);
+		panel.add(box);
+		
+		return box;
+	}
 }

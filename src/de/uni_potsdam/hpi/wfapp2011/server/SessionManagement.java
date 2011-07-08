@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.wfapp2011.server;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 public class SessionManagement {
 	
@@ -35,7 +36,7 @@ public class SessionManagement {
 		
 		while (iterator.hasNext()){
 			temp = iterator.next();
-			if (temp.getUsername() == username)
+			if (temp.getUsername().equals(username))
 				answer = temp;
 		}
 		return answer;
@@ -51,7 +52,7 @@ public class SessionManagement {
 				return theInstance;			
 			}
 
-	public boolean login(String username, String pwd){
+	public boolean login(String username, String pwd, String id){
 		/**
 		 * first: trying weather user is already logged in
 		 * second: if not first, then test username and pwd on kbr, if true --> creating Session
@@ -60,8 +61,8 @@ public class SessionManagement {
 		if (isLoggedIn(username))
 			return true;
 		
-		if (true /*hier müsste nen Kbr-Modul gefragt werden*/){
-			activeSessions.add(new SimpleSession(username, pwd));
+		if (KerberosModul.getInstance().authenticate(username,pwd)){
+			activeSessions.add(new SimpleSession(username, pwd, Integer.valueOf(id)));
 			return true;
 		}
 		
@@ -98,5 +99,30 @@ public class SessionManagement {
 		SimpleSession temp = findSession(username);
 		if (temp != null)
 			activeSessions.remove(temp);
+	}
+	
+	public void logout (int id){
+		
+		DbInterface db = new DbInterface();
+		db.connectToMetaTables();
+		
+		String sql = "SELECT username FROM onlineUsers WHERE id ="+id+";";
+		
+		Collection<Map<String,String>> result = db.executeQuery(sql);
+		
+		for (Map<String,String> m: result) {
+			logout(m.get("username"));
+		}
+		
+		sql = "DELETE FROM onlineUser WHERE id ="+id+";";
+		
+		try {
+			db.executeUpdate(sql);
+		} catch (SQLTableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		db.disconnect();
 	}
 }

@@ -1,99 +1,171 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import com.google.gwt.user.client.ui.*;
+import java.util.*;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 public class MainPanel extends Composite {
 	
-	private PopupPanel popup;
-	private ListBox listbox = new ListBox();
-	private ProjectEditPopUp content;
-	private Button btnEdit;
-	private NewProjectPopUp content2;
+	private Boolean debug = true;
+	
 	private ArrayList<String> existingProjects = new ArrayList<String>();
-	private HTML html_error = new HTML("<i>no existing projects</i>");
-	private VerticalPanel verticalPanel = new VerticalPanel();
+	private ArrayList<String[]> rawExistingProjects = new ArrayList<String[]>();
 	private ConfigInterfaceDataExchangeAsync confInterface = GWT.create(ConfigInterfaceDataExchange.class);
-	private Collection<Map<String,String>> configData;
-	private String selectedName;
-
-	public MainPanel() {
-		
-		initWidget(verticalPanel);
-		
-		Label lblSelectAnExisting = new Label("Select an existing project or create a new one:");
-		verticalPanel.add(lblSelectAnExisting);
-		
-		// Load existingProjects data from server
-		confInterface.getProjectList(new AsyncCallback<ArrayList<String>>() {
-			public void onSuccess(ArrayList<String> result) {
-				existingProjects = result;
-				Collections.sort(existingProjects);
-				refreshListbox();
+	
+	private HTML htmlNoExisitingProjects = new HTML("<i> no exisiting projects </i>", true);
+	private VerticalPanel verticalProjectPanel;
+	
+	private PopupPanel popup;
+	private NewProjectPopUp content;
+	
+	private void toggleVisibility(Boolean bool){
+		htmlNoExisitingProjects.setVisible(!bool);
+		verticalProjectPanel.setVisible(bool);
+	}
+	
+	private void refreshContent(){
+		if (existingProjects.size()<1){
+			toggleVisibility(false);
+		}			
+		else {
+			verticalProjectPanel.clear();
+			
+			for (String i : existingProjects){
+				boolean started = false;
+				for (String[] s: rawExistingProjects){
+					if (s[0].equals(i) && Boolean.valueOf(s[1])){
+						started = true;
+						break;
+					}
+				}
+				if(debug) System.out.println(i);
+				verticalProjectPanel.add(createNewProjectEntry(i,started));
 			}
 			
-			public void onFailure(Throwable caught) {
-				
-			}
-		});
-		
-		// Create listbox with content
-		verticalPanel.add(listbox);
-		verticalPanel.add(html_error);
-		refreshListbox();
+			toggleVisibility(true);
+		}
+	}
 
-		
+	private HorizontalPanel createNewProjectEntry(String project,boolean started){
+	
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		verticalPanel.add(horizontalPanel);
+			//Name
+		Label lblproject = new Label(project);
+		horizontalPanel.add(lblproject);
+		horizontalPanel.setCellWidth(lblproject, "100");
+			// EditButton
+		Button edit = createEditButton(project);
+		horizontalPanel.add(edit);
+		horizontalPanel.setCellWidth(edit, "80");
+			// DeleteButton
+		Button delete = createDeleteButton(project);
+		horizontalPanel.add(delete);
+		horizontalPanel.setCellWidth(delete, "65");
+			// StartButton
+		Button start = createStartButton(project);
+		if (!started) horizontalPanel.add(start);
 		
-		btnEdit = new Button("Edit Project");
-		btnEdit.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				selectedName = listbox.getItemText(listbox.getSelectedIndex());				
+		return horizontalPanel;
+	}
+	
+	private void createNewProjectPopUp(){
+		popup = new PopupPanel();
+		content = new NewProjectPopUp();
+		
+		//CreateButton
+		Button create = new Button("Create");
+		create.addClickHandler(new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+	        		ArrayList<String> temp = content.getContent();
+	        		
+	        		confInterface.addProject(temp.get(1), temp.get(0), new AsyncCallback<Void>() {
+	        			public void onFailure(Throwable caught) {
+	        				if (debug) System.out.println("Übermittlungsfehler");
+							if (debug) databaseError(caught);
+	        			}
+						public void onSuccess(Void result) {
+							if (debug) System.out.println("Erfolgreich gespeichert");
+							loadDataFromDb();
+			        		refreshContent();
+						}
+	        		});
+		            popup.hide();
+		    }
+	    });
+		content.getButtonBar().add(create);
+		
+		//CloseButton
+		content.getButtonBar().add(createCloseButton());
+		
+		popup.add(content);
+		popup.center();
+	}
+	
+	private Button createCloseButton() {
+		//CloseButton
+		Button close = new Button("Close");
+	    close.addClickHandler(new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+		            popup.hide();
+		    }
+	    });
+		return close;
+	}
+	
+	private Button createSaveButton(final String project, final ProjectEditPopUp content) {
+		//SaveButton
+		Button save = new Button("Save");
+	    save.addClickHandler(new ClickHandler(){
+	        public void onClick(ClickEvent event) {
+	        		boolean bool = false;
+	        		for (String[] s:rawExistingProjects){
+	        			if (s[0].equals(project)) bool = Boolean.valueOf(s[1]); 
+	        		}
+		            Map<String,String> temp = content.getContent(bool);
+		            if (temp==null){
+		            	Window.alert("Kein Datum darf vorverlegt werden.");
+		            }else{
+		            	confInterface.saveConfig(project.split(" ")[0], project.split(" ")[1], project.split(" ")[3], temp, new AsyncCallback<Void>() {
+							public void onFailure(Throwable caught) {
+								databaseError(caught);
+							}
+
+							public void onSuccess(Void result) {
+								if (debug) System.out.println("Gespeichert!");
+							}
+						});
+			            popup.hide();
+		            }
+		    }
+	    });
+		return save;
+	}
+	
+	private Button createEditButton(final String project){
+		Button edit = new Button("Editieren");
+		edit.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {	
 				
 				// Load configuration from DB
-				confInterface.getConfig(selectedName.split(" ")[0], selectedName.split(" ")[1], selectedName.split(" ")[3], new AsyncCallback<Collection<Map<String,String>>>() {
+				confInterface.getConfig(project.split(" ")[0], project.split(" ")[1], project.split(" ")[3], new AsyncCallback<Collection<Map<String,String>>>() {
 					public void onFailure(Throwable caught) {
-						
+						databaseError(caught);
 					}
 
 					public void onSuccess(Collection<Map<String, String>> result) {
-						configData = result;
+						Collection<Map<String, String>> configData = result;
 						popup = new PopupPanel();
-						content = new ProjectEditPopUp(selectedName, configData);
+						final ProjectEditPopUp content = new ProjectEditPopUp(project, configData);
 						
-						//SaveButton
-						Button save = new Button("Save");
-					    save.addClickHandler(new ClickHandler(){
-					        public void onClick(ClickEvent event) {
-						            Map<String,String> temp = content.getContent();
-						            confInterface.saveConfig(selectedName.split(" ")[0], selectedName.split(" ")[1], selectedName.split(" ")[3], temp, new AsyncCallback<Void>() {
-										public void onFailure(Throwable caught) {
-											
-										}
-
-										public void onSuccess(Void result) {
-											System.out.println("Gespeichert!");
-										}
-									});
-						            popup.hide();
-						    }
-					    });
+						Button save = createSaveButton(project, content);
 						content.getButtonBar().add(save);				
 						
-						//CloseButton
-						Button close = new Button("Close");
-					    close.addClickHandler(new ClickHandler(){
-					        public void onClick(ClickEvent event) {
-						            popup.hide();
-						    }
-					    });
+						Button close = createCloseButton();
 						content.getButtonBar().add(close);
 						
 						popup.add(content);
@@ -106,72 +178,109 @@ public class MainPanel extends Composite {
 				// System.out.println("Lade Daten");
 			}
 		});
-		btnEdit.setText("Edit Project");
-		btnEdit.setEnabled(false);
-		horizontalPanel.add(btnEdit);
 		
-		Button btnNewProject = new Button("New Project");
-		btnNewProject.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				popup = new PopupPanel();
-				content2 = new NewProjectPopUp();
+		return edit;
+	}
+
+	private Button createDeleteButton(final String project){
+		Button delete = new Button("L\u00F6schen");
+		delete.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {	
+				if (Window.confirm("Wollen Sie das Projekt wirklich löschen?"))
+					// Deleting project from DB
+					confInterface.deleteProject(project.split(" ")[0], project.split(" ")[1], project.split(" ")[3], new AsyncCallback<Void>() {
+						public void onFailure(Throwable caught) {
+							databaseError(caught);
+						}
+
+						public void onSuccess(Void result) {
+							loadDataFromDb();
+							refreshContent();
+							Window.alert("Projekt gelöscht!");
+						}
 				
-				//CreateButton
-				Button create = new Button("Create");
-				create.addClickHandler(new ClickHandler(){
-			        public void onClick(ClickEvent event) {
-			        		ArrayList<String> temp = content2.getContent();
-			        		
-			        		confInterface.addProject(temp.get(1), temp.get(0), new AsyncCallback<Void>() {
-			        			public void onFailure(Throwable caught) {
-			        				System.out.println("Übermittlungsfehler");
-			        			}
-								public void onSuccess(Void result) {
-									System.out.println("Erfolgreich gespeichert");
-								}
-			        		});
-			        		listbox.setVisible(true);
-			        		html_error.setVisible(false);
-			        		listbox.addItem(temp.get(1).split(" ")[1]+" "+temp.get(1).split(" ")[0]+" - "+temp.get(0));
-			        		btnEdit.setEnabled(true);
-			        		
-				            popup.hide();
-				    }
-			    });
-				content2.getButtonBar().add(create);
-				
-				//CloseButton
-				Button close = new Button("Close");
-			    close.addClickHandler(new ClickHandler(){
-			        public void onClick(ClickEvent event) {
-				            popup.hide();
-				    }
-			    });
-				content2.getButtonBar().add(close);
-				
-				popup.add(content2);
-				popup.center();
+					});
 			}
 		});
-		horizontalPanel.add(btnNewProject);
 		
+		return delete;
+	}
+
+	private Button createStartButton(final String project){
+		Button start = new Button("Starten");
+		start.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {	
+				if (Window.confirm("Wollen Sie das Projekt wirklich starten?"))
+					// Deleting project from DB
+					confInterface.startProject(project.split(" ")[0], project.split(" ")[1], project.split(" ")[3], new AsyncCallback<Void>() {
+						public void onFailure(Throwable caught) {
+							databaseError(caught);
+						}
+
+						public void onSuccess(Void result) {
+							Window.alert("Projekt gestartet!");
+							loadDataFromDb();
+							refreshContent();
+						}
+				
+					});
+			}
+		});
+		
+		return start;
 	}
 	
-	private void refreshListbox(){
-		if (existingProjects.size()<1){
-			html_error.setVisible(true);
-			listbox.setVisible(false);
-			if (btnEdit != null) btnEdit.setEnabled(false);
-			
-		}			
-		else {
-			listbox.clear();
-			for (String i : existingProjects){
-				listbox.addItem(i);
-			listbox.setVisible(true);
-			html_error.setVisible(false);
-			if (btnEdit != null) btnEdit.setEnabled(true);
+	private void loadDataFromDb(){
+		// Load existingProjects data from server
+		confInterface.getProjectList(new AsyncCallback<ArrayList<String[]>>() {
+			public void onSuccess(ArrayList<String[]> result) {
+				existingProjects.clear();
+				for (String[] s: result){
+					existingProjects.add(s[0]);
+				}
+				Collections.sort(existingProjects);
+				rawExistingProjects = result;
+				refreshContent();
 			}
-		}
+			
+			public void onFailure(Throwable caught) {
+				databaseError(caught);
+			}
+		});
 	}
+	
+	private void databaseError(Throwable caught){
+		Window.alert("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\n" +
+		 "Bitte wenden Sie sich an den Support.\n\n" +
+		 "Fehlercode:\n"+caught);
+	}
+	
+	public MainPanel() {
+		
+		loadDataFromDb();
+		
+		VerticalPanel verticalPanel = new VerticalPanel();
+		initWidget(verticalPanel);
+		
+		// headline
+		Label lblExistingProjects = new Label("Aktuelle Projekte:");
+		verticalPanel.add(lblExistingProjects);
+		
+		// html-error
+		verticalPanel.add(htmlNoExisitingProjects);
+
+		// Projectentries
+		verticalProjectPanel = new VerticalPanel();
+		verticalPanel.add(verticalProjectPanel);
+		
+		// Create new project
+		Button btnNeuesProjektErstellen = new Button("Neues Projekt erstellen");
+		btnNeuesProjektErstellen.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				createNewProjectPopUp();
+			}
+		});
+		verticalPanel.add(btnNeuesProjektErstellen);
+	}
+
 }

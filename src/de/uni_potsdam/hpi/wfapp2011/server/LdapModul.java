@@ -55,12 +55,13 @@ public class LdapModul {
 		return instance;
 	}
 	
-	public static String getUserdata(String name){
+	public String getUserdata(String name){
 		//##########################################################################
 		//#																		   #
 		//# returns the role of the given username or null if no username is found #
 		//# possible roles: Student - Prof - Staff_[Fachgebiet] - Studienreferat   #
 		//# Fachgebiet -> BPT,INTERNET,EPIC,HCI,CGS,OS,SWA,IS,MOD				   #
+		//# multible roles are seperated with ,									   #
 		//#																		   #
 		//##########################################################################
 		String role = null;
@@ -69,7 +70,7 @@ public class LdapModul {
 			String username = user[0].split(" ")[0].toLowerCase() +"."+ user[0].split(" ")[1].toLowerCase();
 			
 			if(name.equals(username)){
-				role = user[2];
+				role = user[2].replace(" ", "");
 				
 				break;
 			}

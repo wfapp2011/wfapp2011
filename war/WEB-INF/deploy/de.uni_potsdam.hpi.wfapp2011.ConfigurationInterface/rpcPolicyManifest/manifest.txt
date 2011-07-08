@@ -1,2 +1,3 @@
 # Module de.uni_potsdam.hpi.wfapp2011.ConfigurationInterface
 # RPC service class, partial path of RPC policy file
+de.uni_potsdam.hpi.wfapp2011.client.ConfigInterfaceDataExchange, 7B1C40467D7E31E6A26AE658BCB90BFA.gwt.rpc

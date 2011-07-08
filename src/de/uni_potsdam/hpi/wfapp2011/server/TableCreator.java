@@ -1,13 +1,14 @@
 package de.uni_potsdam.hpi.wfapp2011.server;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TableCreater {
+public class TableCreator {
 	private Connection con;
 	
-	public TableCreater(Connection c){
+	public TableCreator(Connection c){
 		con = c;
 	}
 	
@@ -15,8 +16,19 @@ public class TableCreater {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("CREATE TABLE existing_projects (name VARCHAR(255) PRIMARY KEY);");
+			stmt.executeUpdate("CREATE TABLE existing_projects (name VARCHAR(255) PRIMARY KEY, hasbeenstarted BOOLEAN);");
 			stmt.executeUpdate("CREATE TABLE metaconfig (name VARCHAR(255) PRIMARY KEY, value VARCHAR(255));");
+			stmt.executeUpdate("CREATE TABLE onlineusers (id int PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), roles VARCHAR(255));");
+			
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('owa_host','mailout.hpi.uni-potsdam.de');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('owa_name','martin.schoenberg');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('owa_senderdomain','@student.hpi.uni-potsdam.de');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('owa_url','owa2.hpi.uni-potsdam.de');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('owa_pwd','');");
+			
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('ftp_url','ftp.gwave.gw.ohost.de');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('ftp_name','gwave');");
+			stmt.executeUpdate("INSERT INTO metaconfig (name,value) VALUES ('ftp_pwd','"+ PasswordCrypter.getInstance().encrypt("hpihpihpi") +"');");
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -52,6 +64,52 @@ public class TableCreater {
 			stmt.executeUpdate("CREATE TABLE vote (personID INT, priority INT, projectID INT, PRIMARY KEY(personID,priority));");
 				
 			//### AP5 ###
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void copyDB(Connection newDatabase){
+		try{
+			Statement stmtOld = con.createStatement();
+			Statement stmtNew = newDatabase.createStatement();
+			
+			TableCreator initNewDatabase = new TableCreator(newDatabase);
+			initNewDatabase.create();
+			
+			ResultSet result = stmtOld.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='PUBLIC';");
+			while(result.next()){
+				String table = result.getString(1);
+				
+				Statement stmtData = con.createStatement();
+				ResultSet data = stmtData.executeQuery("SELECT * FROM "+ table +";");
+				
+				while(data.next()){
+					Statement stmtColumnNames = con.createStatement();
+					ResultSet columnNames = stmtColumnNames.executeQuery("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='"+ table +"';");
+
+					columnNames.next();
+					String attribute = columnNames.getString(1);
+					
+					String insertStatement = "INSERT INTO "+ table +" ("+ attribute;
+					String valuesStatement = " VALUES ('"+ data.getString(attribute) +"'";
+				
+					while(columnNames.next()){
+						attribute = columnNames.getString(1);
+						
+						insertStatement += ","+ attribute;
+						valuesStatement += ",'"+ data.getString(attribute) +"'";
+					}
+					insertStatement += ")";
+					valuesStatement += ");";
+				
+					System.out.println(insertStatement+valuesStatement);
+				
+					stmtNew.executeUpdate(insertStatement+valuesStatement);
+				}
+			}
+			
 		}
 		catch(SQLException e){
 			e.printStackTrace();

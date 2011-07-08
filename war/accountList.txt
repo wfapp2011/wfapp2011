@@ -39,4 +39,4 @@ Tobias Vogel#TV#Staff_IS
 Stephan Hildebrandt#SH#Staff_MOD
 Stefan Neumann#SN#Staff_MOD
 Basil Becker#BB#Staff_MOD
-
+Kermit Frog#kermit#Admin

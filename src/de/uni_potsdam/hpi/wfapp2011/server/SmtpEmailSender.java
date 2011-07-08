@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.wfapp2011.server;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
 import java.io.*;
 import javax.mail.*;
@@ -9,15 +11,32 @@ public class SmtpEmailSender{
 	
   private static SmtpEmailSender theInstance = null;
   
-  /*private final String pwd = "hpihpihpi";
-  private final String senderName = "wfapp2011";
-  private final String senderAddress = senderName+"@web.de";
-  private final String host = "smtp.web.de";*/
-  private final String pwd = "";
-  private final String senderName = "martin.schoenberg";
-  private final String senderDomain = "@student.hpi.uni-potsdam.de";
-  private final String senderAddress = senderName+senderDomain;
-  private final String host = "mailout.hpi.uni-potsdam.de";
+  private String pwd;
+  private String senderName; // = "martin.schoenberg";
+  private String senderDomain; // = "@student.hpi.uni-potsdam.de";
+  private String senderAddress; //= senderName+senderDomain;
+  private String host; // = "mailout.hpi.uni-potsdam.de";
+  private String url; // = "owa2.hpi.uni-potsdam.de";
+  
+  public void updateLogin(){
+		Collection<Map<String,String>> result;
+		DbInterface db = new DbInterface();
+		db.connectToMetaTables();
+		
+		result = db.executeQuery("SELECT name,value FROM metaconfig WHERE name LIKE 'owa%';");
+		for (Map<String,String> map:result){
+			if (map.get("name").equals("owa_host")) host = map.get("value");
+			if (map.get("name").equals("owa_name")) senderName = map.get("value");
+			if (map.get("name").equals("owa_senderdomain")) senderDomain = map.get("value");
+			if (map.get("name").equals("owa_pwd")) pwd = PasswordCrypter.getInstance().decrypt(map.get("value"));
+			if (map.get("name").equals("owa_url")) url = map.get("value");
+			
+			if (!(senderDomain == null || senderName == null)) senderAddress = senderName+senderDomain;
+		}
+		
+		db.disconnect();
+  }
+  
   
   private SmtpEmailSender()
   		{			
@@ -28,6 +47,9 @@ public class SmtpEmailSender{
 		{
 			if (theInstance == null)
 					theInstance = new SmtpEmailSender();
+			
+			theInstance.updateLogin();
+			
 			return theInstance;			
 		}
   
@@ -40,7 +62,6 @@ public class SmtpEmailSender{
 	  // Set some useful Props
 	  Properties props = System.getProperties();
       props.put("mail.smtp.host", host);
-      //props.put("mail.smtp.port", port);
       
       props.put("mail.transport.protocol","smtp");
       props.put("mail.smtp.auth", "true");
@@ -49,8 +70,8 @@ public class SmtpEmailSender{
       props.put("mail.smtp.ssl", "true");
       props.put("mail.smtp.user", senderAddress);
       props.put("mail.password", pwd);
-      props.put("mail.smtp.host","owa2.hpi.uni-potsdam.de");
-      props.put("mail.smtp.localhost", "owa2.hpi.uni-potsdam.de");
+      props.put("mail.smtp.host",url);
+      props.put("mail.smtp.localhost", url);
       
       //props.put("mail.debug","true");
       
