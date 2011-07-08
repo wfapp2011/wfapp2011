@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.overview.client.StatisticProviderInterface
+path: A76D4A9FF41C3B9D0F4CEAF5CEC9512C.gwt.rpc

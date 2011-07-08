@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/json-20070829.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.6.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/activiti-cfg.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/activiti-engine-5.5.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/activiti-engine-examples.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/commons-email-1.2.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/h2-1.2.132.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/livetribe-jsr223-2.0.6.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/mail-1.4.1.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/mybatis-3.0.4.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/spring-asm-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/spring-beans-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/usr/local/activiti-5.5/apps/apache-tomcat-6.0.32/webapps/activiti-rest/WEB-INF/lib/spring-core-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
