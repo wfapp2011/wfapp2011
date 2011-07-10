@@ -1,0 +1,16 @@
+SELECT * FROM CONTACTPERSON C, PerSON P, PrOJECTTOPIC T WHERE C.PersonID = P.PERSONID AND C.PROJECTID = T.TOPICID;
+
+
+INSERT INTO PROJECTTOPIC (TOPICID,PROJECTNAME ,PROJECTDESCRIPTION ,MINSTUD ,MAXSTUD ,PARTNERNAME ,DEPARTMENT ,PROJECTSHORTCUT) VALUES (3, '3D-Visualisierung für mobile Anwendungen
+auf SOA-Basis', 'Stadtmodelle
+oder 3D-Landschaftsmodelle, wie sie zunehmend weltweit für urbane Räume zur Verfügung
+stehen. Insbesondere die automatische Erfassung und Aktualisierung durch Remote-Sensing-
+Verfahren (z. B. Satelliten-Bilddaten, Laser-Scanning) ermöglichen immer genauere und semantisch
+unterlegte Modelle.
+Diese Modelle sind neben ihren vielschichtigen geometrischen, topologischen und semantischen Beziehungen
+unter anderem durch ihre Massivität gekennzeichnet. Massivität bedeutet, dass ein Gesamtmodell
+einer urbanen Region eine GB- bis TB-Datenmenge umfasst. Es ist somit klar, dass ein derartiges
+Modell nicht für eine einzelne Anwendung, insbesondere auf mobilen Geräten, durch Streaming
+übertragen werden kann. Innovative Ansätze sind erforderlich, die die Modellkomplexität auf Server-
+Seite beherrschen. Dieses Thema, d.h. serverseitiges Management und Rendering komplexer 3DModelle,
+steht im Mittelpunkt des Bachelorprojekts.', 4, 8, 'Open Geospatial Consortium', 2, 'D2');

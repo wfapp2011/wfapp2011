@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="gwt-dnd-3.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/h2-1.2.132.jar"/>
+	<classpathentry kind="lib" path="C:/activiti-5.1/workspace/activiti-engine-examples/libs-runtime/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/activiti-5.1/workspace/activiti-engine-examples/libs-runtime/activiti-engine-5.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/LoggerAndAdministration"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Overview"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wfapp"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
