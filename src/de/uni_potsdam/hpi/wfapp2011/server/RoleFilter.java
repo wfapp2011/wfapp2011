@@ -87,6 +87,7 @@ public class RoleFilter implements Filter{
 		}
 		else{
 			if(debug) System.out.println("Filter sperrt");
+			SessionManagement.getInstance().logout(Integer.valueOf(user.getValue()));
 			
 			((HttpServletResponse)response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}

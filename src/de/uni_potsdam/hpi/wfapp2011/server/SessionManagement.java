@@ -103,6 +103,8 @@ public class SessionManagement {
 	
 	public void logout (int id){
 		
+		System.out.println("Logge aus: "+ id);
+		
 		DbInterface db = new DbInterface();
 		db.connectToMetaTables();
 		
@@ -114,13 +116,14 @@ public class SessionManagement {
 			logout(m.get("username"));
 		}
 		
-		sql = "DELETE FROM onlineUser WHERE id ="+id+";";
+		sql = "DELETE FROM onlineUsers WHERE id ="+id+";";
 		
 		try {
 			db.executeUpdate(sql);
 		} catch (SQLTableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getErrorMessage());
 		}
 		
 		db.disconnect();

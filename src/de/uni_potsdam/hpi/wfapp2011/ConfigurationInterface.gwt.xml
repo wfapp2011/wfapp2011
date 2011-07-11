@@ -1,5 +1,8 @@
 <module>
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+	<inherits name='de.uni_potsdam.hpi.wfapp2011.general.General'/>
+	<inherits name='de.uni_potsdam.hpi.wfapp2011.pageframe.Pageframe'/>
+	
 	<entry-point class="de.uni_potsdam.hpi.wfapp2011.client.ConfigurationInterface"/>
 </module>

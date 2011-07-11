@@ -44,7 +44,9 @@ public class DbInterface {
 	//#########################
 	private static String driver = "org.h2.Driver";
 		//private static String server = "localhost";
-		//private static String port = "8082";
+		//private static String port = "8082";#
+	private static String location = "C:/";
+	private static String jdbcConfig = "jdbc:h2:"+ location;
 	private static String userName = "sa";
 	private static String pw = "";
 	
@@ -99,7 +101,7 @@ public class DbInterface {
 		//#####################################
 			Connection con = null;
 			try{
-				con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				con = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 			}
 			catch(SQLException e){
 				e.printStackTrace();
@@ -121,7 +123,7 @@ public class DbInterface {
 		//#######################################################
 		
 			try {
-				Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+				Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 				
 				Statement stmt = metaConnection.createStatement();
 				stmt.executeUpdate("INSERT INTO existing_projects(name,hasbeenstarted) VALUES('"+ String.valueOf(year) +"_"+ semester +"_"+ type +"',false);");
@@ -159,7 +161,7 @@ public class DbInterface {
 		//#								 #
 		//################################
 		try{
-			con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			con = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -204,7 +206,7 @@ public class DbInterface {
 	 */
 	public void connectToMetaTables(){
 		try{
-			dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			dbConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -245,7 +247,7 @@ public class DbInterface {
 		//########################################
 			try{
 				if(dbConnection == null){
-					dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+					dbConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 				}
 			}
 			catch(SQLException e){
@@ -417,7 +419,7 @@ public class DbInterface {
 	 */
 	public static void deleteDatabase(String type, String semester, int year){
 		try{
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 			
 			//###########################################################
 			//#															#
@@ -441,8 +443,8 @@ public class DbInterface {
 		String date = (new Date()).toString().replace(" ", "_").replace(":", "-");
 		
 		try{
-			Connection oldDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
-			Connection newDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + "DELETED_"+ String.valueOf(year) +"_"+ semester +"_"+ type +"_AT_"+ date, userName, pw);
+			Connection oldDatabase = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+			Connection newDatabase = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + "DELETED_"+ String.valueOf(year) +"_"+ semester +"_"+ type +"_AT_"+ date, userName, pw);
 			
 			TableCreator creater = new TableCreator(oldDatabase);
 			creater.copyDB(newDatabase);
@@ -451,7 +453,7 @@ public class DbInterface {
 			newDatabase.close();
 			
 			char sep = File.separatorChar;
-			String directory = "C:/"; //System.getProperty("user.dir"); 
+			String directory = location; //System.getProperty("user.dir"); 
 			
 			File oldDb = new File(directory + sep + "wfapp_databases" + sep + String.valueOf(year) +"_"+ semester +"_"+ type +".h2.db");
 			
@@ -507,7 +509,7 @@ public class DbInterface {
 		boolean exists = false;
 		
 		try {
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
 			
 			Statement stmt = metaConnection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT * FROM existing_projects WHERE name='"+ name +"';");

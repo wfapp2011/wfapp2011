@@ -31,10 +31,6 @@ public class MainMetaPanel extends Composite {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		
-		Label lblMetaConfig = new Label("Meta - Configurations");
-		verticalPanel.add(lblMetaConfig);
-		verticalPanel.setCellHeight(lblMetaConfig, "50");
-		
 		// FTP
 			// URL
 		HorizontalPanel ftp_url = new HorizontalPanel();

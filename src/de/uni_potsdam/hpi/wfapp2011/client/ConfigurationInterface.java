@@ -2,10 +2,12 @@ package de.uni_potsdam.hpi.wfapp2011.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -14,6 +16,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.pageframe.Footer;
+import de.uni_potsdam.hpi.wfapp2011.pageframe.Header;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -24,13 +30,32 @@ public class ConfigurationInterface implements EntryPoint {
 	
 	private MainMetaPanel metaconfig;
 	private MainPanel projectconfig;
+	VerticalPanel verticalPanel;
+	private DockLayoutPanel mainPanel;
+	private ProcessIdentifier pId; //pId aud Admins pId setzten!!!!
+	private Header headerPanel;
+	private Footer footerPanel;
+	
 	
 	public void onModuleLoad() {
 		RootPanel rootPanel = RootPanel.get();
-			
-		VerticalPanel verticalPanel = new VerticalPanel();
-		rootPanel.add(verticalPanel, 0, 0);
+		
+		pId = ProcessIdentifier.getProcessIdentifier("");//pId aud Admins pId setzten!!!!
+		rootPanel = RootPanel.get();
+		rootPanel.setSize("100%", "100%");
+
+		mainPanel = new DockLayoutPanel(Unit.PX);
+		rootPanel.add(mainPanel, 0, 0);
+		mainPanel.setSize("99%", "100%");
+		
+		createHeader();
+		createFooter();
+		
+		verticalPanel = new VerticalPanel();
+		mainPanel.add(verticalPanel);
 		verticalPanel.setSize("100%", "100%");
+
+		
 		
 		/*
 		 * Header head = new Header(input);
@@ -38,24 +63,24 @@ public class ConfigurationInterface implements EntryPoint {
 		 * main.setWidth("100%"); 
 		 */
 		
-		HorizontalPanel menuBar = new HorizontalPanel();
-		verticalPanel.add(menuBar);
-		
-		Button btnProjektliste = new Button("Projektliste");
-		btnProjektliste.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				toogleVisibility(true);
-			}
-		});
-		menuBar.add(btnProjektliste);
-		
-		Button btnMetakonfigurationen = new Button("Metakonfigurationen");
-		btnMetakonfigurationen.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				toogleVisibility(false);
-			}
-		});
-		menuBar.add(btnMetakonfigurationen);
+//		HorizontalPanel menuBar = new HorizontalPanel();
+//		verticalPanel.add(menuBar);
+//		
+//		Button btnProjektliste = new Button("Projektliste");
+//		btnProjektliste.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				toogleVisibility(true);
+//			}
+//		});
+//		menuBar.add(btnProjektliste);
+//		
+//		Button btnMetakonfigurationen = new Button("Metakonfigurationen");
+//		btnMetakonfigurationen.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				toogleVisibility(false);
+//			}
+//		});
+//		menuBar.add(btnMetakonfigurationen);
 		
 		metaconfig = new MainMetaPanel();
 		verticalPanel.add(metaconfig);
@@ -120,6 +145,37 @@ public class ConfigurationInterface implements EntryPoint {
 		 * verticalPanel.add(foot);
 		 * main.setWidth("100%"); 
 		 */
+	}
+
+	private void createHeader() {
+		headerPanel = new Header(pId, "Projekteverwaltung");
+			
+//		HorizontalPanel menuBar = new HorizontalPanel();
+//		verticalPanel.add(menuBar);
+		
+		Button btnProjektliste = new Button("Projektliste");
+		btnProjektliste.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				toogleVisibility(true);
+			}
+		});
+		headerPanel.menuPanel.add(btnProjektliste); 
+		
+		Button btnMetakonfigurationen = new Button("Metakonfigurationen");
+		btnMetakonfigurationen.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				toogleVisibility(false);
+			}
+		});
+		headerPanel.menuPanel.add(btnMetakonfigurationen);
+		mainPanel.addNorth(headerPanel,151);
+	}
+	private void createFooter() {
+		//Footer von Pageframe
+		footerPanel = new Footer();
+		mainPanel.addSouth(footerPanel, 40);
+
+		
 	}
 
 	private void toogleVisibility(boolean bool){

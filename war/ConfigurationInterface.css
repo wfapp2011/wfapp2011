@@ -294,3 +294,16 @@ a:visited {
 	background-color: #e8eef7;
 	cursor: hand;
 }
+ 
+.PopupLoginButtons {
+ 	padding-top: 10px;
+ }
+ 
+ .menuPanel {
+	background:url(images/Menu.png) repeat-x;
+	background-position: 0 0px;
+}
+ .imagesPanel {
+	background:url(images/Menu.png) repeat-x;
+	background-position: 0 110px;
+}

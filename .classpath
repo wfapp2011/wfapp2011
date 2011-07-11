@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/zehon_file_transfer-1.1.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Wfapp-Workspace/AdminConfigurationInterface/h2-1.2.132.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/LoggerAndAdministration"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -19,8 +19,6 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<String[]> getProjectList() {
 		
-		DbInterface.initializeMetaTables();
-		
 		DbInterface db = new DbInterface();
 		db.connectToMetaTables();
 		
@@ -56,8 +54,6 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 	@Override
 	public Collection<Map<String,String>> getConfig(String year, String semester, String name) {
 		
-		DbInterface.initializeMetaTables();
-		
 		int iYear = Integer.valueOf(year);
 		
 		DbInterface db = new DbInterface();
@@ -76,7 +72,6 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void saveConfig(String year, String semester, String name, Map<String, String> content) {
-		DbInterface.initializeMetaTables();
 		
 		int iYear = Integer.valueOf(year);
 		
@@ -113,7 +108,6 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 		
 		String pwd = PasswordCrypter.getInstance().encrypt(newPwd);
 		
-		DbInterface.initializeMetaTables();
 		DbInterface db = new DbInterface();
 		
 		db.connectToMetaTables();
@@ -172,8 +166,6 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Map<String, String> getMetaData() {
-		
-		DbInterface.initializeMetaTables();
 		
 		DbInterface db = new DbInterface();
 		db.connectToMetaTables();

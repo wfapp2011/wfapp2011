@@ -52,7 +52,7 @@ public class TableCreator {
 			
 			stmt.executeUpdate("CREATE TABLE files (projectID INT, url VARCHAR(255), isProjectFile BOOLEAN, PRIMARY KEY (projectID, url));");
 			
-			stmt.executeUpdate("CREATE TABLE person (personID INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), role VARCHAR(255), department INT);");
+			stmt.executeUpdate("CREATE TABLE person (personID INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), role VARCHAR(255), department INT, placement VARCHAR(255));");
 			
 			stmt.executeUpdate("CREATE TABLE contactPerson (personID INT, projectID INT, PRIMARY KEY(personID,projectID));");
 			
