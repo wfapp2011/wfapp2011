@@ -6,7 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import de.uni_potsdam.hpi.wfapp2011.activiti.ActivitiProcessException;
+import de.uni_potsdam.hpi.wfapp2011.activiti.ProcessAdministration;
 import de.uni_potsdam.hpi.wfapp2011.client.ConfigInterfaceDataExchange;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implements ConfigInterfaceDataExchange {
@@ -93,6 +97,8 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 			catch(SQLTableException e) {
 				System.out.println(e.getErrorMessage());
 			}
+		
+		ProcessAdministration.getInstance().changedDeadlines(new ProcessIdentifier(name,semester,iYear));
 				
 		}
 		
@@ -199,9 +205,18 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 
 		int iYear = Integer.valueOf(year);
 		// Yaninas Funktion aufrufen
-		// startProcess(ProcessIdentifier processIdentifier)
+		ProcessIdentifier pId = new ProcessIdentifier(name, semester, iYear);
+		boolean started = false;
 		
-		if(true/*Yaninas Funktion aufrufen*/){
+		try{
+			started = ProcessAdministration.getInstance().startProcess(pId);
+		}
+		catch(ActivitiProcessException e){
+			started = false;
+			e.printStackTrace();
+		}
+		
+		if(started){
 			DbInterface db = new DbInterface();
 			db.connectToMetaTables();
 			
