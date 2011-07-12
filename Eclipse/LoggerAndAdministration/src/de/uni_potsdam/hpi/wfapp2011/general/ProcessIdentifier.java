@@ -14,6 +14,7 @@ public class ProcessIdentifier implements IsSerializable {
 	private String type = null;
 	private String semester = null;
 	private int year = 0;
+	private String executionId;
 	
 	public ProcessIdentifier() {
 		//for GWT
@@ -89,5 +90,13 @@ public class ProcessIdentifier implements IsSerializable {
 	public static ProcessIdentifier getProcessIdentifier(String url){
 		return new ProcessIdentifier("Ba", "SS", 2014);
 	}
+	
+	public void setExecutionId(String id) {
+		this.executionId = id;
+	}
 
+	public String getExecutionId() {
+		return executionId;
+		
+	}
 }

@@ -37,4 +37,8 @@ public class ProcessIdAdministration {
 		return executionId;
 	}
 	
+	public static void setExecutionId(ProcessIdentifier pId) {
+		
+	}
+	
 }

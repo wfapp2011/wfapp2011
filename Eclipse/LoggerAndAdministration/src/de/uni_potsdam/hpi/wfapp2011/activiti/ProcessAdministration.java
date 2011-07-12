@@ -336,7 +336,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		
 		System.out.println("Ende Main: "+
 				process.startProcess(processIdentifier, 
-						"DegreeProjectProcessNew2", 
+						"DegreeProjectProcessNew4", 
 						deadlineCollection.getTime(),
 						deadlineTopics.getTime(), 
 						deadlineVoting.getTime(), 

@@ -74,7 +74,7 @@ public class TestProcessStart {
 	public void testProcessStart(){
 	
 		boolean processStartSuccessfull = process.startProcess(processIdentifier, 
-												"DegreeProjectProcessNew2", 
+												"DegreeProjectProcessNew4", 
 												deadlineCollection.getTime(), 
 												deadlineTopics.getTime(), 
 												deadlineVoting.getTime(), 
@@ -118,7 +118,7 @@ public class TestProcessStart {
 		dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
 		sql = "UPDATE configurations SET value = 2101 WHERE name = '"+Constants.PROCESS_ID_VARIABLE_NAME+"';";
 		dbInterface.executeUpdate(sql);
-		//processIdentifier.setExecutionId("2101");
+		processIdentifier.setExecutionId("2101");
 		postponeDeadlines();
 		dbInterface.disconnect();
 		

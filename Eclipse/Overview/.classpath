@@ -3,7 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Themenwahl_test"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/LoggerAndAdministration"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Themenwahl_test"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/h2-1.2.132.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

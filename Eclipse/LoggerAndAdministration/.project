@@ -3,6 +3,7 @@
 	<name>LoggerAndAdministration</name>
 	<comment></comment>
 	<projects>
+		<project>DegreeProjectProcess</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

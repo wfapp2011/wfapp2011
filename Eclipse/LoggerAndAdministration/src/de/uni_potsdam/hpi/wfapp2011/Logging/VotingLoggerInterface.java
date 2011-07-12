@@ -15,5 +15,4 @@ public interface VotingLoggerInterface {
 	public void logStudentLogin(ProcessIdentifier processIdentifier, String email) throws ProcessIdentifierException ;
 	public void logNewVote(ProcessIdentifier processIdentifier, String email, String[] projectNames) throws ProcessIdentifierException;
 	public void logChangedVote(ProcessIdentifier processIdentifier, String email, String[] projectNames) throws ProcessIdentifierException;
-	
 }

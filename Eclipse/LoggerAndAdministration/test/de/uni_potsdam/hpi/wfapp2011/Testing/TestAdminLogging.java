@@ -99,18 +99,18 @@ public class TestAdminLogging{
 		dbInterface.disconnect();
 	}
 	
-	@After
-	public void deleteEntries() {
-		try {
-			dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
-			String sql = "DELETE FROM logTable WHERE person = '"+email+"';";
-			dbInterface.executeUpdate(sql);
-		} catch (SQLTableException e) {
-			e.printStackTrace();
-		}
-		dbInterface.disconnect();
-		
-	}
+//	@After
+//	public void deleteEntries() {
+//		try {
+//			dbInterface.connect(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());
+//			String sql = "DELETE FROM logTable WHERE person = '"+email+"';";
+//			dbInterface.executeUpdate(sql);
+//		} catch (SQLTableException e) {
+//			e.printStackTrace();
+//		}
+//		dbInterface.disconnect();
+//		
+//	}
 	
 	
 

@@ -41,7 +41,7 @@ public class Constants {
 	
 	public static String PROCESS_PHASE_VARIABLE_NAME = "phase";
 	public static String DATE_ERROR = "DateError";
-	public static String PROCESS_NAME = "DegreeProjectProcessNew2";
+	public static String PROCESS_NAME = "DegreeProjectProcessNew4";
 
 	
 	

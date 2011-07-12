@@ -1,2 +1,3 @@
 # Module overview_module
 # RPC service class, partial path of RPC policy file
+de.uni_potsdam.hpi.wfapp2011.overview.client.StatisticProviderInterface, 829874143603C8C3966A55119C45EB1D.gwt.rpc
