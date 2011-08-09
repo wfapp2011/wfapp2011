@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 
@@ -36,7 +37,9 @@ public class Header extends Composite{
 		titlePanel = new DockLayoutPanel(Unit.PX);
 		greetingTitle = new HTML("<h1>"+title+"</h1>\r\n\t\t\t\t<h2>"+processType+" "+year+"</h2>");
 		menuPanel = new HorizontalPanel();
+		menuPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		menuLoginPanel = new HorizontalPanel();
+		menuLoginPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
 		
 		menuPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		menuLoginPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);

@@ -21,9 +21,9 @@ import org.activiti.engine.runtime.ProcessInstance;
 
 import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
 import de.uni_potsdam.hpi.wfapp2011.constants.ProcessIdAdministration;
+import de.uni_potsdam.hpi.wfapp2011.converting.DateConverter;
 import de.uni_potsdam.hpi.wfapp2011.database.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.database.SQLTableException;
-import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 
 /**
@@ -77,6 +77,12 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		return result;
 	}
 
+	/**
+	 * Loads the deadlines for the given processIdentifier
+	 * @param: processIdentifier to identify which deadlines should be loaded
+	 * @return: Hashmap<String, Date> with the name of the deadline specified in the 
+	 * 			class {@ de.uni_potsdam.hpi.wfapp2011.constants.Constants} as key and the date as value.
+	 */
 	@SuppressWarnings("deprecation")
 	public HashMap<String, Date> loadDeadlinesFromDatabase(
 			ProcessIdentifier processIdentifier) {
@@ -95,8 +101,10 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 				//###############################################				
 				//# Parse String into Date     					#
 				//###############################################
-				DateFormat df = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-				Date deadline = df.parse(resultSet.getString(2));
+				DateFormat df = new SimpleDateFormat("d MMM yyyy", Locale.ENGLISH);
+				String deadlineString = resultSet.getString(2);
+				System.out.println("Deadlines wie folgt ausgelesen: "+ deadlineString);
+				Date deadline = df.parse(deadlineString);
 				deadline.setHours(23);
 				deadline.setMinutes(59);
 				deadline.setSeconds(59);
@@ -118,7 +126,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * This Method updates the deadlines for the Activiti-Process
 	 * It will use the deadlines set in the database
 	 * 
-	 * @param ProcessIdentifier, which identifies the process to start (type, semester, year)
+	 * @param processIdentifier, which identifies the process to start (type, semester, year)
 	 * @return boolean[], which indicates which deadlines could be changed successfully.
 	 * 			- false if the newDeadlines is in the past.
 	 * 			- 		if the newDeadline is before the oldDeadline
@@ -172,6 +180,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		//# has to be on the Classpath						#
 		//###################################################
 		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
+		if(processEngine == null) {System.out.println("Can't get ProcessEngine"); return false;}
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		
 		//###########################################################
@@ -183,7 +192,8 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 		//###########################################################
 		//# Get only the latest process definition 					#
 		//###########################################################
-		ProcessDefinition processDefinition = query.orderByProcessDefinitionVersion().desc().listPage(0, 10).get(0);
+		ProcessDefinition processDefinition = query.orderByProcessDefinitionVersion().
+					desc().listPage(0, 10).get(0);
 		String id = processDefinition.getId();
 		
 		//###########################################################
@@ -194,7 +204,8 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 				endVotingDate.before(endMatchingDate) &&
 				endMatchingDate.before(endProcessDate))
 		{
-			ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceById(id);
+			ProcessInstance processInstance = processEngine.
+						getRuntimeService().startProcessInstanceById(id);
 			instanceId = processInstance.getId();
 			if (instanceId != null){
 				//###########################################################

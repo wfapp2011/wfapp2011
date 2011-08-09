@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessInformation;
 
 public interface StatisticProviderInterfaceAsync {
 
@@ -13,5 +14,7 @@ public interface StatisticProviderInterfaceAsync {
 	void getDeadlines(ProcessIdentifier pId, AsyncCallback<String[]> callback);
 	void getLogEntries(ProcessIdentifier pId,
 			AsyncCallback<Collection<String[]>> callback);
+	void getInformations(ProcessIdentifier pId,
+			AsyncCallback<ProcessInformation> callback);
 
 }

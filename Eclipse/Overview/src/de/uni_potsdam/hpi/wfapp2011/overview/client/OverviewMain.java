@@ -34,9 +34,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessInformation;
 import de.uni_potsdam.hpi.wfapp2011.pageframe.Footer;
 import de.uni_potsdam.hpi.wfapp2011.pageframe.Header;
-import de.uni_potsdam.hpi.wfapp2011.themenwahl_test.HTMLContent;
 
 public class OverviewMain implements EntryPoint {
 
@@ -74,6 +74,7 @@ public class OverviewMain implements EntryPoint {
 	VerticalPanel logPanel;
 	ProcessIdentifier pId;
 	private Header headerPanel;
+	private boolean activ = true;
 	private static final StatisticProviderInterfaceAsync logger = 	 
 									(StatisticProviderInterfaceAsync) GWT.create(StatisticProviderInterface.class);
 	static{
@@ -85,6 +86,8 @@ public class OverviewMain implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		pId = ProcessIdentifier.getProcessIdentifier("");
+		
+		
 		rootPanel = RootPanel.get();
 		rootPanel.setSize("100%", "100%");
 		
@@ -95,13 +98,7 @@ public class OverviewMain implements EntryPoint {
 		createHeader();
 		createFooter();
 		
-		anchorProjectProposal = new Anchor("Themenerfassung", "https://google.de");
-		anchorVoting = new Anchor("Themenwahl", "https://www.hpi.uni-potsdam.de");
-		anchorMatching = new Anchor("Themenzuordnung", "https://google.de");
-		
-		anchorProjectProposal.setHTML("<img src=\"/images/themenerfassung.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase1\">");
-		anchorVoting.setHTML("<img  src=\"/images/themenwahl.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase2\">");
-		anchorMatching.setHTML("<img  src=\"/images/themenzuordnung.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase3\">");
+
 	
 		//DOM.setElementAttribute(anchorProjectProposal.getElement(), "id", "anchorPhase1");
 		
@@ -110,54 +107,6 @@ public class OverviewMain implements EntryPoint {
 		centerPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		centerPanelScrollable = new ScrollPanel();
 		
-		//ProcessPanel vorbereiten/ erzeugen
-		logger.getDeadlines(pId, new AsyncCallback<String[]>(){
-			public void onFailure(Throwable caught) {
-				Window.alert("RPC to getDeadlines() failed.\n\n" + caught.getMessage());
-			}
-			@Override
-			public void onSuccess(String[] result) {
-				String[] deadlines = result;
-				//aufr√§umen!
-				HTML endProjectProposal = new HTML("<DIV id=\"deadlineDates\">"+deadlines[0]+"</DIV>");
-				HTML endVoting = new HTML("<DIV id=\"deadlineDates\">"+deadlines[1]+"</DIV>");
-				HTML endMatching = new HTML("<DIV id=\"deadlineDates\">"+deadlines[2]+"</DIV>");
-				projectProposalPanel.add(endProjectProposal);
-				projectProposalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-				votingPanel.add(endVoting);
-				votingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-				matchingPanel.add(endMatching);
-				matchingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-			}
-		});
-		
-		//while(endMatching.equals(""));
-			
-		HTMLPanel endProjectProposalPanel = new HTMLPanel(endProjectProposal);
-		HTMLPanel endVotingPanel = new HTMLPanel(endVoting);
-		HTMLPanel endMatchingPanel = new HTMLPanel(endMatching);
-		
-		projectProposalPanel = new VerticalPanel();
-		projectProposalPanel.add(anchorProjectProposal);
-		projectProposalPanel.add(endProjectProposalPanel);
-		projectProposalPanel.setCellHorizontalAlignment(endProjectProposalPanel, HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		votingPanel = new VerticalPanel();
-		votingPanel.add(anchorVoting);
-		votingPanel.add(endVotingPanel);
-		votingPanel.setCellHorizontalAlignment(endVotingPanel, HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		matchingPanel = new VerticalPanel();
-		matchingPanel.add(anchorMatching);
-		matchingPanel.add(endMatchingPanel);
-		matchingPanel.setCellHorizontalAlignment(endMatchingPanel, HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		processPanel = new HorizontalPanel();
-		processPanel.add(projectProposalPanel);
-		processPanel.add(votingPanel);
-		processPanel.add(matchingPanel);
-		
-		
 		//setzt den OverviewPanel zusammen
 		overviewPanel = new VerticalPanel();
 		
@@ -165,32 +114,135 @@ public class OverviewMain implements EntryPoint {
 		String startProcessInfo= "<DIV> Themenerfassung startet am: 19.09.2014 </DIV>";
 		startProcessInfoPanel = new HTMLPanel(startProcessInfo);
 		//overviewPanel.add(startProcessInfoPanel);
-		overviewPanel.add(processPanel);
 		
-		//ProposalStatistic
-		logger.getNumberOfProposals(pId, new AsyncCallback<String>(){
-			public void onFailure(Throwable caught) {
-				Window.alert("RPC to getNumberOfProposals() failed.\n\n" + caught.getMessage());
+		
+		
+		// get Informations from Database, which should be presented on the website
+		logger.getInformations(pId, new AsyncCallback<ProcessInformation>() {
+			public void onFailure(Throwable caught){
+				Window.alert("RPC failed" + caught.getMessage());
 			}
 			@Override
-			public void onSuccess(String result) {
-				String proposalStatistic = "<DIV> "+result +"</DIV>";
-				proposalStatisticPanel = new HTMLPanel(proposalStatistic);
-				overviewPanel.add(proposalStatisticPanel);
+			public void onSuccess(ProcessInformation pInfo){
+				if(pInfo.isActiv()){
+					anchorProjectProposal = new Anchor("Themenerfassung", "/Proposals");
+					anchorVoting = new Anchor("Themenwahl", "/Arbeitspaket%204/Arbeitspaket%204.html");
+					anchorMatching = new Anchor("Themenzuordnung", "/wfapp2011assignment");
+					
+					anchorProjectProposal.setHTML("<img src=\"/images/themenerfassung.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase1\">");
+					anchorVoting.setHTML("<img  src=\"/images/themenwahl.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase2\">");
+					anchorMatching.setHTML("<img  src=\"/images/themenzuordnung.png\" width=\"174px\" height=\"93px\" id=\"anchorPhase3\">");
+					
+					HTMLPanel endProjectProposalPanel = new HTMLPanel(endProjectProposal);
+					HTMLPanel endVotingPanel = new HTMLPanel(endVoting);
+					HTMLPanel endMatchingPanel = new HTMLPanel(endMatching);
+					
+					projectProposalPanel = new VerticalPanel();
+					projectProposalPanel.add(anchorProjectProposal);
+					projectProposalPanel.add(endProjectProposalPanel);
+					projectProposalPanel.setCellHorizontalAlignment(endProjectProposalPanel, HasHorizontalAlignment.ALIGN_RIGHT);
+					
+					votingPanel = new VerticalPanel();
+					votingPanel.add(anchorVoting);
+					votingPanel.add(endVotingPanel);
+					votingPanel.setCellHorizontalAlignment(endVotingPanel, HasHorizontalAlignment.ALIGN_RIGHT);
+					
+					matchingPanel = new VerticalPanel();
+					matchingPanel.add(anchorMatching);
+					matchingPanel.add(endMatchingPanel);
+					matchingPanel.setCellHorizontalAlignment(endMatchingPanel, HasHorizontalAlignment.ALIGN_RIGHT);
+					
+					processPanel = new HorizontalPanel();
+					processPanel.add(projectProposalPanel);
+					processPanel.add(votingPanel);
+					processPanel.add(matchingPanel);
+					overviewPanel.add(processPanel);
+					
+					HTML endProjectProposal = new HTML("<DIV id=\"deadlineDates\">"+pInfo.getDeadlinesString()[0]+"</DIV>");
+					HTML endVoting = new HTML("<DIV id=\"deadlineDates\">"+pInfo.getDeadlinesString()[1]+"</DIV>");
+					HTML endMatching = new HTML("<DIV id=\"deadlineDates\">"+pInfo.getDeadlinesString()[2]+"</DIV>");
+					projectProposalPanel.add(endProjectProposal);
+					projectProposalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+					votingPanel.add(endVoting);
+					votingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+					matchingPanel.add(endMatching);
+					matchingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+					
+					
+					String proposalStatistic = "<DIV> "+pInfo.getStatistics() +"</DIV>";
+					proposalStatisticPanel = new HTMLPanel(proposalStatistic);
+					overviewPanel.add(proposalStatisticPanel);
+				}
 			}
 		});
-		//VotingStatistic
-		logger.getNumberOfVotings(pId, new AsyncCallback<String>(){
-			public void onFailure(Throwable caught) {
-				Window.alert("RPC to getNumberOfVotings() failed.\n\n" + caught.getMessage());
-			}
-			@Override
-			public void onSuccess(String result) {
-				String statistics = "<DIV>"+result +"</DIV>";
-				votingStatisticPanel = new HTMLPanel(statistics);
-				overviewPanel.add(votingStatisticPanel);
-			}
-		});
+		
+		
+//		//ProcessPanel vorbereiten/ erzeugen
+//		logger.getDeadlines(pId, new AsyncCallback<String[]>(){
+//			public void onFailure(Throwable caught) {
+//				//Window.alert("RPC to getDeadlines() failed.\n\n" + caught.getMessage());
+//				anchorProjectProposal.removeFromParent();
+//				//anchorVoting.removeFromParent();
+//				anchorMatching.removeFromParent();
+//				activ = false;
+//				//votingStatisticPanel.removeFromParent();
+//				//proposalStatisticPanel.removeFromParent();
+//				anchorVoting.setHTML("Derzeit ist der Prozess nicht aktiv");
+//				
+//			}
+//			@Override
+//			public void onSuccess(String[] result) {
+//				String[] deadlines = result;
+//				//aufräumen!
+//				
+//				HTML endProjectProposal = new HTML("<DIV id=\"deadlineDates\">"+deadlines[0]+"</DIV>");
+//				HTML endVoting = new HTML("<DIV id=\"deadlineDates\">"+deadlines[1]+"</DIV>");
+//				HTML endMatching = new HTML("<DIV id=\"deadlineDates\">"+deadlines[2]+"</DIV>");
+//				projectProposalPanel.add(endProjectProposal);
+//				projectProposalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+//				votingPanel.add(endVoting);
+//				votingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+//				matchingPanel.add(endMatching);
+//				matchingPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+//			}
+//				
+//		});
+//		
+//		//while(endMatching.equals(""));
+//			
+//	
+//		
+//		
+//
+//		
+//		//ProposalStatistic
+//		logger.getNumberOfProposals(pId, new AsyncCallback<String>(){
+//			public void onFailure(Throwable caught) {
+//				Window.alert("RPC to getNumberOfProposals() failed.\n\n" + caught.getMessage());
+//			}
+//			@Override
+//			public void onSuccess(String result) {
+//				if(activ){
+//					String proposalStatistic = "<DIV> "+result +"</DIV>";
+//					proposalStatisticPanel = new HTMLPanel(proposalStatistic);
+//					overviewPanel.add(proposalStatisticPanel);
+//				}
+//			}
+//		});
+//		//VotingStatistic
+//		logger.getNumberOfVotings(pId, new AsyncCallback<String>(){
+//			public void onFailure(Throwable caught) {
+//				Window.alert("RPC to getNumberOfVotings() failed.\n\n" + caught.getMessage());
+//			}
+//			@Override
+//			public void onSuccess(String result) {
+//				if(activ){
+//					String statistics = "<DIV>"+result +"</DIV>";
+//					votingStatisticPanel = new HTMLPanel(statistics);
+//					overviewPanel.add(votingStatisticPanel);
+//				}
+//			}
+//		});
 		centerPanel.add(overviewPanel, DockPanel.CENTER);
 		centerPanelScrollable.add(centerPanel);
 		mainPanel.add(centerPanelScrollable);

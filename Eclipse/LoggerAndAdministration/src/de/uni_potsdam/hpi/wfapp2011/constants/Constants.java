@@ -1,5 +1,9 @@
 package de.uni_potsdam.hpi.wfapp2011.constants;
 
+import java.util.Locale;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
 public class Constants {
 	
 	//###########################################################
@@ -43,6 +47,7 @@ public class Constants {
 	public static String DATE_ERROR = "DateError";
 	public static String PROCESS_NAME = "DegreeProjectProcessNew4";
 
-	
+	public static String DATE_PATTERN = "d MMM yyyy";
+	public static Locale DATE_LOCALE = Locale.ENGLISH;
 	
 }

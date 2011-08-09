@@ -45,8 +45,8 @@ public class DbInterface {
 	private static String driver = "org.h2.Driver";
 		//private static String server = "localhost";
 		//private static String port = "8082";#
-	private static String location = "C:/";
-	private static String jdbcConfig = "jdbc:h2:"+ location;
+	private static String location = "/";
+	private static String jdbcConfig = "jdbc:h2:tcp://localhost"+ location;
 	private static String userName = "sa";
 	private static String pw = "";
 	

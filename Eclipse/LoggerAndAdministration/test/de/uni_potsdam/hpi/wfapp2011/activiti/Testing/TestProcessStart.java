@@ -34,7 +34,7 @@ public class TestProcessStart {
 	@Before
 	public void setUp() throws SQLTableException{
 		process = ProcessAdministration.getInstance();
-		processIdentifier = new ProcessIdentifier("Ba", "SS", 2012);
+		processIdentifier = new ProcessIdentifier("Ba", "SS", 2014);
 		dbInterface = new DbInterface();
 		DbInterface.initializeMetaTables();
 		DbInterface.initializeDatabase(processIdentifier.getType(), processIdentifier.getSemester(), processIdentifier.getYear());

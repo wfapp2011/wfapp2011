@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessInformation;
 
 public interface StatisticProviderInterface extends RemoteService{
 	
@@ -12,5 +13,6 @@ public interface StatisticProviderInterface extends RemoteService{
 	String getNumberOfVotings(ProcessIdentifier pId);
 	String[] getDeadlines(ProcessIdentifier pId);
 	Collection<String[]> getLogEntries(ProcessIdentifier pId);
+	ProcessInformation getInformations(ProcessIdentifier pId);
 
 }
