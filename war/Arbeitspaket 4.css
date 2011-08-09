@@ -421,3 +421,8 @@ hr {
 .gwt-PopupPanel {
 	border: medium orange;
 }
+
+.imagesPanel {
+	background:url(images/Menu.png) repeat-x;
+	background-position: 0 110px;
+}

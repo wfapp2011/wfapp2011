@@ -66,7 +66,7 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		mainPanel = new VerticalPanel();
 		
 		rootPanel = RootPanel.get();
-		rootPanel.setSize("100%", "100%");
+		rootPanel.setSize("99%", "100%");
 
 		layoutPanel = new DockLayoutPanel(Unit.PX);
 		rootPanel.add(layoutPanel, 0, 0);
@@ -82,9 +82,6 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		mainPanel.setWidth("100%");
 		
 		dragController = new PickupDragController(rootPanel, false);
-	
-		//rootPanel.add(mainPanel, 0, 150);
-		
 		
 		createTopicTable();
 				
@@ -92,33 +89,19 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		
 		myVoting = new MyVotingView();
 		mainPanel.add(myVoting);
-		myVoting.setWidth("100%");
+		myVoting.setWidth("99%");
 		myVoting.setVisible(false);
 		
 		vStatistic = new StatisticView();
 		mainPanel.add(vStatistic);
-		vStatistic.setWidth("100%");
+		vStatistic.setWidth("99%");
 		vStatistic.setVisible(false);
-		
-//		htmlFooter = new HTML("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<hr>\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"100\">\r\n    \t\t\t<col width=\"100\">\r\n  \t\t\t</colgroup>\r\n  \t\t\t<td></td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"https://www.hpi.uni-potsdam.de/support/impressum.html\">Impressum</a>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<a href=\"mailto:test@test.com?subject=Bug in Themenwahl\">Report a Bug</a>\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t</body>\r\n</html>", true);
-//		htmlFooter.setStyleName("hr");
-//		mainPanel.add(htmlFooter);
-//		htmlFooter.setWidth("100%");
 		
 		History.addHistoryListener(this);
 		History.fireCurrentHistoryState();
 	}
 	private void createHeader(){
 		headerPanel = new Header(pId, "Themenwahl");
-
-//		HTMLPanel htmlHeader = new HTMLPanel("<html>\r\n\t<head>\r\n\t<link type=\"text/css\" rel=\"stylesheet\" href=\"wfapp.css\">\r\n\t</head>\r\n\t\r\n\t<body>\r\n\t\t<div id=\"menu\">\r\n\t\t<table border=\"0\" width=\"100%\" margin=\"0\">\r\n\t\t\t<colgroup>\r\n    \t\t\t<col width=\"191\">\r\n    \t\t\t<col width=\"*\">\r\n    \t\t\t<col width=\"156\">\r\n  \t\t\t</colgroup>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"doktorhut.png\" width=\"191px\" height=\"151px\">\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<h1>Themenwahl</h1>\r\n\t\t\t\t<h2>Bachelorprojekt 2011</h1>\r\n\t\t\t</td>\r\n\t\t\t<td valign=\"top\">\r\n\t\t\t\t<img src=\"HPI_Logo.png\" width=\"156px\" height=\"93px\">\r\n\t\t\t</td>\r\n\t\t</table>\r\n\t\t</div>\r\n\t</body>\r\n</html>");
-//		rootPanel.add(htmlHeader, 0, 0);
-//		htmlHeader.setSize("100%", "151px");
-//		
-//		menuPanel = new HorizontalPanel();
-//		menuPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-//		rootPanel.add(menuPanel, 190, 110);
-//		menuPanel.setSize("503px", "42px");
 				
 		btnHome = new Label("Home");
 		btnHome.addClickHandler(new ClickHandler() {
@@ -188,7 +171,7 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 	private void createTopicTable() {
 		topicTable = new Topictable(Topics);
 		mainPanel.add(topicTable);
-		topicTable.setWidth("100%");
+		topicTable.setWidth("99%");
 		mainPanel.setCellWidth(topicTable, " ");
 	}
 	

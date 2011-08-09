@@ -5,14 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.uni_potsdam.hpi.wfapp2011.DbInterface;
-import de.uni_potsdam.hpi.wfapp2011.SQLTableException;
-import de.uni_potsdam.hpi.wfapp2011.SessionManagement;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.uni_potsdam.hpi.wfapp2011.client.Person;
 import de.uni_potsdam.hpi.wfapp2011.client.Topic;
 import de.uni_potsdam.hpi.wfapp2011.client.Vote;
 import de.uni_potsdam.hpi.wfapp2011.client.VotingDatabaseService;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements VotingDatabaseService {
 	private static final long serialVersionUID = 1L;
@@ -66,7 +64,7 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			database.disconnect();
 		} catch (Exception e2) {
 			System.out.printf("Error in loadTopics: %s\n", e2.toString());
-			System.out.printf("%s\n", e2.getStackTrace().toString());
+			e2.printStackTrace();
 		}
 		return result;
 	}
@@ -86,7 +84,7 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			database.disconnect();
 		} catch (Exception e2) {
 			System.out.printf("Error in loadVotes: %s\n", e2.toString());
-			System.out.printf("%s\n", e2.getStackTrace().toString());
+			e2.printStackTrace();
 		}		
 		
 		return result;
@@ -115,7 +113,7 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			database.disconnect();
 		} catch (Exception e2) {
 			System.out.printf("Error in loadVotes: %s\n", e2.toString());
-			System.out.printf("%s\n", e2.getStackTrace().toString());
+			e2.printStackTrace();
 		}		
 		
 		return result;
@@ -135,7 +133,7 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			database.disconnect();
 		} catch (Exception e2) {
 			System.out.printf("Error in saveVotes: %s\n", e2.toString());
-			System.out.printf("%s\n", e2.getStackTrace().toString());
+			e2.printStackTrace();
 		}
 	}
 
@@ -155,7 +153,7 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			
 		} catch (Exception e2) {
 			System.out.printf("Error in deleteVotes: %s\n", e2.toString());
-			System.out.printf("%s\n", e2.getStackTrace().toString());
+			e2.printStackTrace();
 		}
 	}
 
@@ -174,13 +172,13 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 			database.disconnect();
 		} catch(Exception e) {
 			System.out.printf("Error in Configuration %s\n", e.toString());
-			System.out.printf("%s\n", e.getStackTrace().toString());
+			e.printStackTrace();
 		}
 		return maxVotes;
 	}
 
 	@Override
 	public boolean confirmPassword(String user, String pwd) {
-		return true;//SessionManagement.getInstance().confirmPwd(user, pwd);
+		return SessionManagement.getInstance().confirmPwd(user, pwd);
 	}
 }

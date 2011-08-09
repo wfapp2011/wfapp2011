@@ -47,7 +47,7 @@ public class TopicDetailView extends Composite {
 		htmlDescription = new HTML(newTopic.getProjectDescription(), true);
 		verticalPanel.add(htmlDescription);
 		
-		btnZurueck = new Button("Zur\u00FCck");
+		btnZurueck = new Button("Detailansicht schlie\u00DFen");
 		verticalPanel.add(btnZurueck);
 	}
 	

@@ -8,8 +8,7 @@
 	<classpathentry kind="lib" path="C:/activiti-5.1/workspace/activiti-engine-examples/libs-runtime/activiti-engine-5.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Arbeitspaket 1"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/LoggerAndAdministration"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Overview"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/wfapp"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

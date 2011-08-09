@@ -3,6 +3,7 @@ package de.uni_potsdam.hpi.wfapp2011.client;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
@@ -135,7 +136,7 @@ public class StatisticView extends Composite {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
+				Window.alert("Fehler beim Laden: "+caught.toString());
 			}
 
 			@Override

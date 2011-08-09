@@ -5,17 +5,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.uni_potsdam.hpi.wfapp2011.DbInterface;
-import de.uni_potsdam.hpi.wfapp2011.client.*;
-
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
-import de.uni_potsdam.hpi.wfapp2011.client.Topic;
+import de.uni_potsdam.hpi.wfapp2011.server.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.server.SmtpEmailSender;
 
 public class EmailSenderTask implements JavaDelegate {
-	// TO-DO: Overide Dummys
+	// TODO: Overide Dummys
 	private String Type = "Ba";
 	private String Semester = "SS";
 	private int Year = 2011;

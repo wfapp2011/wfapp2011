@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.HorizontalSplitPanel;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class VotingView extends Composite {
 	private static int mainFrameSize = 400;
@@ -46,6 +47,7 @@ public class VotingView extends Composite {
 	private FlexTable flexPriority;
 	private CheckBox AgbCheckBox;
 	private int maxVotes;
+	private AbsolutePanel absolutePanel;
 
 
 	public VotingView(ArrayList<Topic> TopicList) {		
@@ -60,6 +62,7 @@ public class VotingView extends Composite {
 				  scrollTopicOverview.setSize("100%", (Window.getClientHeight()-mainFrameSize)+"px");
 				  scrollMyTopics.setHeight((Window.getClientHeight()-mainFrameSize)+"px");
 				  flexPriority.setSize("18px", (Window.getClientHeight()-mainFrameSize)+"px");
+				  absolutePanel.setHeight((Window.getClientHeight()-mainFrameSize)+"px");
 			  }
 		});
 							
@@ -126,6 +129,11 @@ public class VotingView extends Composite {
 		
 		flexPriority.setVisible(false);
 		
+		absolutePanel = new AbsolutePanel();
+		horizontalPanel.add(absolutePanel);
+		horizontalPanel.setCellHorizontalAlignment(absolutePanel, HasHorizontalAlignment.ALIGN_RIGHT);
+		absolutePanel.setSize("30px", (Window.getClientHeight()-mainFrameSize)+"px");
+		
 		scrollMyTopics = new ScrollPanel();
 		horizontalPanel.add(scrollMyTopics);
 		scrollMyTopics.setSize("98%",(Window.getClientHeight()-mainFrameSize)+"px");
@@ -167,6 +175,12 @@ public class VotingView extends Composite {
 			@Override
 			public void onSuccess(Integer result) {
 				maxVotes = result;
+				
+				for (int i = 0; i < maxVotes; i++) {
+					Label priorityLabel = new Label((i+1)+".");
+					priorityLabel.setWidth("26px");
+					absolutePanel.add(priorityLabel, 0, 40*i+11);
+				}
 			}
 			
 		});
