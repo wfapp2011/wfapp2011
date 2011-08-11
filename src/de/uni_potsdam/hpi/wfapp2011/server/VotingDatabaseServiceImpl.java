@@ -12,10 +12,25 @@ import de.uni_potsdam.hpi.wfapp2011.client.Topic;
 import de.uni_potsdam.hpi.wfapp2011.client.Vote;
 import de.uni_potsdam.hpi.wfapp2011.client.VotingDatabaseService;
 
+/**
+ * implementation of the remote service servlet for the topic voting website. it handles the database request
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 14.53
+ * @see de.uni_potsdam.hpi.wfapp2011.client.VotingDatabaseService
+ */
 public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements VotingDatabaseService {
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	/**
+	 * loads the project topics for a semester from the database
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @return ArrayList<Topic> 
+	 */
 	public ArrayList<Topic> loadTopics(String type, String semester, int year) {
 		ArrayList<Topic> result = new ArrayList<Topic>();
 		
@@ -70,6 +85,15 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * load the votes for a user
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @param user user which votes are loaded
+	 * @return ArrayList<Vote> 
+	 */
 	public ArrayList<Vote> loadVotes(String type, String semester, int year, String user) {
 		ArrayList<Vote> result = new ArrayList<Vote>();
 		
@@ -91,6 +115,15 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * generates a vote statistic 
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @param priority priority of the votes 
+	 * @return ArrayList<Map<String, Integer>>
+	 */
 	public ArrayList<Map<String,Integer>> getStatistic(String type, String semester, int year, int priority) {
 		ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
 		
@@ -120,6 +153,14 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * save the votes with there priority
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @param voting
+	 */
 	public void saveVotes(String type, String semester, int year, ArrayList<Vote> votings) {
 		DbInterface database = new DbInterface();
 		try {
@@ -138,6 +179,14 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * delete the votes of a user
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @param user user which votes are loaded
+	 */
 	public void deleteVotes(String type, String semester, int year, String user) {
 		DbInterface database = new DbInterface();
 		
@@ -158,6 +207,14 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * returns the required number of votes
+	 * 
+	 * @param type bachelor or master project ("Ba"/"Ma")
+	 * @param semester summer or winter semester ("SS"/"WS")
+	 * @param year year of the semester
+	 * @return int
+	 */
 	public int numberOfVotes(String type, String semester, int year) {
 		// TODO Auto-generated method stub
 		int maxVotes = 0;
@@ -178,6 +235,14 @@ public class VotingDatabaseServiceImpl extends RemoteServiceServlet implements V
 	}
 
 	@Override
+	/**
+	 * confirms the password of the user.
+	 * used for verifying the user when he wants to save his votes 
+	 * 
+	 * @param user user which votes are loaded
+	 * @param pwd password of the user
+	 * @return boolean
+	 */
 	public boolean confirmPassword(String user, String pwd) {
 		return SessionManagement.getInstance().confirmPwd(user, pwd);
 	}

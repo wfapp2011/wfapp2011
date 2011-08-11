@@ -2,8 +2,6 @@ package de.uni_potsdam.hpi.wfapp2011.client;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.allen_sauer.gwt.dnd.client.drop.VerticalPanelDropController;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -13,12 +11,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -32,11 +24,15 @@ import de.uni_potsdam.hpi.wfapp2011.pageframe.Header;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 12.51
+ * @see com.google.gwt.core.client.EntryPoint
+ * @see com.google.gwt.user.client.HistoryListener
  */
 @SuppressWarnings("deprecation")
 public class Topicvoting implements EntryPoint, HistoryListener {
 	private RootPanel rootPanel;
-	private HorizontalPanel menuPanel;
 	private Label btnHome;
 	private Label btnThemenbersicht;
 	private Label btnThemenwahl;
@@ -46,12 +42,10 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 	private VerticalPanel mainPanel;
 	private ArrayList<Topic> Topics;
 	private Topictable topicTable;
-	private HTML htmlFooter;
 	private VotingView vVoting;
 	private MyVotingView myVoting;
 	private StatisticView vStatistic;
 	private String lastHistoryToken = "";
-	private PickupDragController dragController;
 	private final VotingDatabaseServiceAsync databaseService = GWT.create(VotingDatabaseService.class);
 
 	private Header headerPanel;
@@ -60,18 +54,24 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 	private DockLayoutPanel layoutPanel;
 	private ScrollPanel mainPanelScrollable;
 	
+	/**
+	 * method is opened by the GWT framework when the side is loaded.
+	 * It creates the header and footer of the page and all subpages
+	 */
 	public void onModuleLoad() {
+		//get the ProcessID for the currently running process
 		pId = ProcessIdentifier.getProcessIdentifier("");
 		loadTopics();
+		//create the main panel
 		mainPanel = new VerticalPanel();
-		
-		rootPanel = RootPanel.get();
 		rootPanel.setSize("99%", "100%");
 
+		//create dock panel for header, content and footer
 		layoutPanel = new DockLayoutPanel(Unit.PX);
 		rootPanel.add(layoutPanel, 0, 0);
 		layoutPanel.setSize("100%", "100%");
 		
+		//create scrollpanel for the content
 		mainPanelScrollable = new ScrollPanel();
 		mainPanelScrollable.add(mainPanel);
 
@@ -81,10 +81,8 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		mainPanelScrollable.setWidth("100%");
 		mainPanel.setWidth("100%");
 		
-		dragController = new PickupDragController(rootPanel, false);
-		
-		createTopicTable();
-				
+		//create widgets for the topic overview, voting view, my voting overview and the statisticview
+		createTopicTable();				
 		createVotingView();
 		
 		myVoting = new MyVotingView();
@@ -97,12 +95,15 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		vStatistic.setWidth("99%");
 		vStatistic.setVisible(false);
 		
+		//add self as an HistoryListener to support the forward and backward button in the browser
 		History.addHistoryListener(this);
 		History.fireCurrentHistoryState();
 	}
+	
 	private void createHeader(){
 		headerPanel = new Header(pId, "Themenwahl");
-				
+		
+		//add buttons to the menu panel in the header
 		btnHome = new Label("Home");
 		btnHome.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -155,10 +156,10 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 		layoutPanel.addNorth(headerPanel,151);
 
 	}
+	
 	private void createFooter(){
 		footerPanel = new Footer();
 		layoutPanel.addSouth(footerPanel, 40);
-
 	}
 
 	private void createVotingView() {
@@ -177,12 +178,12 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 	
 	private void loadTopics()
 	{
-		// create proxy topic list with fake Topic
-		
+		// create proxy topic list with fake Topic		
 		Topics = new ArrayList<Topic>();
 		Topics.add(new Topic("Daten werden geladen ..."));
 		
-		// load topic list from server		
+		// load topic list from server
+		// TODO replace dummy processIdentifier
 		databaseService.loadTopics("Ba", "SS", 2011, new AsyncCallback<ArrayList<Topic>>() {
 
 			@Override
@@ -205,18 +206,25 @@ public class Topicvoting implements EntryPoint, HistoryListener {
 	
 	private void showElement(Widget w)
 	{
+		//hide all widgets in the content panel
 		topicTable.setVisible(false);
 		vVoting.setVisible(false);
 		myVoting.setVisible(false);
 		vStatistic.setVisible(false);
 		
+		//display only the wanted widget
 		w.setVisible(true);
 		
+		//reload the my voting overview
 		if (w == myVoting)
 			myVoting.reload();
 	}
 
 	@Override
+	/**
+	 * displays the right element when the user uses the forward and backward button of the browser
+	 * method is called by GWT framework
+	 */
 	public void onHistoryChanged(String historyToken) {
 		if (historyToken.equals(lastHistoryToken))
 			return;

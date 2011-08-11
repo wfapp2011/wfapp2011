@@ -11,6 +11,13 @@ import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Composite widget which displays detail information for a project topic
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 12.17
+ * @see com.google.gwt.user.client.ui.Composite
+ */
 public class TopicDetailView extends Composite {
 	private FlexTable flexTable;
 	private final Topic topic;
@@ -20,18 +27,24 @@ public class TopicDetailView extends Composite {
 	private Label lblDescription;
 	private Button btnZurueck;
 	
+	/**
+	 * constructor which sets the displayed topic
+	 * @param newTopic displayed topic
+	 */
 	public TopicDetailView(Topic newTopic) {
+		//create main panel
 		topic = newTopic;
 		verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		verticalPanel.setWidth("100%");
 		
+		//create headline
 		lblTitle = new Label(topic.getName());
 		lblTitle.setStyleName("gwt-LabelHeadline");
 		verticalPanel.add(lblTitle);
 		verticalPanel.setCellHeight(lblTitle, "41px");
 		
-		//create detail Table
+		//create detail table
 		flexTable = new FlexTable();
 		flexTable.setBorderWidth(0);
 		verticalPanel.add(flexTable);
@@ -39,6 +52,7 @@ public class TopicDetailView extends Composite {
 		flexTable.setWidth("100%");
 		createTableEntries();
 		
+		//create description widget
 		lblDescription = new Label("Beschreibung:");
 		lblDescription.setStyleName("gwt-Label2");
 		verticalPanel.add(lblDescription);
@@ -47,11 +61,13 @@ public class TopicDetailView extends Composite {
 		htmlDescription = new HTML(newTopic.getProjectDescription(), true);
 		verticalPanel.add(htmlDescription);
 		
+		//create close button
 		btnZurueck = new Button("Detailansicht schlie\u00DFen");
 		verticalPanel.add(btnZurueck);
 	}
 	
 	private void createTableEntries() {
+		//setup table header
 		flexTable.setText(0, 0, "Projektk\u00FCrzel:");
 		flexTable.setText(1, 0, "Lehrstuhl:");
 		flexTable.setText(2, 0, "minimale Studentenanzahl:");
@@ -59,10 +75,12 @@ public class TopicDetailView extends Composite {
 		flexTable.setText(4, 0, "PDF:");
 		flexTable.setText(5, 0, "Kontaktpersonen:");
 		
+		//insert content
 		flexTable.setText(0, 1, topic.getProjectShortCut());
 		flexTable.setText(1, 1, topic.getDepartment());
 		flexTable.setText(2, 1, new Integer(topic.getMinStud()).toString());
 		flexTable.setText(3, 1, new Integer(topic.getMaxStud()).toString());
+		//create PDF download link
 		Label lblPDF = new Label("Download");
 		lblPDF.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -71,6 +89,7 @@ public class TopicDetailView extends Composite {
 		});
 		flexTable.setWidget(4, 1, lblPDF);
 		
+		//set table style
 		HTMLTable.CellFormatter formatter = flexTable.getCellFormatter();
 		formatter.setWidth(0, 0, "240px");
 		formatter.setWidth(1, 0, "*");
@@ -78,6 +97,7 @@ public class TopicDetailView extends Composite {
 			formatter.addStyleName(i, 0, "gwt-Label2");
 		
 		
+		//add contact persons with link to their e-mail adresses
 		int i = 0;
 		for (Person person: topic.getcontactPerson()) {
 			final Person personEntry = person;
@@ -94,6 +114,10 @@ public class TopicDetailView extends Composite {
 		}			
 	}
 	
+	/**
+	 * adds click handler for closing the window
+	 * @param closeClick click handler
+	 */
 	public void addCloseClickHandler(ClickHandler closeClick)
 	{
 		btnZurueck.addClickHandler(closeClick);

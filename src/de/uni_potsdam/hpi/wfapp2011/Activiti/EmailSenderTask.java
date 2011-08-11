@@ -1,6 +1,9 @@
 package de.uni_potsdam.hpi.wfapp2011.Activiti;
 
+// IMPORTS
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,17 +12,38 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
 import de.uni_potsdam.hpi.wfapp2011.server.DbInterface;
+import de.uni_potsdam.hpi.wfapp2011.server.SQLTableException;
 import de.uni_potsdam.hpi.wfapp2011.server.SmtpEmailSender;
 
+/**
+ * <code>EmailSenderTask</code> is a JavaService-Task for the "activiti"-Engine, which sends
+ * e-mails to all students(must have been logged in once) a few days before 
+ * the end of the voting phase.
+ * Students who have voted get a list with their current voting.
+ * Students who have not voted yet get a reminder.
+ *   
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 10:32
+ * @see org.activiti.engine.delegate.JavaDelegate
+ */
 public class EmailSenderTask implements JavaDelegate {
-	// TODO: Overide Dummys
+	// TODO: Overide ProcessIdentifier Dummys
 	private String Type = "Ba";
 	private String Semester = "SS";
 	private int Year = 2011;
 	private String Enddate = "01.04.2012";
 	
+	/**
+	 * Fetches all students and their voting from the database and generates and sends the e-mails.
+	 * 
+	 * @param arg0 the current execution state of the process
+	 * @return void
+	 * @throws UnsupportedEncodingException if there are unsupported characters in the e-mail
+	 * @throws SQLTableException if the connection to the database fails
+	 * @see org.activiti.engine.delegate.JavaDelegate#execute(org.activiti.engine.delegate.DelegateExecution)
+	 */
 	@Override
-	public void execute(DelegateExecution arg0) throws Exception {
+	public void execute(DelegateExecution arg0) throws UnsupportedEncodingException, SQLTableException {
 		DbInterface connection = new DbInterface();
 				
 		// send reminder mail to all students, who haven't voted yet
@@ -98,7 +122,7 @@ public class EmailSenderTask implements JavaDelegate {
 			connection.disconnect();	
 		} catch (Exception e) {
 			System.out.printf("Error in EmailSender: %s\n", e.toString());
-			System.out.printf("%s\n", e.getStackTrace().toString());
+			e.printStackTrace();
 		}
 	}
 }

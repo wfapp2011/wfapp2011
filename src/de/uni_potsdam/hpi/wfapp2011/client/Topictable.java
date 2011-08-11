@@ -13,6 +13,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
+/**
+ * Composite widget which displays an overview of all project topics.
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 12.37
+ * @see com.google.gwt.user.client.ui.Composite
+ */
 public class Topictable extends Composite {
 	private VerticalPanel verticalPanel;
 	private FlexTable flexTable;
@@ -26,11 +33,18 @@ public class Topictable extends Composite {
 		Topics = topics;
 	}
 
+	/**
+	 * constructor which sets the topic list and creates a table with the topics
+	 * @param topics
+	 */
 	public Topictable (ArrayList<Topic> topics) {
 		Topics = topics;
 		createTopicTable();		
 	}
 	
+	/**
+	 *  refreshes the topic table
+	 */
 	public void refresh() {
 		flexTable.removeAllRows();
 		createHeader();
@@ -39,12 +53,15 @@ public class Topictable extends Composite {
 	
 	private	void createTopicTable()
 	{
+		//create main panel
 		verticalPanel = new VerticalPanel();
 		verticalPanel.setWidth("100%");
 		initWidget(verticalPanel);
 		
+		//create headline
 		HTMLPanel panelHeadline = new HTMLPanel("<h1>Themen\u00FCbersicht:</h1>");
 		verticalPanel.add(panelHeadline);
+		//create table for the project topics
 		flexTable = new FlexTable();
 		flexTable.setSize("100%", "");
 		verticalPanel.add(flexTable);
@@ -58,7 +75,6 @@ public class Topictable extends Composite {
 	private void setupTableStyle()
 	{
 		flexTable.addStyleName("topicList");
-		
 		HTMLTable.CellFormatter formatter = flexTable.getCellFormatter();
 		formatter.setWidth(0, 0, "1%");
 		formatter.setWidth(0, 1, "30%");
@@ -79,6 +95,7 @@ public class Topictable extends Composite {
 	
 	private void createTableEntries()
 	{
+		//add topics to the table
 		for(Topic i: Topics)
 		{
 			final Topic currentTopic = i;
@@ -96,6 +113,7 @@ public class Topictable extends Composite {
 	
 	private void showProjectDetail(Topic topic)
 	{
+		//show the detail view for one project
 		final TopicDetailView topicDetail = new TopicDetailView(topic);
 		topicDetail.addCloseClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -105,6 +123,10 @@ public class Topictable extends Composite {
 		flexTable.setVisible(false);		
 	}
 	
+	/**
+	 * closes the detail window and shows the table
+	 * @param Child
+	 */
 	public void closeChild(Widget Child)
 	{
 		verticalPanel.remove(Child);

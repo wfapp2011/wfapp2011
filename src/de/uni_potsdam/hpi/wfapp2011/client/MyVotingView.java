@@ -1,5 +1,5 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
-
+// IMPORTS
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
@@ -16,6 +16,15 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
+/**
+ * <code>MyVotingView</code> is a composite widget which displays the current voting of the user.
+ * The user can also delete his voting.
+ * 
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 10:45
+ * @see com.google.gwt.user.client.ui.Composite
+ */
 public class MyVotingView extends Composite {
 	private FlexTable flexTable;
 	private HTMLPanel panelHeadline;
@@ -24,7 +33,7 @@ public class MyVotingView extends Composite {
 	private final VotingDatabaseServiceAsync databaseService = GWT.create(VotingDatabaseService.class);
 	private Button btnWahlLschen;
 	
-
+	
 	public ArrayList<Vote> getVoting() {
 		return Voting;
 	}
@@ -32,21 +41,29 @@ public class MyVotingView extends Composite {
 	public void setVoting(ArrayList<Vote> voting) {
 		Voting = voting;
 	}
-
+	
+	/**
+	 * The standard constructor creates and sets up all child widgets
+	 * and loads the voting form the database
+	 */
 	public MyVotingView() {
+		// create main panel
 		mainPanel = new VerticalPanel();
 		initWidget(mainPanel);
 		
+		// create head line
 		panelHeadline = new HTMLPanel("<h1>Meine Wahl:</h1>");
 		mainPanel.add(panelHeadline);
 		mainPanel.setCellHeight(panelHeadline, "35px");
 		
+		// create table for the voting list
 		flexTable = new FlexTable();
 		flexTable.setSize("100%", "");
 		flexTable.setStyleName("topicList");
 		mainPanel.add(flexTable);
 		mainPanel.setCellHeight(flexTable, "");
 		
+		// create button for deleting the votings
 		btnWahlLschen = new Button("Wahl l\u00F6schen");
 		btnWahlLschen.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -65,17 +82,19 @@ public class MyVotingView extends Composite {
 	private void loadVoting() {
 		// create proxy voting list, while the real one is loading
 		Voting = new ArrayList<Vote>();
+		
+		// TODO replace with dummy processID and dummy user name
+		// call the remote procedure to load the voting
 		databaseService.loadVotes("Ba", "SS", 2011, "Bernd das Brot", new AsyncCallback<ArrayList<Vote>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
+				// do nothing when a failure occurs, the empty proxy voting list remains
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Vote> result) {
-				// TODO Auto-generated method stub
+				// replace the proxy voting list with the real on and refresh the page
 				Voting = result;
 				refresh();
 			}
@@ -86,6 +105,7 @@ public class MyVotingView extends Composite {
 
 	private void createHeader()
 	{
+		// setup header of the table
 		flexTable.setText(0, 0, "Priorit\u00E4t");
 		flexTable.setText(0, 1, "Projektname");
 			
@@ -98,12 +118,16 @@ public class MyVotingView extends Composite {
 	}
 	
 	private void refresh(){
+		// remove all table entries except the header
 		int rows = flexTable.getRowCount();
 		for (int i = 1; i<rows; i++)
 			flexTable.removeRow(1);
 		
+		// insert message if student hasn't voted yet
 		if (Voting.size() == 0)
 			flexTable.setText(1, 1, "Sie haben noch nicht gew\u00E4hlt");
+		
+		// insert votes
 		int j=1;
 		for(Vote i: Voting){
 			flexTable.setText(j, 0, i.getPriority()+".");
@@ -113,6 +137,8 @@ public class MyVotingView extends Composite {
 	}
 	
 	private void deleteVote(){
+		// TODO replace dummy processIdentifier and dummy  user name
+		// call remote procedure to delete the voting
 		databaseService.deleteVotes("Ba", "SS", 2011, "Bernd das Brot", new AsyncCallback<Void>(){
 
 			@Override
@@ -129,6 +155,10 @@ public class MyVotingView extends Composite {
 		});
 	}
 	
+	/**
+	 * <code>reload()</code> loads the voting from the database and reloads the page
+	 * @return void	
+	 */
 	public void reload() {
 		loadVoting();
 	}

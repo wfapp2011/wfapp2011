@@ -3,6 +3,16 @@ package de.uni_potsdam.hpi.wfapp2011.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * <code>Topic</code> is a class which saves the information of one Topic. It is used
+ * to send results of a database request per remote procedure call. Therefore it implements <code>Serializable</code>
+ * 
+ * @author Stefanie Birth, Marcel Pursche
+ * @version 11.08.2011 11.54
+ * @see java.io.Serializable
+ */
+
+
 public class Topic implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static int shortDescriptionLength = 150;
@@ -15,7 +25,10 @@ public class Topic implements Serializable {
 	private String department;
 	private String file;
 	private ArrayList<Person> contactPerson;
-			
+
+	/**
+	 * standard constructor necessary for the <code>Serializable</code> interface
+	 */
 	public Topic(){
 		projectID = 0;
 		name = "";
@@ -27,7 +40,11 @@ public class Topic implements Serializable {
 		file = "";
 		contactPerson = new ArrayList<Person>();
 	}
-	
+
+	/**
+	 * constructor which set  private attribute
+	 * @param Name name of a project
+	 */
 	public Topic(String Name){
 		projectID = 0;
 		name = Name;
@@ -40,6 +57,18 @@ public class Topic implements Serializable {
 		contactPerson = new ArrayList<Person>();
 	}
 	
+	/**
+	 * constructor which sets all private attributes
+	 * 
+	 * @param id projectID
+	 * @param Name project name
+	 * @param Shortcut project shortcut
+	 * @param description project description
+	 * @param min_stud minimum of students in this project
+	 * @param max_stud maximum of students in this project
+	 * @param Department the department of this project
+	 * @param pdf the pdf for this project
+	 */
 	public Topic(int id, String Name, String Shortcut, String description, int min_stud, int max_stud,
 			String Department, String pdf){
 		projectID = id;
@@ -58,10 +87,21 @@ public class Topic implements Serializable {
 	public ArrayList<Person> getcontactPerson() {
 		return contactPerson;
 	}
+	
+	/**
+	 * add a contact person for a project
+	 * 
+	 * @param contactperson
+	 */
 	public void addcontactPerson(Person contactperson) {
 		contactPerson.add(contactperson);
 	}
 	
+	/**
+	 * remove a contact person for a project
+	 * 
+	 * @param contactperson
+	 */
 	public void removecontactPerson(Person contactperson) {
 		while (contactPerson.contains(contactperson))
 			contactPerson.remove(contactPerson.indexOf(contactperson));
