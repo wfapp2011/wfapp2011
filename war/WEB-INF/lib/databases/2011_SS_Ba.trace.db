@@ -2,3 +2,178 @@
 org.h2.jdbc.JdbcSQLException: NULL nicht zulässig für Feld "TOPICID"
 NULL not allowed for column "TOPICID"; SQL statement:
 INSERT INTO PROJECTTOPIC( PROJECTNAME , MINSTUD , MAXSTUD ) VALUES ( 'M1', 4,8) [90006-132]
+07-09 20:51:37 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Feld "H1" nicht gefunden
+Column "H1" not found; SQL statement:
+INSERT INTO PROJECTTOPIC (TOPICID, PROJECTNAME, MINSTUD ,MAXSTUD) VALUES (6,H1,4,8) [42122-157]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:134)
+	at org.h2.command.dml.Insert.prepare(Insert.java:231)
+	at org.h2.command.Parser.prepareCommand(Parser.java:218)
+	at org.h2.engine.Session.prepareLocal(Session.java:415)
+	at org.h2.engine.Session.prepareCommand(Session.java:364)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1119)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1307)
+	at org.h2.server.web.WebApp.query(WebApp.java:997)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:960)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:963)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+07-10 00:25:20 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "DELETE *[*] FROM VOTE"; erwartet "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM VOTE"; expected "identifier"; SQL statement:
+DELETE * FROM VOTE [42001-157]
+07-10 20:48:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "DELETE *[*] FROM PERSON"; erwartet "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM PERSON"; expected "identifier"; SQL statement:
+DELETE * FROM PERSON [42001-157]
+07-10 22:09:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "ALTER PERSON[*] SET PLACEMENT=NULL "; erwartet "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"
+Syntax error in SQL statement "ALTER PERSON[*] SET PLACEMENT=NULL "; expected "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"; SQL statement:
+ALTER PERSON SET Placement=null [42001-157]
+07-10 22:10:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "ALTER PERSON[*] SET PLACEMENT=NULL "; erwartet "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"
+Syntax error in SQL statement "ALTER PERSON[*] SET PLACEMENT=NULL "; expected "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"; SQL statement:
+ALTER PERSON SET Placement=NULL [42001-157]
+07-10 22:10:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "ALTER PERSON[*] DELETE PLACEMENT "; erwartet "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"
+Syntax error in SQL statement "ALTER PERSON[*] DELETE PLACEMENT "; expected "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"; SQL statement:
+ALTER PERSON DELETE Placement [42001-157]
+07-10 22:12:06 jdbc[59]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "ALTER PERSON[*] ALTER PLACEMENT SET NULL "; erwartet "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"
+Syntax error in SQL statement "ALTER PERSON[*] ALTER PLACEMENT SET NULL "; expected "TABLE, USER, INDEX, SCHEMA, SEQUENCE, VIEW"; SQL statement:
+ALTER Person ALTER Placement SET NULL [42001-157]
+07-10 22:14:50 jdbc[59]: exception
+org.h2.jdbc.JdbcSQLException: Unbekannter Datentyp: 
+Unknown data type: ; SQL statement:
+ALTER TABLE PERSON ADD COLUMN Placement [50004-157]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3625)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3488)
+	at org.h2.command.Parser.parseAlterTableAddColumn(Parser.java:4930)
+	at org.h2.command.Parser.parseAlterTable(Parser.java:4786)
+	at org.h2.command.Parser.parseAlter(Parser.java:4291)
+	at org.h2.command.Parser.parsePrepared(Parser.java:306)
+	at org.h2.command.Parser.parse(Parser.java:279)
+	at org.h2.command.Parser.parse(Parser.java:251)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:415)
+	at org.h2.engine.Session.prepareCommand(Session.java:364)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1119)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1307)
+	at org.h2.server.web.WebApp.query(WebApp.java:997)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:960)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:963)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+07-11 14:55:16 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "ALTER TABLE PERSON REMOVE[*] COLUMN PLACEMENT"; erwartet "., ADD, SET, RENAME, DROP, ALTER"
+Syntax error in SQL statement "ALTER TABLE PERSON REMOVE[*] COLUMN PLACEMENT"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+ALTER TABLE PERSON REMOVE COLUMN PLACEMENT [42001-157]
+07-11 14:56:31 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unbekannter Datentyp: 
+Unknown data type: ; SQL statement:
+ALTER TABLE PERSON ADD COLUMN PLACEMENT [50004-157]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3625)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3488)
+	at org.h2.command.Parser.parseAlterTableAddColumn(Parser.java:4930)
+	at org.h2.command.Parser.parseAlterTable(Parser.java:4786)
+	at org.h2.command.Parser.parseAlter(Parser.java:4291)
+	at org.h2.command.Parser.parsePrepared(Parser.java:306)
+	at org.h2.command.Parser.parse(Parser.java:279)
+	at org.h2.command.Parser.parse(Parser.java:251)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:415)
+	at org.h2.engine.Session.prepareCommand(Session.java:364)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1119)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1307)
+	at org.h2.server.web.WebApp.query(WebApp.java:997)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:960)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:963)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+07-31 16:36:33 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Tabelle "PLACEMENT" nicht gefunden
+Table "PLACEMENT" not found; SQL statement:
+Delete Placement From Person [42102-157]
+07-31 16:36:47 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "DROP COLUMN[*] PLACEMEN FROM PERSON "; erwartet "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"
+Syntax error in SQL statement "DROP COLUMN[*] PLACEMEN FROM PERSON "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"; SQL statement:
+Drop column placemen From Person [42001-157]
+07-31 16:36:52 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "DROP COLUMN[*] PLACEMENT FROM PERSON "; erwartet "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"
+Syntax error in SQL statement "DROP COLUMN[*] PLACEMENT FROM PERSON "; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE"; SQL statement:
+Drop column placement From Person [42001-157]
+07-31 16:37:51 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Unbekannter Datentyp: 
+Unknown data type: ; SQL statement:
+Alter table PERSON add column pLACEMENT [50004-157]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:3625)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:3488)
+	at org.h2.command.Parser.parseAlterTableAddColumn(Parser.java:4930)
+	at org.h2.command.Parser.parseAlterTable(Parser.java:4786)
+	at org.h2.command.Parser.parseAlter(Parser.java:4291)
+	at org.h2.command.Parser.parsePrepared(Parser.java:306)
+	at org.h2.command.Parser.parse(Parser.java:279)
+	at org.h2.command.Parser.parse(Parser.java:251)
+	at org.h2.command.Parser.prepareCommand(Parser.java:217)
+	at org.h2.engine.Session.prepareLocal(Session.java:415)
+	at org.h2.engine.Session.prepareCommand(Session.java:364)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1119)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:164)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1307)
+	at org.h2.server.web.WebApp.query(WebApp.java:997)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:960)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:963)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+07-31 18:31:08 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Doppelter Feldname "PLACEMENT"
+Duplicate column name "PLACEMENT"; SQL statement:
+Alter table PERSON add column pLACEMENT varchar(10) [42121-157]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:327)
+	at org.h2.message.DbException.get(DbException.java:167)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.table.Table.setColumns(Table.java:376)
+	at org.h2.table.TableBase.<init>(TableBase.java:35)
+	at org.h2.table.RegularTable.<init>(RegularTable.java:75)
+	at org.h2.schema.Schema.createTable(Schema.java:542)
+	at org.h2.command.ddl.AlterTableAlterColumn.cloneTableStructure(AlterTableAlterColumn.java:283)
+	at org.h2.command.ddl.AlterTableAlterColumn.copyData(AlterTableAlterColumn.java:196)
+	at org.h2.command.ddl.AlterTableAlterColumn.update(AlterTableAlterColumn.java:132)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:71)
+	at org.h2.command.Command.executeUpdate(Command.java:212)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:177)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:152)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1307)
+	at org.h2.server.web.WebApp.query(WebApp.java:997)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:960)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:963)
+	at org.h2.server.web.WebThread.process(WebThread.java:166)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:680)
+08-12 11:36:15 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "DELETE *[*] FROM PERSON "; erwartet "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM PERSON "; expected "identifier"; SQL statement:
+Delete * FROM PERSON [42001-157]

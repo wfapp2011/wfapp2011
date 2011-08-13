@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.assignment.client.AssignmentDataExchangeService
+path: 38C0F51E5195D0F7AC4793F2D71EB5A7.gwt.rpc

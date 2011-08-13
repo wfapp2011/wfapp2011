@@ -2,27 +2,49 @@ package de.uni_potsdam.hpi.wfapp2011.assignment.client;
 
 import com.google.gwt.user.client.ui.HTML;
 
+/**
+ * Calculation of assignment statistics.
+ * Includes a success measure in percent, plus the number of first, second and third wishes.
+ * 
+ * @return the ready-to-display Statistics page
+ */
 public class StatisticsCalculator {
-
-	public static boolean changed;
-
-	public static HTML calculateStatistics(int students){
+	/**
+	 * Calculates how good the current assignment is.
+	 * 
+	 * @return the fully designed statistics page as an HTML widget.
+	 */
+	public static HTML calculateStatistics(){
 
 		int successsum=0;
-		int [] wishes = new int[3];
-	    //int [][] assignment = HungarianAlgorithm.getAssignment();
-	    int permittedVotes = HungarianAlgorithm.StudentList[0].votes.length;
+		int [] wishes = new int[5];
+	    int permittedVotes = AP5_main.DBStudents[0].votes.length;
 
-	    for (int i = 0; i < students; i++) {
-	    	int wish = HungarianAlgorithm.StudentList[i].findVote(HungarianAlgorithm.StudentList[i].placement.ProjectID);
-	    	successsum+=(permittedVotes - wish) + 1;
-			if (wish == 1) wishes[0]++;
-	    	if (wish == 2) wishes[1]++;
-	    	if (wish == 3) wishes[2]++;
-		}
+	    for (Student student : AP5_main.DBStudents) {
+	    	int wish = student.findVote(student.placement.projectID);
+	    	if (wish != 0) successsum+=(permittedVotes - wish) + 1;
+	    	for (int i=0; i<permittedVotes; i++){
+	    		if (wish == i+1) {
+	    			wishes[i]++;
+	    			break;
+	    		}
+	    	}
+	    }
 		
-		int successrate = (int) successsum*100/(5*students);
+	    int successrate = (int) (successsum*100/(5*AP5_main.DBStudents.length));
 
+		return statisticsPage(wishes, successrate);
+	}
+
+	/**
+	 * Generates the HTML widget that is shown as the statistics page.
+	 * 
+	 * @param wishes 		an Array of integers representing the number of first, second and third wishes fulfilled
+	 * @param successrate	the success measure (in percent) to be displayed as a bar chart		
+	 * @return an HTML widget that displays all relevant statistics data
+	 */
+	private static HTML statisticsPage(int[] wishes, int successrate) {
+		int students = AP5_main.DBStudents.length;
 		return new HTML("" +
 				"<html>" +
 				"<body>" +
@@ -91,12 +113,24 @@ public class StatisticsCalculator {
 						wishes[2] +" von "+ students +
 					"</td>" +
 				"</tr>" +
+				"<tr>" +
+					"<td>" +
+						"Erf&uuml;llte Viertw&uuml;nsche: " +
+					"</td>" +
+					"<td>" +
+						wishes[3] +" von "+ students +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>" +
+						"Erf&uuml;llte F&uuml;nftw&uuml;nsche: " +
+					"</td>" +
+					"<td>" +
+						wishes[4] +" von "+ students +
+					"</td>" +
+				"</tr>" +
+				"</table>" +
 				"</body>" +
 				"</html>");
-	}
-
-	public static void setChanged() {
-		changed = true;
-		
 	}
 }

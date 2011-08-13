@@ -373,4 +373,10 @@ hr {
 	background-image: url(excel-icon.png);
 	text-indent: 25px;
 }
-
+ .imagesPanel {
+	background:url(images/Menu.png) repeat-x;
+	background-position: 0 110px;
+}
+.btnSave-unsaved {
+	color: red;
+}

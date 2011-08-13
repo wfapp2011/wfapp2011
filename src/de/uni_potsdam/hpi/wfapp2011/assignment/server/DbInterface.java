@@ -99,7 +99,8 @@ public class DbInterface {
 		//#####################################
 			Connection con = null;
 			try{
-				con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				//con = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				con = DriverManager.getConnection("jdbc:h2:~/Documents/HPI/SS11/Workflow Seminar/ap5/workspace/wfapp2011assignment/war/WEB-INF/lib/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
 			}
 			catch(SQLException e){
 				e.printStackTrace();
@@ -260,7 +261,9 @@ public class DbInterface {
 		//########################################
 			try{
 				if(dbConnection == null){
-					dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+					//dbConnection = DriverManager.getConnection("jdbc:h2:tcp://"+ server + /*":"+ port +*/ "/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+					dbConnection = DriverManager.getConnection("jdbc:h2:~/Documents/HPI/SS11/Workflow Seminar/ap5/workspace/wfapp2011assignment/war/WEB-INF/lib/databases/"+ String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+
 				}
 			}
 			catch(SQLException e){

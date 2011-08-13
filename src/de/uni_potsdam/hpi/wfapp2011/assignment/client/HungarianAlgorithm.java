@@ -21,9 +21,6 @@ package de.uni_potsdam.hpi.wfapp2011.assignment.client;
  * [It returns an assignment matrix[array.length][2] that contains the row and col of
  * the elements (in the original inputted array) that make up the optimum assignment.]
  *  
- * [This version contains only scarce comments. If you want to understand the 
- * inner workings of the algorithm, get the tutorial version of the algorithm
- * from the same website you got this one (http://www.spatial.maine.edu/~kostas/dev/soft/munkres.htm)]
  * 
  * Any comments, corrections, or additions would be much appreciated. 
  * Credit due to professor Bob Pilgrim for providing an online copy of the
@@ -39,63 +36,94 @@ package de.uni_potsdam.hpi.wfapp2011.assignment.client;
 
 import java.util.*;
 
+/**
+ * Hungarian algorithm implementation with necessary adaptions to WfApp Application
+ */
+
 public class HungarianAlgorithm {
-	
-	static HashMap<String, int[]> ProjectTable;
-	public static int MaxProjectTableIndex;
+	/**
+	 * HashMap that allows to look up which index range in the matrix from 
+	 * <code>generateMatrxi()</code>belongs to it.
+	 */
+	private static HashMap<String, int[]> ProjectTable;
 	private static HashMap<Integer, Student> StudentTable;
-	static Project[] ProjectList;
-	static Student[] StudentList;
-	static int[][] Assignment;
-	static double[][] VotesMatrix;		//without any ignored projects
+	private static Project[] ProjectList;
+	private static Student[] StudentList;
+	private static int[][] Assignment;
 	
-	public static void initHg(Project[] Projects, Student[] Students){
+	/**
+	 * Initializes the necessary data for the algorithm
+	 * 
+	 * @param Projects	an Array of Project objects that are supposed to be filled with Students
+	 * @param Students	an Array of Student objects that are supposed to be assigned to a Project
+	 * @return whether the algorithms could produce a valid result with the given data
+	 */
+	public static boolean initHg(Project[] Projects, Student[] Students){
 		ProjectList = Projects;
 		StudentList = Students;
-		VotesMatrix = generateMatrix();
 		
 		if (checkVotingData() > 0){
 			int[][] ass = {{-1, checkVotingData()}};
 			Assignment = ass;
-			System.out.println("Invalid Data");
+			return false;
 		}
 		else{
 			while(checkVotingData() < 0){
 				ignoreWorstProject();
 			}
-			Assignment = hgAlgorithm(generateMatrix());
-			System.out.println("assignment generated");
+			Assignment = hgAlgorithm(generateMatrix(StudentList, ProjectList));
 			fixErrors(Assignment);
 			setPlacements();
+			return true;
 		}
 	}
 
+	/**
+	 * finds out to which Project each student has been assigned and sets his/her placement variable accordingly
+	 */
 	private static void setPlacements() {
-		System.out.println("Setting Placements");
 		for(int i=0; i<StudentList.length; i++){
 			StudentList[i].placement = lookUpProject(Assignment[i][1]);
 		}
 	}
 
-	private static int maxStudents(){
+	/**
+	 * calculates the sum of all maxStudents attributes from given projects
+	 * 
+	 * @param projList	the Array of Projects for which maximum number of students should be calculated
+	 * @return the maximum number of Project places available
+	 */
+	private static int maxStudents(Project[] projList){
 		int maxStudents = 0;
-		for(int i = 0; i < ProjectList.length; i++){
-			maxStudents = maxStudents + ProjectList[i].maxStudents;
+		for(Project p : projList){
+			maxStudents += p.maxStudents;
 		}
 		return maxStudents;
 	}
 	
-	private static int minStudents(){
+	/**
+	 * calculates the sum of all minStudents attributes from given projects
+	 * 
+	 * @param projList	the Array of Projects for which minimum number of students should be calculated
+	 * @return the minimum number of Project places available
+	 */
+	private static int minStudents(Project[] projList){
 		int minStudents = 0;
-		for(int i = 0; i < ProjectList.length; i++){
-			minStudents += ProjectList[i].minStudents;
+		for(Project p : projList){
+			minStudents += p.minStudents;
 		}
 		return minStudents;
 	}
 	
+	/**
+	 * checks whether a valid assignment might be impossible based on project places / student ratio
+	 * 
+	 * @return 	0 if there is no problem, 
+	 * 			a positive number if there are too many students - saying how many places are missing
+	 * 			a negative number if there are too little students - saying how many more are needed
+	 */
 	public static int checkVotingData(){
-		int max = maxStudents(), min = minStudents(), NoSt = StudentList.length;
-		System.out.println("checking voting data");
+		int max = maxStudents(ProjectList), min = minStudents(ProjectList), NoSt = StudentList.length;
 		if (NoSt > max){
 			return (NoSt - max); 	//will be positive
 		}
@@ -105,34 +133,52 @@ public class HungarianAlgorithm {
 		return 0;
 	}
 	
+	/**
+	 * Shortens <code>ProjectList</code> by one, deleting the least liked project.
+	 */
 	private static void ignoreWorstProject(){
 		Project[] SortedProjectList = getProjectRanking();
-		ProjectList = new Project[ProjectList.length -1];
+		ProjectList = new Project[ProjectList.length - 1];
 		for (int i=1; i<SortedProjectList.length; i++){
 			ProjectList[i-1] = SortedProjectList[i];
 		}
-		System.out.println("Ignoring " + SortedProjectList[0].ProjectID);
 	}
-	public static Project[] getProjectRanking() {
+	
+	/**
+	 * Calculates for each Project in the <code>ProjectList</code> how popular they are.
+	 * Each Project receives a score, calculated based on who has voted it with which preference.
+	 * E.g. if three votes are permitted, one points are assigned to a project for each student who voted 
+	 * it on third rank, two for each who voted it on second rank etc.
+	 * 
+	 * @return a Project Array sorted from most often to least often voted
+	 */
+	private static Project[] getProjectRanking() {
 		int prIndex = 0;
-		double[][] matrix = generateMatrix();
+		double[][] matrix = generateMatrix(StudentList, ProjectList);
+		HashMap<Project, Integer> rankPoints = new HashMap<Project, Integer>();
 		for(int i = 0; i<ProjectList.length; i++){
-			int rankPoints = 0;
-			prIndex = ProjectTable.get(ProjectList[i].ProjectID)[0];
+			int points = 0;
+			prIndex = ProjectTable.get(ProjectList[i].projectID)[0];
 			for(int j = 0; j<StudentList.length; j++){
-				rankPoints += matrix[j][prIndex];
+				points += matrix[j][prIndex];
 			}
-			ProjectList[i].rankPoints = rankPoints;
+			rankPoints.put(ProjectList[i], points);
 		}
-		return SortByRank(ProjectList);
+		return sort(ProjectList, rankPoints);
 	}
 
-	private static Project[] SortByRank(Project[] Array) {
-	//least voted project first
+	/**
+	 * Sorts the Projects by rank points previously calculated.
+	 * 
+	 * @param Array			the Array of Projects to be sorted
+	 * @param rankPoints 	a HashMap that assigns a point value to each Project
+	 * @return the sorted Project Array, starting with the Project with the least points
+	 */
+	private static Project[] sort(Project[] Array, HashMap<Project, Integer> rankPoints) {
 		for(int i = 0; i<Array.length; i++){
 				int min = i;
 				for (int j = i+1; j < Array.length; j++){
-					if (Array[j].rankPoints < Array[min].rankPoints) min = j;
+					if (rankPoints.get(Array[j]) < rankPoints.get(Array[min])) min = j;
 				}
 				Project temp = Array[i];
 				Array[i]=Array[min];
@@ -141,30 +187,40 @@ public class HungarianAlgorithm {
 		return Array;
 	}
 	
-
-	public static double[][] generateMatrix() {
-		double[][] matrix = new double[StudentList.length][maxStudents()];
+	/**
+	 * Generates the matrix that is taken as input by the Hungarian Algorithm.
+	 * Each entry specifies how much it will be worth if the corresponding Student (columns/first index) is assigned
+	 * to the corresponding Project (rows/second index). Since the Hungarian Algorithm only does one-to-one
+	 * assignments, there are as many rows for each project as students are maximally allowed in this project.
+	 * 
+	 * @param studList	the Array of Students that have to be assigned to Projects
+	 * @param projList	the Array of Projects that the Students should be assigned to
+	 * @return the matrix (integers) to be used as input for Hungarian Algorithm
+	 */
+	public static double[][] generateMatrix(Student[] studList, Project[] projList) {
+		double[][] matrix = new double[studList.length][maxStudents(AP5_main.DBProjects)];
 		int PrNo = 0;
-		MaxProjectTableIndex = 0;
+		int MaxProjectTableIndex = 0;
 		ProjectTable = new HashMap<String,int[]>();
 		StudentTable = new HashMap<Integer, Student>();
 		
-		while (PrNo < ProjectList.length){
-			int[] x = {MaxProjectTableIndex, MaxProjectTableIndex + ProjectList[PrNo].maxStudents - 1};
-			ProjectTable.put(ProjectList[PrNo].ProjectID, x);
-			MaxProjectTableIndex = MaxProjectTableIndex + ProjectList[PrNo].maxStudents;
+		while (PrNo < projList.length){
+			int[] x = {MaxProjectTableIndex, MaxProjectTableIndex + projList[PrNo].maxStudents - 1};
+			ProjectTable.put(projList[PrNo].projectID, x);
+			MaxProjectTableIndex = MaxProjectTableIndex + projList[PrNo].maxStudents;
 			PrNo++;
 		}
 		
 		int StNo = 0;
-		while (StNo < StudentList.length){
-			Student student = StudentList[StNo];
+		while (StNo < studList.length){
+			Student student = studList[StNo];
 			StudentTable.put(StNo, student);
 			for (int j=0; j < 5; j++){
 				if (ProjectTable.containsKey(student.votes[j])){
 					int[] inputPlaces = ProjectTable.get(student.votes[j]);
 					for (int k = inputPlaces[0]; k <= inputPlaces[1]; k++){
-						matrix[StNo][k] = 5-j;	//replace 5 by number of permitted votes
+						matrix[StNo][k] = studList[0].votes.length-j;	//number of votes permitted (5 for Ba)
+																		//minus priority (--> for Ba - first wish: 5, second wish: 4 etc.
 					}
 				}
 			}
@@ -173,102 +229,188 @@ public class HungarianAlgorithm {
 		return matrix;
 	}
 	
-	public static Student lookUpStudent(int i) {
+	/**
+	 * Looks up which Student belongs to an index.
+	 * 
+	 * Useful for Hungarian Algorithm. This way we can relate the resulting assignment back to
+	 * the Students since all Students are initially stored in the HashMap <code>StudentTable</code>
+	 * with their index.
+	 * 
+	 * @param i	the index that will be looked up
+	 * @return	the <code>Student</code> that corresponds to this index
+	 */
+	private static Student lookUpStudent(int i) {
 		return StudentTable.get(i);
 	}
 
-	public static Project lookUpProject(int PlacementNo){
+	/**
+	 * Given a placement number a student was assigned to, it finds the project that this number represents.
+	 * 
+	 * @see ProjectTable
+	 * 
+	 * @param placementNo the number in the second "column" of the assignment matrix
+	 * @return the <code>Project</code> that the placement number belongs to
+	 */
+	private static Project lookUpProject(int placementNo){
 		for (int i = 0; i<ProjectTable.size(); i++){
-			int[] indizes = ProjectTable.get(ProjectList[i].ProjectID);
-			if (indizes[0]<=PlacementNo & indizes[1]>=PlacementNo) return ProjectList[i];
+			int[] indizes = ProjectTable.get(ProjectList[i].projectID);
+			if (indizes[0]<=placementNo & indizes[1]>=placementNo) 
+				return ProjectList[i];
 		}
 		return null;
 	}
 	
+	/**
+	 * Getter for the assignment matrix.
+	 * This matrix is the output of the Hungarian Algorithm. It has two columns(second index)
+	 * and as many rows (first index) as Students as have been the input. So each row represents 
+	 * a student which can be accessed via <code>lookUpStudent(int i)</code>. 
+	 * For each student, the first column (Assignment[i][1]) represents his/her "placement number" where 
+	 * each placement is unique and can be related to the Project through <code>lookUpProject()</code>.
+	 * The second column (Assignment[i][0]) says how much this placement is worth for that student (relating
+	 * to his/her votes)
+	 * 
+	 * @return the Assignment class variable
+	 */
 	public static int[][] getAssignment(){
 		return Assignment;
 	}
-
-	public static int[] getSizeErrors(int[][] assignment) {
-		int prIndex = 0;
-		int[] errors = new int[ProjectList.length];
-		while(prIndex < ProjectList.length){
-			Project pr = ProjectList[prIndex];
-			int noSt = pr.count(assignment);
-			if (noSt < pr.minStudents){
-					System.out.println("Projekt "+ pr.ProjectID +
-						" hat nicht genug Studenten!" );
-					errors[prIndex]=pr.minStudents - noSt;
+	
+	/**
+	 * Counts the students assigned to the given project in the current Assignment matrix.
+	 * 
+	 * @param p	the Project for which student number shall be counted
+	 * @return the number of students assigned to p in <code>Assignment</code>
+	 */
+	private static int countStudents(Project p) {
+		int count = 0;
+		for(int i = 0; i<Assignment.length; i++){
+			if (lookUpProject(Assignment[i][1]) == p) count++;
+		}
+		return count;
+	}
+	
+	/**
+	 * Takes errors found by <code>getSizeErrors()</code> and tries to fix them by step by step
+	 * allowing more loss in quality.
+	 * @param ass the Integer-Matrix representing the current Assignment
+	 */
+	private static void fixErrors(int[][] ass) {
+		int[] errors = getSizeErrors(ass);
+		//iterates over Projects
+		for(int i=0; i<errors.length; i++){
+			//executes once for each student missing in the project
+			while (errors[i]>0){
+				for(int step=0; step <= 4 /*TODO:replace*/; step++){
+					if(moveSingleStudent(ProjectList[i], ass, step)){
+						errors[i]--;
+						break;
+					}
+					else if(moveStudentPair(ProjectList[i], ass, step)){
+						errors[i]--;
+						break;
+					}
+				}
 			}
-			prIndex++;
+		}
+	}
+	
+	/**
+	 * Checks which projects do not have enough students.
+	 * It is guaranteed by the implementation that maximum student number will not be exceeded
+	 * @see generateMatrix
+	 * 
+	 * @param assignment the Integer-Matrix representing the current Assignment
+	 * @return an Array with the same indexes as <code>ProjectList</code> and values that say
+	 * 		how many students are missing in the project to fulfill its minimum student number requirement
+	 */
+	private static int[] getSizeErrors(int[][] assignment) {
+		int[] errors = new int[ProjectList.length];
+		for(int prIndex = 0; prIndex < ProjectList.length; prIndex++){
+			Project pr = ProjectList[prIndex];
+			int noSt = countStudents(pr);
+			if (noSt < pr.minStudents)
+					errors[prIndex]=pr.minStudents - noSt;
 		}
 		return errors;
 	}
 	
-
-	public static void fixErrors(int[][] ass) {
-		int[] errors = getSizeErrors(ass);
-		for(int i=0; i<errors.length; i++){
-			while (errors[i]>0){
-				int s = findStudentToMove(ProjectList[i], ass, 1);
-				if (s >= 0){
-					ass[s][1] = ProjectTable.get(ProjectList[i].ProjectID)[0] 
-					           + ProjectList[i].count(ass);
-					errors[i]--;
-				}
-				else {
-					int[] p = findStudentPairToMove(ProjectList[i], ass, 1);
-					if(p[0] >= 0){
-						ass[p[1]][1] = ass[p[0]][1];
-						ass[p[0]][1] = ProjectTable.get(ProjectList[i].ProjectID)[0] 
-						            + ProjectList[i].count(ass);
-						errors[i]--;
-					}
-					else{
-						s = findStudentToMove(ProjectList[i], ass, 2);
-						if(s >= 0){
-							ass[s][1] = ProjectTable.get(ProjectList[i].ProjectID)[0] 
-						            + ProjectList[i].count(ass);
-							errors[i]--;
-						}
-						else {
-							p = findStudentPairToMove(ProjectList[i], ass, 2);
-							if(p[0] >= 0){
-								ass[p[1]][1] = ass[p[0]][1];
-								ass[p[0]][1] = ProjectTable.get(ProjectList[i].ProjectID)[0] 
-								            + ProjectList[i].count(ass);
-								errors[i]--;
-							}							
-							else{
-								System.out.println("another phase needed");
-								errors[i]=0;
-							}
-						}
-					}
-				}
-			}
+	/**
+	 * Finds and moves a student to a certain Project with a certain decrease of quality of the assignment.
+	 * 
+	 * @param project	the Project that a student should be moved to
+	 * @param ass		the Integer-Matrix representing the current assignment
+	 * @param step		specifies how much loss in the assignment value is allowed.
+	 * @return	true if a student was moved
+	 * 			false if no student was found able to be moved with the specified decrease in quality
+	 */
+	private static boolean moveSingleStudent(Project project, int[][] ass, int step){
+		int s = findStudentToMove(project, ass, step);
+		if (s >= 0){
+			ass[s][1] = ProjectTable.get(project.projectID)[0] 
+			           + countStudents(project);
+			return true;
 		}
+		return false;
 	}
-
+	
+	/**
+	 * Finds and moves a student to a Project out of a minimally filled other Project, whose place
+	 * is taken by another student from a different Project. 
+	 * 
+	 * @param project	the Project that a student should be moved to
+	 * @param ass		the Integer-Matrix representing the current assignment
+	 * @param step		specifies how much loss in the assignment value is allowed for each move.
+	 * @return	true if a student pair was moved
+	 * 			false if no student pair was found able to be moved with the specified decrease in quality
+	 */
+	private static boolean moveStudentPair(Project project, int[][] ass, int step){
+		int[] p = findStudentPairToMove(project, ass, 1);
+		if(p[0] >= 0){
+			ass[p[1]][1] = ass[p[0]][1];
+			ass[p[0]][1] = ProjectTable.get(project.projectID)[0] 
+			            + countStudents(project);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Finds a student that has pr as his voteIndex-th wish and is not in a minimally filled project
+	 * 
+	 * @param pr		the Project that a student should be moved to
+	 * @param ass		the Integer-Matrix representing the current assignment
+	 * @param voteIndex	specifies how much loss in the assignment value is allowed.
+	 * @return	the index of the student that can be moved if such was found
+	 * 			-1 if no such student has been found
+	 */
 	private static int findStudentToMove(Project pr, int[][] ass, int voteIndex) {
-	//Suche Student der pr als xt-Wunsch hat und nicht in minimalem Projekt ist
 		for(int j=0; j<StudentList.length; j++){
 			Student st = lookUpStudent(j);
 			Project lookedUpPr = lookUpProject(ass[j][1]);
-			if(st.votes[voteIndex] == pr.ProjectID & lookedUpPr.count(ass) > lookedUpPr.minStudents){
+			if(st.votes[voteIndex].equals(pr.projectID) & countStudents(lookedUpPr) > lookedUpPr.minStudents){
 				return j;
 			}
 		}
 		return -1;
 	}
 	
+	/**
+	 * Finds a student that has pr as his voteIndex-th wish and is in a minimally filled project,
+	 * find another student to replace him there
+	 * 
+	 * @param pr		the Project that a student should be moved to
+	 * @param ass		the Integer-Matrix representing the current assignment
+	 * @param voteIndex	specifies how much loss in the assignment value is allowed with each move
+	 * @return	the indexes of the students that can be moved if such were found in form of a two-value array
+	 * 			{-1,-1} if no such students have been found
+	 */
 	private static int[] findStudentPairToMove(Project pr, int[][] ass, int voteIndex){
-	//find Student who has pr as xth wish and another to replace him in his minimal project
 		for(int n=0; n<=voteIndex; n++){	
 			for(int j=0; j<StudentList.length; j++){
 				Student st = lookUpStudent(j);
 				Project lookedUpPr = lookUpProject(ass[j][1]);
-				if(st.votes[voteIndex] == pr.ProjectID & lookedUpPr.count(ass) >= lookedUpPr.minStudents){
+				if(st.votes[voteIndex].equals(pr.projectID) & countStudents(lookedUpPr) >= lookedUpPr.minStudents){
 					int k = findStudentToMove(lookedUpPr, ass, n);
 					if(k>0){
 						int[] re = {j, k};
@@ -281,6 +423,10 @@ public class HungarianAlgorithm {
 		return re;	
 	}
 
+	//******************************************************************//
+	//MR. NEDA'S IMPLEMENTATION OF THE HUNGARIAN ALGORITHM STARTING HERE//
+	//******************************************************************//
+	
 	//*******************************************//
 	//METHODS THAT PERFORM ARRAY-PROCESSING TASKS//
 	//*******************************************//
