@@ -1,0 +1,3 @@
+# Module voting
+# RPC service class, partial path of RPC policy file
+de.uni_potsdam.hpi.wfapp2011.voting.client.VotingDatabaseService, 82D645AEC0CF8ACA67FFD3B255AA3589.gwt.rpc

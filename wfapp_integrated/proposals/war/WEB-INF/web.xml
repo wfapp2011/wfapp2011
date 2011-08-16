@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Proposals.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>TestdataProvider</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.TestdataProvider </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TestdataProvider</servlet-name>
+		<url-pattern>/proposals_module/testdata</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InterfaceForProjectProposal</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.ProposalProvider </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>InterfaceForProjectProposal</servlet-name>
+		<url-pattern>/proposals_module/projectProposal</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InterfaceForComments</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.CommentProvider </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>InterfaceForComments</servlet-name>
+		<url-pattern>/proposals_module/comment</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InterfaceForFiles</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.FileProvider </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>InterfaceForFiles</servlet-name>
+		<url-pattern>/proposals_module/files</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FormHandlerServlet</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.FormHandlerProposal_Servlet </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FormHandlerServlet</servlet-name>
+		<url-pattern>/proposals_module/saveProposal</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>FileDownloadServlet</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.FileDownload_Servlet </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FileDownloadServlet</servlet-name>
+		<url-pattern>/proposals_module/downloadFile</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>ZipFileServlet</servlet-name>
+		<servlet-class>
+			de.uni_potsdam.hpi.wfapp2011.proposals.server.ZipFile_Servlet </servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ZipFileServlet</servlet-name>
+		<url-pattern>/proposals_module/downloadZip</url-pattern>
+	</servlet-mapping>
+	
+	
+<!--
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>de.uni_potsdam.hpi.wfapp2011.server.LoginFilter</filter-class>
+	</filter>
+
+ 
+	<filter>
+		<filter-name>RoleFilter</filter-name>
+		<filter-class>de.uni_potsdam.hpi.wfapp2011.server.RoleFilter</filter-class>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>RoleFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+-->
+	
+</web-app>
+

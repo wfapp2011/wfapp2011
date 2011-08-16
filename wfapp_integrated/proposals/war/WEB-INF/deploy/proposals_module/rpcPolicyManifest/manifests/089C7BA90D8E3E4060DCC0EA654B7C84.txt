@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.CommentInterface
+path: D90B6FF1520835458E4FB632B1E8A2A1.gwt.rpc

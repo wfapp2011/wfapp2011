@@ -1,0 +1,908 @@
+<modify-entry
+   name="commons-vfs-2.0.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/commons-vfs-2.0.jar.svn-base"
+   name=".svn/prop-base/tempfile.tmp"/>
+<readonly
+   name=".svn/prop-base/commons-vfs-2.0.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="commons-vfs-2.0.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="commons-vfs-2.0.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="commons-vfs-2.0.jar"
+   name=".svn/tmp/text-base/commons-vfs-2.0.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/commons-vfs-2.0.jar.svn-base"
+   name=".svn/tmp/text-base/commons-vfs-2.0.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/commons-vfs-2.0.jar.svn-base"/>
+<modify-entry
+   name="commons-vfs-2.0.jar"
+   checksum="a09a4ead12e453c0225e8b7b4f7196c9"/>
+<modify-entry
+   name="commons-vfs-2.0.jar"
+   text-time="working"/>
+<modify-entry
+   name="commons-vfs-2.0.jar"
+   working-size="working"/>
+<modify-entry
+   name="jsch-0.1.41.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/jsch-0.1.41.jar.svn-base"
+   name=".svn/prop-base/tempfile.2.tmp"/>
+<readonly
+   name=".svn/prop-base/jsch-0.1.41.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="jsch-0.1.41.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="jsch-0.1.41.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="jsch-0.1.41.jar"
+   name=".svn/tmp/text-base/jsch-0.1.41.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/jsch-0.1.41.jar.svn-base"
+   name=".svn/tmp/text-base/jsch-0.1.41.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/jsch-0.1.41.jar.svn-base"/>
+<modify-entry
+   name="jsch-0.1.41.jar"
+   checksum="03c3d6a52e322689ca80ad2ea50c1e60"/>
+<modify-entry
+   name="jsch-0.1.41.jar"
+   text-time="working"/>
+<modify-entry
+   name="jsch-0.1.41.jar"
+   working-size="working"/>
+<modify-entry
+   name="itextpdf-5.1.1-sources.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itextpdf-5.1.1-sources.jar.svn-base"
+   name=".svn/prop-base/tempfile.3.tmp"/>
+<readonly
+   name=".svn/prop-base/itextpdf-5.1.1-sources.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itextpdf-5.1.1-sources.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itextpdf-5.1.1-sources.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itextpdf-5.1.1-sources.jar"
+   name=".svn/tmp/text-base/itextpdf-5.1.1-sources.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itextpdf-5.1.1-sources.jar.svn-base"
+   name=".svn/tmp/text-base/itextpdf-5.1.1-sources.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itextpdf-5.1.1-sources.jar.svn-base"/>
+<modify-entry
+   name="itextpdf-5.1.1-sources.jar"
+   checksum="bec50182d16a78aac6ffbfa6ddd6e397"/>
+<modify-entry
+   name="itextpdf-5.1.1-sources.jar"
+   text-time="working"/>
+<modify-entry
+   name="itextpdf-5.1.1-sources.jar"
+   working-size="working"/>
+<modify-entry
+   name="XML Worker 1.0.1.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/XML Worker 1.0.1.jar.svn-base"
+   name=".svn/prop-base/tempfile.4.tmp"/>
+<readonly
+   name=".svn/prop-base/XML Worker 1.0.1.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="XML Worker 1.0.1.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="XML Worker 1.0.1.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="XML Worker 1.0.1.jar"
+   name=".svn/tmp/text-base/XML Worker 1.0.1.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/XML Worker 1.0.1.jar.svn-base"
+   name=".svn/tmp/text-base/XML Worker 1.0.1.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/XML Worker 1.0.1.jar.svn-base"/>
+<modify-entry
+   name="XML Worker 1.0.1.jar"
+   checksum="cb803ccff6cd6a52e47a612816e1c8b2"/>
+<modify-entry
+   name="XML Worker 1.0.1.jar"
+   text-time="working"/>
+<modify-entry
+   name="XML Worker 1.0.1.jar"
+   working-size="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itext-xtra-5.1.1.jar.svn-base"
+   name=".svn/prop-base/tempfile.5.tmp"/>
+<readonly
+   name=".svn/prop-base/itext-xtra-5.1.1.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itext-xtra-5.1.1.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itext-xtra-5.1.1.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itext-xtra-5.1.1.jar"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itext-xtra-5.1.1.jar.svn-base"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itext-xtra-5.1.1.jar.svn-base"/>
+<modify-entry
+   name="itext-xtra-5.1.1.jar"
+   checksum="07f3239b6f3fe13c2753ac7fbf9431e7"/>
+<modify-entry
+   name="itext-xtra-5.1.1.jar"
+   text-time="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1.jar"
+   working-size="working"/>
+<modify-entry
+   name="h2-1.2.132.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/h2-1.2.132.jar.svn-base"
+   name=".svn/prop-base/tempfile.6.tmp"/>
+<readonly
+   name=".svn/prop-base/h2-1.2.132.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="h2-1.2.132.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="h2-1.2.132.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="h2-1.2.132.jar"
+   name=".svn/tmp/text-base/h2-1.2.132.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/h2-1.2.132.jar.svn-base"
+   name=".svn/tmp/text-base/h2-1.2.132.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/h2-1.2.132.jar.svn-base"/>
+<modify-entry
+   name="h2-1.2.132.jar"
+   checksum="d2b717c3f62be86e9a68a0218f03b70b"/>
+<modify-entry
+   name="h2-1.2.132.jar"
+   text-time="working"/>
+<modify-entry
+   name="h2-1.2.132.jar"
+   working-size="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1-javadoc.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itext-xtra-5.1.1-javadoc.jar.svn-base"
+   name=".svn/prop-base/tempfile.7.tmp"/>
+<readonly
+   name=".svn/prop-base/itext-xtra-5.1.1-javadoc.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itext-xtra-5.1.1-javadoc.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itext-xtra-5.1.1-javadoc.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itext-xtra-5.1.1-javadoc.jar"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1-javadoc.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itext-xtra-5.1.1-javadoc.jar.svn-base"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1-javadoc.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itext-xtra-5.1.1-javadoc.jar.svn-base"/>
+<modify-entry
+   name="itext-xtra-5.1.1-javadoc.jar"
+   checksum="67aae2bc72ab0e7fd41397219af513f4"/>
+<modify-entry
+   name="itext-xtra-5.1.1-javadoc.jar"
+   text-time="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1-javadoc.jar"
+   working-size="working"/>
+<modify-entry
+   name="core-renderer-minimal.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/core-renderer-minimal.jar.svn-base"
+   name=".svn/prop-base/tempfile.8.tmp"/>
+<readonly
+   name=".svn/prop-base/core-renderer-minimal.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="core-renderer-minimal.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="core-renderer-minimal.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="core-renderer-minimal.jar"
+   name=".svn/tmp/text-base/core-renderer-minimal.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/core-renderer-minimal.jar.svn-base"
+   name=".svn/tmp/text-base/core-renderer-minimal.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/core-renderer-minimal.jar.svn-base"/>
+<modify-entry
+   name="core-renderer-minimal.jar"
+   checksum="c0f8fb6f5e13650e43c4d369f8d6c397"/>
+<modify-entry
+   name="core-renderer-minimal.jar"
+   text-time="working"/>
+<modify-entry
+   name="core-renderer-minimal.jar"
+   working-size="working"/>
+<modify-entry
+   name="mail.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/mail.jar.svn-base"
+   name=".svn/prop-base/tempfile.9.tmp"/>
+<readonly
+   name=".svn/prop-base/mail.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="mail.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="mail.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="mail.jar"
+   name=".svn/tmp/text-base/mail.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/mail.jar.svn-base"
+   name=".svn/tmp/text-base/mail.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/mail.jar.svn-base"/>
+<modify-entry
+   name="mail.jar"
+   checksum="ca8eb72529cd71bec83c6e419ab27290"/>
+<modify-entry
+   name="mail.jar"
+   text-time="working"/>
+<modify-entry
+   name="mail.jar"
+   working-size="working"/>
+<modify-entry
+   name="commons-codec-1.3.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/commons-codec-1.3.jar.svn-base"
+   name=".svn/prop-base/tempfile.10.tmp"/>
+<readonly
+   name=".svn/prop-base/commons-codec-1.3.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="commons-codec-1.3.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="commons-codec-1.3.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="commons-codec-1.3.jar"
+   name=".svn/tmp/text-base/commons-codec-1.3.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/commons-codec-1.3.jar.svn-base"
+   name=".svn/tmp/text-base/commons-codec-1.3.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/commons-codec-1.3.jar.svn-base"/>
+<modify-entry
+   name="commons-codec-1.3.jar"
+   checksum="8e149c1053741c03736a52df83974dcc"/>
+<modify-entry
+   name="commons-codec-1.3.jar"
+   text-time="working"/>
+<modify-entry
+   name="commons-codec-1.3.jar"
+   working-size="working"/>
+<modify-entry
+   name="xml-apis-xerces-2.9.1.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/xml-apis-xerces-2.9.1.jar.svn-base"
+   name=".svn/prop-base/tempfile.11.tmp"/>
+<readonly
+   name=".svn/prop-base/xml-apis-xerces-2.9.1.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="xml-apis-xerces-2.9.1.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="xml-apis-xerces-2.9.1.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="xml-apis-xerces-2.9.1.jar"
+   name=".svn/tmp/text-base/xml-apis-xerces-2.9.1.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/xml-apis-xerces-2.9.1.jar.svn-base"
+   name=".svn/tmp/text-base/xml-apis-xerces-2.9.1.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/xml-apis-xerces-2.9.1.jar.svn-base"/>
+<modify-entry
+   name="xml-apis-xerces-2.9.1.jar"
+   checksum="9ae9c29e4497fc35a3eade1e6dd0bbeb"/>
+<modify-entry
+   name="xml-apis-xerces-2.9.1.jar"
+   text-time="working"/>
+<modify-entry
+   name="xml-apis-xerces-2.9.1.jar"
+   working-size="working"/>
+<modify-entry
+   name="commons-httpclient-3.1.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/commons-httpclient-3.1.jar.svn-base"
+   name=".svn/prop-base/tempfile.12.tmp"/>
+<readonly
+   name=".svn/prop-base/commons-httpclient-3.1.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="commons-httpclient-3.1.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="commons-httpclient-3.1.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="commons-httpclient-3.1.jar"
+   name=".svn/tmp/text-base/commons-httpclient-3.1.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/commons-httpclient-3.1.jar.svn-base"
+   name=".svn/tmp/text-base/commons-httpclient-3.1.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/commons-httpclient-3.1.jar.svn-base"/>
+<modify-entry
+   name="commons-httpclient-3.1.jar"
+   checksum="8ad8c9229ef2d59ab9f59f7050e846a5"/>
+<modify-entry
+   name="commons-httpclient-3.1.jar"
+   text-time="working"/>
+<modify-entry
+   name="commons-httpclient-3.1.jar"
+   working-size="working"/>
+<modify-entry
+   name="zehon_file_transfer-1.1.6.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/zehon_file_transfer-1.1.6.jar.svn-base"
+   name=".svn/prop-base/tempfile.13.tmp"/>
+<readonly
+   name=".svn/prop-base/zehon_file_transfer-1.1.6.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="zehon_file_transfer-1.1.6.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="zehon_file_transfer-1.1.6.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="zehon_file_transfer-1.1.6.jar"
+   name=".svn/tmp/text-base/zehon_file_transfer-1.1.6.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/zehon_file_transfer-1.1.6.jar.svn-base"
+   name=".svn/tmp/text-base/zehon_file_transfer-1.1.6.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/zehon_file_transfer-1.1.6.jar.svn-base"/>
+<modify-entry
+   name="zehon_file_transfer-1.1.6.jar"
+   checksum="89206a9baacd0653565f81a3f1c250db"/>
+<modify-entry
+   name="zehon_file_transfer-1.1.6.jar"
+   text-time="working"/>
+<modify-entry
+   name="zehon_file_transfer-1.1.6.jar"
+   working-size="working"/>
+<modify-entry
+   name="itextpdf-5.1.1.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itextpdf-5.1.1.jar.svn-base"
+   name=".svn/prop-base/tempfile.14.tmp"/>
+<readonly
+   name=".svn/prop-base/itextpdf-5.1.1.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itextpdf-5.1.1.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itextpdf-5.1.1.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itextpdf-5.1.1.jar"
+   name=".svn/tmp/text-base/itextpdf-5.1.1.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itextpdf-5.1.1.jar.svn-base"
+   name=".svn/tmp/text-base/itextpdf-5.1.1.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itextpdf-5.1.1.jar.svn-base"/>
+<modify-entry
+   name="itextpdf-5.1.1.jar"
+   checksum="5199003db517fa655cfead82b520d694"/>
+<modify-entry
+   name="itextpdf-5.1.1.jar"
+   text-time="working"/>
+<modify-entry
+   name="itextpdf-5.1.1.jar"
+   working-size="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1-sources.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itext-xtra-5.1.1-sources.jar.svn-base"
+   name=".svn/prop-base/tempfile.15.tmp"/>
+<readonly
+   name=".svn/prop-base/itext-xtra-5.1.1-sources.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itext-xtra-5.1.1-sources.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itext-xtra-5.1.1-sources.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itext-xtra-5.1.1-sources.jar"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1-sources.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itext-xtra-5.1.1-sources.jar.svn-base"
+   name=".svn/tmp/text-base/itext-xtra-5.1.1-sources.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itext-xtra-5.1.1-sources.jar.svn-base"/>
+<modify-entry
+   name="itext-xtra-5.1.1-sources.jar"
+   checksum="15140e2eca9d2ff85af409883a888523"/>
+<modify-entry
+   name="itext-xtra-5.1.1-sources.jar"
+   text-time="working"/>
+<modify-entry
+   name="itext-xtra-5.1.1-sources.jar"
+   working-size="working"/>
+<modify-entry
+   name="bcprov-jdk15-1.43.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/bcprov-jdk15-1.43.jar.svn-base"
+   name=".svn/prop-base/tempfile.16.tmp"/>
+<readonly
+   name=".svn/prop-base/bcprov-jdk15-1.43.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="bcprov-jdk15-1.43.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="bcprov-jdk15-1.43.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="bcprov-jdk15-1.43.jar"
+   name=".svn/tmp/text-base/bcprov-jdk15-1.43.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/bcprov-jdk15-1.43.jar.svn-base"
+   name=".svn/tmp/text-base/bcprov-jdk15-1.43.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/bcprov-jdk15-1.43.jar.svn-base"/>
+<modify-entry
+   name="bcprov-jdk15-1.43.jar"
+   checksum="8c1bcbaeada17c84f431c35989597ae4"/>
+<modify-entry
+   name="bcprov-jdk15-1.43.jar"
+   text-time="working"/>
+<modify-entry
+   name="bcprov-jdk15-1.43.jar"
+   working-size="working"/>
+<modify-entry
+   name="core-renderer.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/core-renderer.jar.svn-base"
+   name=".svn/prop-base/tempfile.17.tmp"/>
+<readonly
+   name=".svn/prop-base/core-renderer.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="core-renderer.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="core-renderer.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="core-renderer.jar"
+   name=".svn/tmp/text-base/core-renderer.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/core-renderer.jar.svn-base"
+   name=".svn/tmp/text-base/core-renderer.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/core-renderer.jar.svn-base"/>
+<modify-entry
+   name="core-renderer.jar"
+   checksum="ea71dc9ee36542604aa1331538cfb368"/>
+<modify-entry
+   name="core-renderer.jar"
+   text-time="working"/>
+<modify-entry
+   name="core-renderer.jar"
+   working-size="working"/>
+<modify-entry
+   name="commons-net-2.0.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/commons-net-2.0.jar.svn-base"
+   name=".svn/prop-base/tempfile.18.tmp"/>
+<readonly
+   name=".svn/prop-base/commons-net-2.0.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="commons-net-2.0.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="commons-net-2.0.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="commons-net-2.0.jar"
+   name=".svn/tmp/text-base/commons-net-2.0.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/commons-net-2.0.jar.svn-base"
+   name=".svn/tmp/text-base/commons-net-2.0.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/commons-net-2.0.jar.svn-base"/>
+<modify-entry
+   name="commons-net-2.0.jar"
+   checksum="b8758e05fc3902130394341fcc4ca18f"/>
+<modify-entry
+   name="commons-net-2.0.jar"
+   text-time="working"/>
+<modify-entry
+   name="commons-net-2.0.jar"
+   working-size="working"/>
+<modify-entry
+   name="itextpdf-5.1.1-javadoc.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/itextpdf-5.1.1-javadoc.jar.svn-base"
+   name=".svn/prop-base/tempfile.19.tmp"/>
+<readonly
+   name=".svn/prop-base/itextpdf-5.1.1-javadoc.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="itextpdf-5.1.1-javadoc.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="itextpdf-5.1.1-javadoc.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="itextpdf-5.1.1-javadoc.jar"
+   name=".svn/tmp/text-base/itextpdf-5.1.1-javadoc.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/itextpdf-5.1.1-javadoc.jar.svn-base"
+   name=".svn/tmp/text-base/itextpdf-5.1.1-javadoc.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/itextpdf-5.1.1-javadoc.jar.svn-base"/>
+<modify-entry
+   name="itextpdf-5.1.1-javadoc.jar"
+   checksum="1e3f102ed82545560261b7be9cd02177"/>
+<modify-entry
+   name="itextpdf-5.1.1-javadoc.jar"
+   text-time="working"/>
+<modify-entry
+   name="itextpdf-5.1.1-javadoc.jar"
+   working-size="working"/>
+<modify-entry
+   name="javax.servlet.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/javax.servlet.jar.svn-base"
+   name=".svn/prop-base/tempfile.20.tmp"/>
+<readonly
+   name=".svn/prop-base/javax.servlet.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="javax.servlet.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="javax.servlet.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="javax.servlet.jar"
+   name=".svn/tmp/text-base/javax.servlet.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/javax.servlet.jar.svn-base"
+   name=".svn/tmp/text-base/javax.servlet.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/javax.servlet.jar.svn-base"/>
+<modify-entry
+   name="javax.servlet.jar"
+   checksum="fab00972ce549fe9a05fa5163881742d"/>
+<modify-entry
+   name="javax.servlet.jar"
+   text-time="working"/>
+<modify-entry
+   name="javax.servlet.jar"
+   working-size="working"/>
+<modify-entry
+   name="commons-logging-1.0.4.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/commons-logging-1.0.4.jar.svn-base"
+   name=".svn/prop-base/tempfile.21.tmp"/>
+<readonly
+   name=".svn/prop-base/commons-logging-1.0.4.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="commons-logging-1.0.4.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="commons-logging-1.0.4.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="commons-logging-1.0.4.jar"
+   name=".svn/tmp/text-base/commons-logging-1.0.4.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/commons-logging-1.0.4.jar.svn-base"
+   name=".svn/tmp/text-base/commons-logging-1.0.4.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/commons-logging-1.0.4.jar.svn-base"/>
+<modify-entry
+   name="commons-logging-1.0.4.jar"
+   checksum="8a507817b28077e0478add944c64586a"/>
+<modify-entry
+   name="commons-logging-1.0.4.jar"
+   text-time="working"/>
+<modify-entry
+   name="commons-logging-1.0.4.jar"
+   working-size="working"/>
+<modify-entry
+   name="iText-2.0.8.jar"
+   present-props=""
+   has-prop-mods="false"
+   has-props="true"/>
+<mv
+   dest=".svn/prop-base/iText-2.0.8.jar.svn-base"
+   name=".svn/prop-base/tempfile.22.tmp"/>
+<readonly
+   name=".svn/prop-base/iText-2.0.8.jar.svn-base"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name="iText-2.0.8.jar"
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>
+<modify-entry
+   text-time="1970-01-01T00:00:00.000000Z"
+   name="iText-2.0.8.jar"
+   kind="file"
+   deleted="false"
+   working-size="-1"
+   absent="false"
+   revision="90"/>
+<cp-and-translate
+   dest="iText-2.0.8.jar"
+   name=".svn/tmp/text-base/iText-2.0.8.jar.svn-base"/>
+<mv
+   dest=".svn/text-base/iText-2.0.8.jar.svn-base"
+   name=".svn/tmp/text-base/iText-2.0.8.jar.svn-base"/>
+<readonly
+   name=".svn/text-base/iText-2.0.8.jar.svn-base"/>
+<modify-entry
+   name="iText-2.0.8.jar"
+   checksum="71d8ed78163ad391de479d463679777e"/>
+<modify-entry
+   name="iText-2.0.8.jar"
+   text-time="working"/>
+<modify-entry
+   name="iText-2.0.8.jar"
+   working-size="working"/>
+<modify-entry
+   committed-rev="90"
+   committed-date="2011-07-12T17:02:36.362113Z"
+   name=""
+   last-author="Josefine.Harzmann"
+   uuid="fcda900a-00ce-4a2b-ba93-9d0c4f534c8f"/>

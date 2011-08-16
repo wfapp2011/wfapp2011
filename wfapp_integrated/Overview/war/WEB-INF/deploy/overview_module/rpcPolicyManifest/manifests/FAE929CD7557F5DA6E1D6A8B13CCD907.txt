@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.overview.client.ServerRequesterInterface
+path: 4B6EBB3306DB2E73335F56D7FFDB79A9.gwt.rpc

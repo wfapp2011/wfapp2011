@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wfapp_client_core"/>
+	<classpathentry kind="lib" path="/Users/jannikmarten/Studium/Semester_4/wfapp_integrated/wfapp_core.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

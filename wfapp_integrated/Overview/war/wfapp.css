@@ -1,0 +1,83 @@
+body { 
+	background-color: white;
+	color: black;
+	font-family: Arial, sans-serif;
+	font-size: small;
+	margin: 5px;
+}
+
+a {	
+	color: black;
+	margin: 5px;
+	font-size: 14px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+a:visited {	
+	color: #444444;
+	margin: 5px;
+	font-size: 14px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+h1 {
+	color: #444444;
+	font-size: 34px;
+	font-style: normal;
+	font-family: Arial, sans-serif;
+	font-weight: bolder;	
+	line-height: normal;
+	text-indent: 1px;
+	white-space: normal;
+}
+
+h2 {
+	color: Silver;
+	margin-top: 1px;
+	font-size: 20px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	line-height: normal;
+	text-indent: 1px;
+	white-space: normal;
+}
+
+hr {
+	color: orange;
+	border: 0;
+	width: 99%;
+	height: 1 px;
+	background-color: orange; 
+	margin-right: 0px;
+}
+
+div {
+}
+
+#menu {
+	background:url(images/Menu.png) repeat-x;
+	background-position: 0 110px;
+}
+#anchorPhase1 {
+	color: black;
+	margin: 0px;
+	font-size: 14px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	cursor:pointer;
+	text-decoration:none;
+	border: none;
+}
+.activeText{
+	color: #444444;
+	font-family: Arial Black, sans-serif;
+	font-size: small;
+	margin: 5px;
+	font-weight: bold;
+}

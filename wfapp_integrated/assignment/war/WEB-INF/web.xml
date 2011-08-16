@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  
+  <!-- Servlets -->
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Assignment.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+  	<servlet-name>AssignmentDataExchangeService</servlet-name>
+  	<servlet-class>de.uni_potsdam.hpi.wfapp2011.assignment.server.AssignmentDataExchangeServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AssignmentDataExchangeService</servlet-name>
+  	<url-pattern>/assignment/AssignmentDataExchangeService</url-pattern>
+  </servlet-mapping>
+    <servlet>
+            <servlet-name>gwtTableToExcelServlet</servlet-name>
+            <servlet-class>com.googlecode.gwtTableToExcel.server.TableToExcelServlet</servlet-class>
+            <init-param>
+               <param-name>encoding</param-name>
+               <param-value>UTF-8</param-value>
+ 			</init-param>
+    </servlet>
+
+    <servlet-mapping>
+            <servlet-name>gwtTableToExcelServlet</servlet-name>
+            <url-pattern>/assignment/excel</url-pattern>
+    </servlet-mapping>
+    
+    
+     	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>de.uni_potsdam.hpi.wfapp2011.assignment.server.LoginFilter</filter-class>
+	</filter>
+	
+	
+	<filter>
+		<filter-name>RoleFilter</filter-name>
+		<filter-class>de.uni_potsdam.hpi.wfapp2011.assignment.server.RoleFilter</filter-class>
+	</filter>
+	
+	
+	
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+		<filter-name>RoleFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+</web-app>

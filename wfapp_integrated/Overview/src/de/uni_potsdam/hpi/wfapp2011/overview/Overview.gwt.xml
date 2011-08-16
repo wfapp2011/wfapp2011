@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='overview_module'>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+  <inherits name='de.uni_potsdam.hpi.wfapp2011.clientcore.pageframe.Pageframe'/>
+  <inherits name='de.uni_potsdam.hpi.wfapp2011.overview.shared.sharedPi'/>
+
+
+  <entry-point class='de.uni_potsdam.hpi.wfapp2011.overview.client.OverviewMain'/>
+</module>

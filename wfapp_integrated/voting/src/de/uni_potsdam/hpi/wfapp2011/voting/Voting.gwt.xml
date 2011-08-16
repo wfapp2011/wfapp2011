@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='voting'>                      -->
+  <inherits name='com.google.gwt.user.User'/>
+
+  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+  <inherits name='de.uni_potsdam.hpi.wfapp2011.clientcore.pageframe.Pageframe'/>
+  
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='de.uni_potsdam.hpi.wfapp2011.voting.client.Voting'/>
+
+	<source path='client'/>
+</module>
+
+

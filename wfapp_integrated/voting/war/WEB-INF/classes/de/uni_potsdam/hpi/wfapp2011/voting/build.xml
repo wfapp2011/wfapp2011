@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="ImageViewer" default="all" basedir="C:\Users\Marcel\Documents\My Dropbox\SS11\Entwicklung von Workflowanwendungen\Arbeitspaket 4\Workspace\Arbeitspaket 4">
+	<description>
+		This is build file for GWT module 'de.uni_potsdam.hpi.wfapp2011.Themenwahl' deployment.
+		GWT Designer generates it each time when you initiate deployment.
+		
+		You can use this file later for manual deployment, but keep in mind, that
+		classpath is hardcoded in it, so after changes in classpath you should
+		regenerate build file.
+	</description>
+
+	<property name="gwt.home" value="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0" />
+	<property name="gwt.module.id" value="de.uni_potsdam.hpi.wfapp2011.Themenwahl" />
+	<property name="war.name" value="Themenwahl.war" />
+
+	<target name="jars" description="Package up the module project and required projects as jars">
+		<mkdir dir="war/WEB-INF/lib" />
+		<!--=== Arbeitspaket 4 ===-->
+		<jar destfile='war/WEB-INF/lib/Arbeitspaket 4.jar'>
+			<fileset dir="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/src">
+				<include name="**"/>
+			</fileset>
+			<fileset dir="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/war/WEB-INF/classes">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+		<copy todir='war/WEB-INF/lib'>
+			<fileset file="C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928\gwt-2.3.0\gwt-dev.jar"/>
+			<fileset file="C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928\gwt-2.3.0\validation-api-1.0.0.GA-sources.jar"/>
+			<fileset file="C:\eclipse\plugins\com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928\gwt-2.3.0\validation-api-1.0.0.GA.jar"/>
+			<fileset file="C:\Users\Marcel\Documents\My Dropbox\SS11\Entwicklung von Workflowanwendungen\Arbeitspaket 4\Workspace\Arbeitspaket 4\gwt-dnd-3.1.1.jar"/>
+			<fileset file="C:\Users\Marcel\Documents\My Dropbox\SS11\Entwicklung von Workflowanwendungen\Arbeitspaket 4\Workspace\Arbeitspaket 4\war\WEB-INF\lib\h2-1.2.132.jar"/>
+		</copy>		
+	</target>
+
+	<target name="gwt-compile" description="Compile to JavaScript">
+		<java classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true" maxmemory="256m">
+			<classpath>
+				<pathelement location="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/src" />
+				<pathelement location="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/war/WEB-INF/classes" />
+				<pathelement location="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/gwt-user.jar" />
+				<pathelement location="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/gwt-dev.jar" />
+				<pathelement location="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/validation-api-1.0.0.GA-sources.jar" />
+				<pathelement location="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/validation-api-1.0.0.GA.jar" />
+				<pathelement location="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/gwt-dnd-3.1.1.jar" />
+				<pathelement location="C:/Users/Marcel/Documents/My Dropbox/SS11/Entwicklung von Workflowanwendungen/Arbeitspaket 4/Workspace/Arbeitspaket 4/war/WEB-INF/lib/h2-1.2.132.jar" />
+				<pathelement location="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/gwt-dev.jar" />
+			</classpath>
+			<arg value="-style"/>
+			<arg value="OBFUSCATED"/>
+			<arg value="${gwt.module.id}" />
+		</java>
+	</target>
+
+	<target name="war" depends="gwt-compile, jars">
+		<delete file="${war.name}" />
+		<jar destfile="${war.name}" basedir="war" duplicate="preserve" />
+	</target>
+	
+	<target name="deploy" depends="war">
+		<move file="${war.name}" todir="C:/Users/Marcel/Desktop" />
+	</target>
+
+	<target name="all" depends="deploy" />
+
+</project>

@@ -1,0 +1,11 @@
+Insert INTO CONTACTPERSON(PerSONID , PROJECTID ) (SELECT PERSONID , PROJECTID  FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/contactperson.csv'));
+
+Insert INTO DEPARTMENT ( DEPARTMENTID , NAME , SHORTCUT , PROFESSOR ) (SELECT DEPARTMENTID , NAME , SHORTCUT , PROFESSOR  FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/department.csv'));
+
+INsert INTO FILES ( PROJECTID , URL , ISPROJECTFILE ) (SELECT PROJECTID , URL , ISPROJECTFILE  FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/files.csv')) ;
+
+insert into person ( personid , name , email , role , department ) (SELECT personid , name , email , role , department FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/person.csv')) ;
+
+insert into projecttopic ( topicid , projectname , projectdescription , minstud , maxstud , partnername , partnerdescription , estimatedbegin , period , department , keywords ,projectshortcut ) (SELECT topicid , projectname , projectdescription , minstud , maxstud , partnername , partnerdescription , estimatedbegin , period , department , keywords, projectshortcut FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/projecttopic.csv'));
+
+ INSERT INTO VOTE ( PERSONID , PRIORITY , PROJECTID ) (SELECT PERsonID, PRIORITY, PROJECTID FROM CSVREAD('/Users/jannikmarten/Datenbank Testdaten/vote.csv'));

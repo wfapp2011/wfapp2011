@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.login.client.LoginExchange
+path: 2A52E95969D6DC5E27302521FEEDBA44.gwt.rpc

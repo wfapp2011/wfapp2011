@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:activiti="http://activiti.org/bpmn" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="" id="sid-9d45d731-667d-448d-bf1d-1cf23efcc224" targetNamespace="http://www.signavio.com/bpmn20" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <process name="DegreeProjectProcessNew4" id="DegreeProjectProcessNew4" isExecutable="false">
+      <startEvent id="StartNoneEvent" name="StartNoneEvent">
+         <documentation id="sid-445e7fd0-d04d-4fee-801b-8ac00a5eed47">Original Name: "" Original ID: "sid-02F900E5-5CA5-43F7-A583-06ABFCA0010D"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <outgoing>SequenceFlow_22</outgoing>
+      </startEvent>
+      <serviceTask id="Configuration" name="Configuration"  activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.Configuration">
+         <documentation id="sid-66ca163d-b99b-4ee1-a71e-e4c1f096748b">Original ID: "sid-B016A0A3-52B6-4C55-AB35-D51920138B6C"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_22</incoming>
+         <outgoing>SequenceFlow_26</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="Initialize_Process" name="Initialize Process">
+         <documentation id="sid-f08fd6e1-5c48-483b-96ba-6ed0a2161227">Original ID: "sid-6F7C3286-2F41-4555-8410-D8589BA9B798"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_26</incoming>
+         <outgoing>SequenceFlow_8</outgoing>
+         <timerEventDefinition id="sid-ea7130fc-2bbe-449f-a36b-e5cacc56f7e0">
+            <timeDate id="sid-36db1f99-64d2-4f55-bcfe-2badc82338a8" xsi:type="tFormalExpression">${waitingServiceTaskDeadline}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_5" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-cb5f04c1-839b-49fc-bb66-374bb520897b">Original Name: "" Original ID: "sid-398AC09A-7CD9-4767-AE10-C38BC4A0021A"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_8</incoming>
+         <incoming>SequenceFlow_12</incoming>
+         <outgoing>SequenceFlow_27</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway default="SequenceFlow_5" gatewayDirection="Diverging" id="Exclusive_Databased_Gateway_8" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-10e77fa2-f7da-4011-828d-91be5a428744">Original Name: "" Original ID: "sid-883EF8B9-80EE-4755-8CB6-89125E8646E6"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_18</incoming>
+         <outgoing>SequenceFlow_12</outgoing>
+         <outgoing>SequenceFlow_5</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_11" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-9790d07a-8cbc-4293-b784-ea7bd1d40b60">Original Name: "" Original ID: "sid-093CF201-7A2A-467C-A585-54857A82BEBD"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_24</incoming>
+         <incoming>SequenceFlow_23</incoming>
+         <outgoing>SequenceFlow_18</outgoing>
+      </exclusiveGateway>
+      <boundaryEvent attachedToRef="Start_Proposal_Collection_Phase" cancelActivity="true" id="Boundary_Proposal_Collection" name="Boundary Proposal Collection" parallelMultiple="false">
+         <outgoing>SequenceFlow_24</outgoing>
+         <timerEventDefinition id="sid-2d5e4d36-489c-4c6a-8f1b-4e8bf84829ff">
+            <timeDate id="sid-06cba38f-968c-40e5-b05c-6f514c3d2c07" xsi:type="tFormalExpression">${defaultDeadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </boundaryEvent>
+      <serviceTask id="Start_Proposal_Collection_Phase" name="Start Proposal Collection Phase" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.ProposalCollection">
+         <documentation id="sid-2e09b94b-71e0-4de7-ac78-a4fbe3c92f44">Original ID: "sid-F8B3D667-9CAC-4788-A705-B39B19A71D62"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_27</incoming>
+         <outgoing>SequenceFlow_17</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="End_Proposal_Collection" name="End Proposal Collection">
+         <documentation id="sid-de8a65fd-0818-4ed1-a005-d516c887ec92">Original ID: "sid-49D712E3-54AD-4A46-9734-466C4AF616F8"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_17</incoming>
+         <outgoing>SequenceFlow_23</outgoing>
+         <timerEventDefinition id="sid-b8cca4dd-b60b-4c12-8f84-54e5af84c1ed">
+            <timeDate id="sid-12d9b19c-67e2-4abd-a2e0-cc6cc907415b" xsi:type="tFormalExpression">${deadlineProposalCollection}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_3" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-706b9272-7207-418b-9830-fa58ebf8816e">Original Name: "" Original ID: "sid-3D586C9A-8480-4A62-9957-8259192308F8"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_21</incoming>
+         <incoming>SequenceFlow_5</incoming>
+         <outgoing>SequenceFlow_28</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Diverging" id="Exclusive_Databased_Gateway_13" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-9c848f01-a66a-446b-b56a-451e06ef253c">Original Name: "" Original ID: "sid-20050163-F4FC-4BDB-B8A1-81509BFBCF4A"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_34</incoming>
+         <outgoing>SequenceFlow_21</outgoing>
+         <outgoing>SequenceFlow_15</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_14" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-51b1f595-c6a8-40f4-8173-114a0bec4034">Original Name: "" Original ID: "sid-5FE4E4DD-0224-4BB7-804C-5C5643A5800C"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_33</incoming>
+         <incoming>SequenceFlow_3</incoming>
+         <outgoing>SequenceFlow_34</outgoing>
+      </exclusiveGateway>
+      <intermediateCatchEvent id="Deadline_Topics_Publication" name="Deadline Topics Publication" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.FinalTopicDecision">
+         <documentation id="sid-72889528-6a8c-437c-ba4b-c2e143018a36">Original ID: "sid-5415AC1C-6EF4-44EA-95D6-B11396E33EE4"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_32</incoming>
+         <outgoing>SequenceFlow_33</outgoing>
+         <timerEventDefinition id="sid-182e8d32-917d-4760-bc58-de541cdc93b9">
+            <timeDate id="sid-d024d2ed-7223-452c-8d06-09de394c9918" xsi:type="tFormalExpression">${deadlineTopicsPublication}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <serviceTask id="Start_Final_Topic_Decision_Phase" name="Start Final Topic Decision Phase" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.FinalTopicDecision">
+         <documentation id="sid-6b65e6fa-1c34-46c1-85de-874365c8344d">Original ID: "sid-A6C797EB-BDEF-420F-943E-2DE6EE90524F"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_28</incoming>
+         <outgoing>SequenceFlow_32</outgoing>
+      </serviceTask>
+      <boundaryEvent attachedToRef="Start_Final_Topic_Decision_Phase" cancelActivity="true" id="Boundary_Topic_decision" name="Boundary Topic decision" parallelMultiple="false">
+         <outgoing>SequenceFlow_3</outgoing>
+         <timerEventDefinition id="sid-198d37e4-d806-43c1-8e3e-5ff483297a82">
+            <timeDate id="sid-12bce94e-374a-4b19-9512-1924a612d25c" xsi:type="tFormalExpression">${defaultDeadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </boundaryEvent>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_10" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-08edcdca-fb5d-4efa-9ee3-217ffc5e3400">Original Name: "" Original ID: "sid-02E26640-3B81-4870-8A04-2E5AE0A063ED"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_16</incoming>
+         <incoming>SequenceFlow_6</incoming>
+         <incoming>SequenceFlow_15</incoming>
+         <outgoing>SequenceFlow_35</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Diverging" id="Exclusive_Databased_Gateway_2" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-b26930c7-9bd7-4f20-a3c9-11d8d3473ab0">Original Name: "" Original ID: "sid-D9C8F2B0-4FD0-48D9-953B-DAE4DB021A3B"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_2</incoming>
+         <outgoing>SequenceFlow_16</outgoing>
+         <outgoing>SequenceFlow_37</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_7" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-3dac7e37-eef0-4a91-9594-a2a0c20c69e0">Original Name: "" Original ID: "sid-0FDA4E1B-877B-4894-AAF0-32047070E453"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_36</incoming>
+         <incoming>SequenceFlow_11</incoming>
+         <outgoing>SequenceFlow_2</outgoing>
+      </exclusiveGateway>
+      <boundaryEvent attachedToRef="Start_Voting__Phase" cancelActivity="true" id="Boundary_Voting_2" name="Boundary Voting" parallelMultiple="false">
+         <outgoing>SequenceFlow_36</outgoing>
+         <timerEventDefinition id="sid-45e29e0a-fbdf-458d-9c7a-1097ccf07b03">
+            <timeDate id="sid-ba3e5e53-2d9e-44d3-a338-59345f4c5f33" xsi:type="tFormalExpression">${defaultDeadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </boundaryEvent>
+      <serviceTask id="Start_Voting__Phase" name="Start Voting&#13;&#10;Phase" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.Voting">
+         <documentation id="sid-743b697d-16a1-42a9-9350-00555e2f9d0f">Original ID: "sid-4873BBC2-27A2-496F-9CA2-E79778F5BD3B"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_35</incoming>
+         <outgoing>SequenceFlow_38</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="Email_Reminder_Time" name="Email Reminder Time">
+         <documentation id="sid-d7e51b01-042d-462f-82e3-668960d6ce12">Original ID: "sid-061EA0B8-16B0-4785-A9D5-6E6DF9C9B352"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_38</incoming>
+         <outgoing>SequenceFlow_11</outgoing>
+         <timerEventDefinition id="sid-3820c80f-5dce-4bcf-9424-cc42a99f7856">
+            <timeDate id="sid-d565a32e-a855-492c-b4fc-1bf64e1e4f12" xsi:type="tFormalExpression">${emailReminderTime}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <serviceTask id="Send_Reminder_Email" name="Send Reminder Email" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.EmailSender">
+         <documentation id="sid-8b05b299-a1b4-4678-9944-97f9a6dfe45c">Original ID: "sid-D5B5266E-2FB0-4F77-8E42-57B83A5DD3AE"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_37</incoming>
+         <outgoing>SequenceFlow_39</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="End_Voting" name="End Voting">
+         <documentation id="sid-1f0c3a23-2726-4be6-a9e3-38fd9cf3097f">Original ID: "sid-81BEE70C-D974-48DD-AE81-81FFF71E131F"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_39</incoming>
+         <outgoing>SequenceFlow_29</outgoing>
+         <timerEventDefinition id="sid-178f1b7c-7cec-4cd7-8ff4-43b64645215c">
+            <timeDate id="sid-376ce75e-ebec-407f-8b6b-6d4815111118" xsi:type="tFormalExpression">${deadlineVoting}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_6" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-949e8ffe-080e-4540-8902-244d3f43256f">Original Name: "" Original ID: "sid-4A931FFC-5EA8-46FC-85E1-4DD24719924C"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_29</incoming>
+         <incoming>SequenceFlow_25</incoming>
+         <outgoing>SequenceFlow_10</outgoing>
+      </exclusiveGateway>
+      <boundaryEvent attachedToRef="Send_Reminder_Email" cancelActivity="true" id="Boundary_Voting" name="Boundary Voting" parallelMultiple="false">
+         <outgoing>SequenceFlow_25</outgoing>
+         <timerEventDefinition id="sid-9abda13b-0055-4a3a-a00b-d27c6f773664">
+            <timeDate id="sid-b28dfd68-b89c-43b3-a060-a5c617ca607e" xsi:type="tFormalExpression">${defaultDeadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </boundaryEvent>
+      <exclusiveGateway default="SequenceFlow_7" gatewayDirection="Diverging" id="Exclusive_Databased_Gateway_4" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-b768ffb0-f349-4a27-989c-aaa1b963803b">Original Name: "" Original ID: "sid-F3395E0E-B344-4441-9B99-7974E2B36E7B"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_10</incoming>
+         <outgoing>SequenceFlow_6</outgoing>
+         <outgoing>SequenceFlow_7</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway_12" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-8b0aa152-9542-44f2-9066-a8de6fdacde9">Original Name: "" Original ID: "sid-FD916EA3-DA97-4308-8DE6-B82F178A1410"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_7</incoming>
+         <incoming>SequenceFlow_14</incoming>
+         <outgoing>SequenceFlow_19</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway default="SequenceFlow_13" gatewayDirection="Diverging" id="Exclusive_Databased_Gateway_9" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-9dd8b551-2db7-46e8-8ff0-77a483b6ca05">Original Name: "" Original ID: "sid-72195D25-8938-471A-85B9-1DDFABE2B174"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_30</incoming>
+         <outgoing>SequenceFlow_13</outgoing>
+         <outgoing>SequenceFlow_14</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway gatewayDirection="Converging" id="Exclusive_Databased_Gateway" name="Exclusive_Databased_Gateway">
+         <documentation id="sid-2188d8eb-b2c5-4ee2-93f7-578cbb805343">Original Name: "" Original ID: "sid-7EFCDFE4-3F32-4AC9-A5EC-6DB4D8133C7A"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow</incoming>
+         <incoming>SequenceFlow_4</incoming>
+         <outgoing>SequenceFlow_30</outgoing>
+      </exclusiveGateway>
+      <boundaryEvent attachedToRef="Start_Project___Matching_Phase" cancelActivity="true" id="Boundary_Boundary_Matching" name="Boundary Boundary Matching" parallelMultiple="false">
+         <outgoing>SequenceFlow</outgoing>
+         <timerEventDefinition id="sid-b238c6f7-6e45-4aa5-85d7-ec472037f4e2">
+            <timeDate id="sid-c31aba48-c359-4f21-9ed9-42e6fe2e699d" xsi:type="tFormalExpression">${defaultDeadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </boundaryEvent>
+      <serviceTask id="Start_Project___Matching_Phase" name="Start Project &#13;&#10;Matching Phase" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.ProjectMatching">
+         <documentation id="sid-3cf0a71d-b5cb-4a15-9ac0-5bd55b139332">Original ID: "sid-D547B014-58C4-407A-8F30-D5946825C22E"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_19</incoming>
+         <outgoing>SequenceFlow_9</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="End_Project_Matching" name="End Project Matching">
+         <documentation id="sid-6ab9d0fe-a966-4f36-b915-d7469f76a82b">Original ID: "sid-47DC9A35-5DAB-4C11-9F4E-C7973265EC0C"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_9</incoming>
+         <outgoing>SequenceFlow_4</outgoing>
+         <timerEventDefinition id="sid-cd3659e5-5642-4003-abe8-1b41f656494c">
+            <timeDate id="sid-2044891d-2e0a-405e-93e3-93e361a87ba3" xsi:type="tFormalExpression">${deadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <serviceTask id="Send_Informations" name="Send Informations" activiti:class="de.uni_potsdam.hpi.wfapp2011.Activiti.SendInformations">
+         <documentation id="sid-ce7333bc-c999-40bb-9c48-304018a96445">Original ID: "sid-49F80D16-F646-4654-A0C9-A8DF710FAC49"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_13</incoming>
+         <outgoing>SequenceFlow_31</outgoing>
+      </serviceTask>
+      <intermediateCatchEvent id="End_Process" name="End Process">
+         <documentation id="sid-8f087922-4e08-4e90-88e3-b8f6f2a7dfc1">Original ID: "sid-E6B41B2B-1F66-45EF-8EAE-0A15E053C5D2"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_31</incoming>
+         <outgoing>SequenceFlow_20</outgoing>
+         <timerEventDefinition id="sid-0cab4f25-5eb6-4aeb-a3f5-8499f3d053b6">
+            <timeDate id="sid-9aa29fee-8776-4bb2-be6b-24eba7e22603" xsi:type="tFormalExpression">${deadlineProcess}</timeDate>
+         </timerEventDefinition>
+      </intermediateCatchEvent>
+      <endEvent id="EndNoneEvent" name="EndNoneEvent">
+         <documentation id="sid-913dac74-0b75-466d-acee-83bba134d332">Original Name: "" Original ID: "sid-0A50F106-BAB3-4EC2-9FED-B2C09A86FD6D"</documentation>
+         <extensionElements>
+            
+         </extensionElements>
+         <incoming>SequenceFlow_20</incoming>
+      </endEvent>
+      <sequenceFlow id="SequenceFlow_22" name="SequenceFlow" sourceRef="StartNoneEvent" targetRef="Configuration">
+         <documentation id="sid-04065f74-ffa8-48f4-b9ac-8306d472cb1a">Original Name: "" Original ID: "sid-38F6DF9C-3231-4057-90B9-017990E73C13"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_17" name="SequenceFlow" sourceRef="Start_Proposal_Collection_Phase" targetRef="End_Proposal_Collection">
+         <documentation id="sid-524776d9-5c2f-4f33-acb1-fc9b17dd7ea5">Original Name: "" Original ID: "sid-74D64CDD-1E84-49A7-8A8C-60E295214263"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_23" name="SequenceFlow" sourceRef="End_Proposal_Collection" targetRef="Exclusive_Databased_Gateway_11">
+         <documentation id="sid-46a7ea69-063c-42d8-ae2d-b780da667eb5">Original Name: "" Original ID: "sid-A7637286-3216-4636-AA8F-74563AAF7A13"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_24" name="SequenceFlow" sourceRef="Boundary_Proposal_Collection" targetRef="Exclusive_Databased_Gateway_11">
+         <documentation id="sid-db2e74b7-0314-4b09-a41c-ce712a26c086">Original Name: "" Original ID: "sid-51A970DE-6982-4C96-9D57-5F89B65137EC"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow" name="SequenceFlow" sourceRef="Boundary_Boundary_Matching" targetRef="Exclusive_Databased_Gateway">
+         <documentation id="sid-abc50487-bdc3-4f92-ac52-7d2a2cbe532e">Original Name: "" Original ID: "sid-BAD622B8-8286-4465-A558-7372F53F1A30"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_4" name="SequenceFlow" sourceRef="End_Project_Matching" targetRef="Exclusive_Databased_Gateway">
+         <documentation id="sid-0779e591-724b-4d2c-b787-27a8af1bf0a8">Original Name: "" Original ID: "sid-E79348E6-AAD6-49F7-A23B-E448BF5DEF35"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_9" name="SequenceFlow" sourceRef="Start_Project___Matching_Phase" targetRef="End_Project_Matching">
+         <documentation id="sid-3910caf6-538c-4c3a-99b3-7633f89c880e">Original Name: "" Original ID: "sid-84942526-3008-47C6-BBB4-384044945F05"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_25" name="SequenceFlow" sourceRef="Boundary_Voting" targetRef="Exclusive_Databased_Gateway_6">
+         <documentation id="sid-75269e9c-ae0d-4b4e-af80-5e8d60f0bcea">Original Name: "" Original ID: "sid-78EAC570-42E4-4117-81E1-2FE278B7D723"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_18" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_11" targetRef="Exclusive_Databased_Gateway_8">
+         <documentation id="sid-f920a3ac-6454-40b4-9011-deea09450f1e">Original Name: "" Original ID: "sid-A627DEB1-EFF3-4E9A-AA57-519AB271976F"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_26" name="SequenceFlow" sourceRef="Configuration" targetRef="Initialize_Process">
+         <documentation id="sid-6b9c035b-f406-4d85-a1e8-3e09774644cf">Original Name: "" Original ID: "sid-AC8579D5-8450-4C00-8194-C4304E22B012"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_27" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_5" targetRef="Start_Proposal_Collection_Phase">
+         <documentation id="sid-713aecd5-3a56-4dad-8c78-243c82ac9247">Original Name: "" Original ID: "sid-541F7807-23C2-41AE-B177-75BC9DD12450"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_28" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_3" targetRef="Start_Final_Topic_Decision_Phase">
+         <documentation id="sid-e9200e02-44a3-4bfb-8101-fc2fb6fdaf74">Original Name: "" Original ID: "sid-38181EAC-4C97-410F-A9BE-7FB01BDDB7DF"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_29" name="SequenceFlow" sourceRef="End_Voting" targetRef="Exclusive_Databased_Gateway_6">
+         <documentation id="sid-5f19b79b-3976-4897-9aff-27db18e85a19">Original Name: "" Original ID: "sid-8DE45618-DD90-48A7-A612-6E966512EB27"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_10" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_6" targetRef="Exclusive_Databased_Gateway_4">
+         <documentation id="sid-a8e19f76-76b3-4b72-80e2-f1bc342da1b5">Original Name: "" Original ID: "sid-173055D8-E4BB-46ED-97B1-4DDF36D42098"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_19" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_12" targetRef="Start_Project___Matching_Phase">
+         <documentation id="sid-67edd7ff-3596-465d-ad0b-6f21c275fde3">Original Name: "" Original ID: "sid-1E8F71DB-BF29-4DF2-9521-4BB45AC5B466"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_30" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway" targetRef="Exclusive_Databased_Gateway_9">
+         <documentation id="sid-eb908833-cbe1-4c4c-99f8-b6e625f95677">Original Name: "" Original ID: "sid-53AD1E76-6E06-4680-9DF4-45E1723446AF"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_5" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_8" targetRef="Exclusive_Databased_Gateway_3">
+         <documentation id="sid-3220dd7d-77d0-4405-8f49-28f83d606397">Original Name: "" Original ID: "sid-483483C1-CB74-479F-8FB3-FFD154992E12"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_13" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_9" targetRef="Send_Informations">
+         <documentation id="sid-7dbf4c1d-b336-4d1c-b2d7-8bd3c011b98b">Original Name: "" Original ID: "sid-3B2C9132-02F1-4780-B602-AE07EDF2BAC5"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_8" name="SequenceFlow" sourceRef="Initialize_Process" targetRef="Exclusive_Databased_Gateway_5">
+         <documentation id="sid-2f82802d-be5a-4e4c-9188-650ac7f67ed7">Original Name: "" Original ID: "sid-31559639-F42B-49EB-B8B2-159616B924FC"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_20" name="SequenceFlow" sourceRef="End_Process" targetRef="EndNoneEvent">
+         <documentation id="sid-cb01bc25-091c-4f7b-b41e-0fc1f33ec5ac">Original Name: "" Original ID: "sid-7A791ECE-1F33-4AC8-A43C-936BA7719823"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_31" name="SequenceFlow" sourceRef="Send_Informations" targetRef="End_Process">
+         <documentation id="sid-eb0b9dea-2ffc-4154-89ec-31aa0f8c0593">Original Name: "" Original ID: "sid-28FD8E6F-3E07-4DC2-BF1E-975A5B06E930"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_32" name="SequenceFlow" sourceRef="Start_Final_Topic_Decision_Phase" targetRef="Deadline_Topics_Publication">
+         <documentation id="sid-736b8171-6e6e-49f6-b170-a2630b5598df">Original Name: "" Original ID: "sid-F5A9AE8D-C6D2-4543-BC66-CC5CD36841FF"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_33" name="SequenceFlow" sourceRef="Deadline_Topics_Publication" targetRef="Exclusive_Databased_Gateway_14">
+         <documentation id="sid-38cf1487-b78f-4626-8b04-5ce4d11c2b11">Original Name: "" Original ID: "sid-54A5C501-6B7D-4EEB-A034-34D18D8D358D"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_3" name="SequenceFlow" sourceRef="Boundary_Topic_decision" targetRef="Exclusive_Databased_Gateway_14">
+         <documentation id="sid-4941c2d9-d85e-45b8-b8b6-381f67da4aee">Original Name: "" Original ID: "sid-EB608F9B-41BD-4879-87FB-75CD6BF60F33"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_34" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_14" targetRef="Exclusive_Databased_Gateway_13">
+         <documentation id="sid-38963cc3-2e35-490c-9fcc-17e006de6088">Original Name: "" Original ID: "sid-4D086A77-9420-42A2-BE15-217460BEF879"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_12" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_8" targetRef="Exclusive_Databased_Gateway_5">
+         <documentation id="sid-bc558bbb-75a7-4e15-9a09-9394dff43bc3">Original Name: "" Original ID: "sid-1759CC0A-7D8E-4F31-B81F-10BACB35FE3F"</documentation>
+         <conditionExpression id="sid-23c58f69-6210-43d6-81f0-ce0bb4876028" xsi:type="tFormalExpression">${changed == 1}</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_14" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_9" targetRef="Exclusive_Databased_Gateway_12">
+         <documentation id="sid-383587bc-5af0-4fb5-9b6d-d221b98abafa">Original Name: "" Original ID: "sid-4BFB0773-BC39-4CD5-B636-A99B709E97AF"</documentation>
+         <conditionExpression id="sid-7251ab93-4ca6-41ef-bb08-9c61f262a3b0" xsi:type="tFormalExpression">${changed == 1}</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_35" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_10" targetRef="Start_Voting__Phase">
+         <documentation id="sid-45f032d1-9ff5-416e-9e16-6af73a795878">Original Name: "" Original ID: "sid-8C77237A-98C7-43F2-810C-7F1295E57DB2"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_7" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_4" targetRef="Exclusive_Databased_Gateway_12">
+         <documentation id="sid-66aee624-9b1f-449d-8992-d0ba3e5a8f27">Original Name: "" Original ID: "sid-A87F6936-C305-44E1-BCB4-CE8489E5FE58"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_36" name="SequenceFlow" sourceRef="Boundary_Voting_2" targetRef="Exclusive_Databased_Gateway_7">
+         <documentation id="sid-c3007511-793c-4a9a-871b-7a4dc09432b7">Original Name: "" Original ID: "sid-D919AD12-FCBD-4027-8B96-4FF4879FFBEF"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_2" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_7" targetRef="Exclusive_Databased_Gateway_2">
+         <documentation id="sid-eaff7952-cead-4716-83f9-92f02574a650">Original Name: "" Original ID: "sid-78FB45A8-CBB2-427C-AB35-21F9EA108678"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_37" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_2" targetRef="Send_Reminder_Email">
+         <documentation id="sid-af0c8706-8414-470c-948e-0f94eff5bcc5">Original Name: "" Original ID: "sid-A4BA3BC0-FAAF-4096-82D3-E76D65F4AB9B"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_15" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_13" targetRef="Exclusive_Databased_Gateway_10">
+         <documentation id="sid-eaa565f8-a4e8-433c-af78-e1940357836c">Original Name: "" Original ID: "sid-87A1069F-16E0-4602-A9BD-B1F3D7BF436F"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_21" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_13" targetRef="Exclusive_Databased_Gateway_3">
+         <documentation id="sid-0867160d-8916-4049-8610-a045e435cc70">Original Name: "" Original ID: "sid-6E7175C1-3843-49CE-A28B-C8A2FC0E85D9"</documentation>
+         <conditionExpression id="sid-692d991a-9304-445c-9d69-a81b832c79c2" xsi:type="tFormalExpression">${changed == 1}</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_6" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_4" targetRef="Exclusive_Databased_Gateway_10">
+         <documentation id="sid-8bff8f07-aaee-4a63-bc90-30a5ac81bb70">Original Name: "" Original ID: "sid-C1312F9B-307A-4777-AA2F-5C9FCF8168AC"</documentation>
+         <conditionExpression id="sid-d1b4d599-da99-4be8-b565-23c7091b764b" xsi:type="tFormalExpression">${changed == 1}</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_16" name="SequenceFlow" sourceRef="Exclusive_Databased_Gateway_2" targetRef="Exclusive_Databased_Gateway_10">
+         <documentation id="sid-fe286ecd-d17d-4a90-a384-0676f58dfd97">Original Name: "" Original ID: "sid-479C99FE-2090-4F7D-8666-4C353BF0FAE6"</documentation>
+         <conditionExpression id="sid-26aea234-8538-41d1-ad39-eb3e5ee0f374" xsi:type="tFormalExpression">${changed == 1}</conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_11" name="SequenceFlow" sourceRef="Email_Reminder_Time" targetRef="Exclusive_Databased_Gateway_7">
+         <documentation id="sid-50a122f0-86ed-4e1f-8290-19e31e5068e8">Original Name: "" Original ID: "sid-569BD145-51D2-4D1E-935C-7AF48F9A535F"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_38" name="SequenceFlow" sourceRef="Start_Voting__Phase" targetRef="Email_Reminder_Time">
+         <documentation id="sid-355206ae-6646-4275-bea9-64b2e756a4c8">Original Name: "" Original ID: "sid-285C764A-1DE1-40E6-90A6-BAD87AA98567"</documentation>
+      </sequenceFlow>
+      <sequenceFlow id="SequenceFlow_39" name="SequenceFlow" sourceRef="Send_Reminder_Email" targetRef="End_Voting">
+         <documentation id="sid-d5338262-cc2e-47a2-90df-8ecc95a2e694">Original Name: "" Original ID: "sid-92D70C26-7DA5-4E46-BF50-70FDA190B9B2"</documentation>
+      </sequenceFlow>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-e73eca9a-40f4-43d1-9374-7874eabbdedc">
+      <bpmndi:BPMNPlane bpmnElement="DegreeProjectProcessNew4" id="sid-b4a8c7c7-c274-4cdf-8599-824f7ab61904">
+         <bpmndi:BPMNShape bpmnElement="StartNoneEvent" id="StartNoneEvent_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="80.0" y="15.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Configuration" id="Configuration_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="45.0" y="70.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Initialize_Process" id="Initialize_Process_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="180.0" y="95.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_5" id="Exclusive_Databased_Gateway_5_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="255.0" y="90.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_8" id="Exclusive_Databased_Gateway_8_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="685.0" y="90.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_11" id="Exclusive_Databased_Gateway_11_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="587.0" y="90.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Boundary_Proposal_Collection" id="Boundary_Proposal_Collection_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="398.2568015661765" y="135.42577489653368"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Start_Proposal_Collection_Phase" id="Start_Proposal_Collection_Phase_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="345.0" y="70.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="End_Proposal_Collection" id="End_Proposal_Collection_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="512.0" y="95.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_3" id="Exclusive_Databased_Gateway_3_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="747.0" y="87.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_13" id="Exclusive_Databased_Gateway_13_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="1140.0" y="90.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_14" id="Exclusive_Databased_Gateway_14_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="1065.0" y="90.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Deadline_Topics_Publication" id="Deadline_Topics_Publication_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="975.0" y="95.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Start_Final_Topic_Decision_Phase" id="Start_Final_Topic_Decision_Phase_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="825.0" y="70.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Boundary_Topic_decision" id="Boundary_Topic_decision_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="871.9563569868329" y="135.21683713752904"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_10" id="Exclusive_Databased_Gateway_10_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="43.0" y="285.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_2" id="Exclusive_Databased_Gateway_2_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="490.0" y="285.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_7" id="Exclusive_Databased_Gateway_7_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="405.0" y="285.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Boundary_Voting_2" id="Boundary_Voting_2_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="216.7768830427263" y="330.5441340199219"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Start_Voting__Phase" id="Start_Voting__Phase_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="165.0" y="265.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Email_Reminder_Time" id="Email_Reminder_Time_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="330.0" y="290.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Send_Reminder_Email" id="Send_Reminder_Email_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="600.0" y="264.88501580779405"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="End_Voting" id="End_Voting_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="785.0" y="292.6730577674306"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_6" id="Exclusive_Databased_Gateway_6_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="870.0" y="287.6730577674306"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Boundary_Voting" id="Boundary_Voting_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="625.2143320146025" y="330.114984192206"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_4" id="Exclusive_Databased_Gateway_4_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="960.0" y="284.88501580779405"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_12" id="Exclusive_Databased_Gateway_12_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="180.0" y="545.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway_9" id="Exclusive_Databased_Gateway_9_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="756.0" y="545.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Exclusive_Databased_Gateway" id="Exclusive_Databased_Gateway_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="671.0" y="545.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Boundary_Boundary_Matching" id="Boundary_Boundary_Matching_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="453.9505912286944" y="590.4239160807269"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Start_Project___Matching_Phase" id="Start_Project___Matching_Phase_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="441.0" y="525.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="End_Project_Matching" id="End_Project_Matching_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="581.0" y="550.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="Send_Informations" id="Send_Informations_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="866.0" y="525.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="End_Process" id="End_Process_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="1012.0" y="550.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="EndNoneEvent" id="EndNoneEvent_gui">
+            <omgdc:Bounds height="28.0" width="28.0" x="1081.0" y="551.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_29" id="SequenceFlow_29_gui">
+            <omgdi:waypoint x="815.0" y="307.0"/>
+            <omgdi:waypoint x="870.0" y="307.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_28" id="SequenceFlow_28_gui">
+            <omgdi:waypoint x="787.0" y="107.0"/>
+            <omgdi:waypoint x="825.0" y="109.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_27" id="SequenceFlow_27_gui">
+            <omgdi:waypoint x="295.0" y="110.0"/>
+            <omgdi:waypoint x="345.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_26" id="SequenceFlow_26_gui">
+            <omgdi:waypoint x="145.0" y="110.0"/>
+            <omgdi:waypoint x="180.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_25" id="SequenceFlow_25_gui">
+            <omgdi:waypoint x="655.0" y="345.0"/>
+            <omgdi:waypoint x="890.0" y="345.114984192206"/>
+            <omgdi:waypoint x="890.0" y="327.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_24" id="SequenceFlow_24_gui">
+            <omgdi:waypoint x="428.0" y="150.0"/>
+            <omgdi:waypoint x="607.0" y="150.42577489653368"/>
+            <omgdi:waypoint x="607.0" y="130.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_23" id="SequenceFlow_23_gui">
+            <omgdi:waypoint x="542.0" y="110.0"/>
+            <omgdi:waypoint x="587.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_22" id="SequenceFlow_22_gui">
+            <omgdi:waypoint x="95.0" y="45.0"/>
+            <omgdi:waypoint x="95.0" y="70.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_20" id="SequenceFlow_20_gui">
+            <omgdi:waypoint x="1042.0" y="565.0"/>
+            <omgdi:waypoint x="1081.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_21" id="SequenceFlow_21_gui">
+            <omgdi:waypoint x="1160.0" y="90.0"/>
+            <omgdi:waypoint x="1160.5" y="19.0"/>
+            <omgdi:waypoint x="767.0" y="19.0"/>
+            <omgdi:waypoint x="767.0" y="87.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_38" id="SequenceFlow_38_gui">
+            <omgdi:waypoint x="265.0" y="305.0"/>
+            <omgdi:waypoint x="330.0" y="305.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_37" id="SequenceFlow_37_gui">
+            <omgdi:waypoint x="530.0" y="305.0"/>
+            <omgdi:waypoint x="600.0" y="304.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_39" id="SequenceFlow_39_gui">
+            <omgdi:waypoint x="700.0" y="305.0"/>
+            <omgdi:waypoint x="785.0" y="307.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_34" id="SequenceFlow_34_gui">
+            <omgdi:waypoint x="1105.0" y="110.0"/>
+            <omgdi:waypoint x="1140.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_33" id="SequenceFlow_33_gui">
+            <omgdi:waypoint x="1005.0" y="110.0"/>
+            <omgdi:waypoint x="1065.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_36" id="SequenceFlow_36_gui">
+            <omgdi:waypoint x="246.0" y="345.0"/>
+            <omgdi:waypoint x="425.0" y="345.5441340199219"/>
+            <omgdi:waypoint x="425.0" y="325.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_35" id="SequenceFlow_35_gui">
+            <omgdi:waypoint x="83.0" y="305.0"/>
+            <omgdi:waypoint x="165.0" y="305.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_30" id="SequenceFlow_30_gui">
+            <omgdi:waypoint x="711.0" y="565.0"/>
+            <omgdi:waypoint x="756.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_31" id="SequenceFlow_31_gui">
+            <omgdi:waypoint x="966.0" y="565.0"/>
+            <omgdi:waypoint x="1012.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_32" id="SequenceFlow_32_gui">
+            <omgdi:waypoint x="925.0" y="110.0"/>
+            <omgdi:waypoint x="975.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow" id="SequenceFlow_gui">
+            <omgdi:waypoint x="483.0" y="605.0"/>
+            <omgdi:waypoint x="691.5" y="605.4239160807269"/>
+            <omgdi:waypoint x="691.0" y="585.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_8" id="SequenceFlow_8_gui">
+            <omgdi:waypoint x="210.0" y="110.0"/>
+            <omgdi:waypoint x="255.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_9" id="SequenceFlow_9_gui">
+            <omgdi:waypoint x="541.0" y="565.0"/>
+            <omgdi:waypoint x="581.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_6" id="SequenceFlow_6_gui">
+            <omgdi:waypoint x="980.0" y="284.0"/>
+            <omgdi:waypoint x="980.5" y="220.0"/>
+            <omgdi:waypoint x="63.5" y="220.0"/>
+            <omgdi:waypoint x="63.0" y="285.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_7" id="SequenceFlow_7_gui">
+            <omgdi:waypoint x="980.0" y="324.0"/>
+            <omgdi:waypoint x="980.5" y="433.6544659442605"/>
+            <omgdi:waypoint x="200.5" y="433.6544659442605"/>
+            <omgdi:waypoint x="200.0" y="545.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_4" id="SequenceFlow_4_gui">
+            <omgdi:waypoint x="611.0" y="565.0"/>
+            <omgdi:waypoint x="671.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_5" id="SequenceFlow_5_gui">
+            <omgdi:waypoint x="725.0" y="110.0"/>
+            <omgdi:waypoint x="747.0" y="108.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_2" id="SequenceFlow_2_gui">
+            <omgdi:waypoint x="445.0" y="305.0"/>
+            <omgdi:waypoint x="490.0" y="305.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_3" id="SequenceFlow_3_gui">
+            <omgdi:waypoint x="901.0" y="150.0"/>
+            <omgdi:waypoint x="1087.5287817329486" y="150.21683713752904"/>
+            <omgdi:waypoint x="1087.0" y="130.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_19" id="SequenceFlow_19_gui">
+            <omgdi:waypoint x="220.0" y="565.0"/>
+            <omgdi:waypoint x="441.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_12" id="SequenceFlow_12_gui">
+            <omgdi:waypoint x="705.0" y="90.0"/>
+            <omgdi:waypoint x="705.5" y="23.0"/>
+            <omgdi:waypoint x="275.0" y="23.0"/>
+            <omgdi:waypoint x="275.0" y="90.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_11" id="SequenceFlow_11_gui">
+            <omgdi:waypoint x="360.0" y="305.0"/>
+            <omgdi:waypoint x="405.0" y="305.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_14" id="SequenceFlow_14_gui">
+            <omgdi:waypoint x="776.0" y="585.0"/>
+            <omgdi:waypoint x="776.5" y="661.4239160807269"/>
+            <omgdi:waypoint x="200.0" y="661.4239160807269"/>
+            <omgdi:waypoint x="200.0" y="585.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_13" id="SequenceFlow_13_gui">
+            <omgdi:waypoint x="796.0" y="565.0"/>
+            <omgdi:waypoint x="866.0" y="565.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_16" id="SequenceFlow_16_gui">
+            <omgdi:waypoint x="510.0" y="325.0"/>
+            <omgdi:waypoint x="510.5" y="389.0"/>
+            <omgdi:waypoint x="60.46622958814493" y="389.0"/>
+            <omgdi:waypoint x="60.0" y="325.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_15" id="SequenceFlow_15_gui">
+            <omgdi:waypoint x="1160.0" y="130.0"/>
+            <omgdi:waypoint x="1160.5" y="197.0"/>
+            <omgdi:waypoint x="19.0" y="197.0"/>
+            <omgdi:waypoint x="19.0" y="307.16463674692136"/>
+            <omgdi:waypoint x="43.0" y="307.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_18" id="SequenceFlow_18_gui">
+            <omgdi:waypoint x="627.0" y="110.0"/>
+            <omgdi:waypoint x="685.0" y="114.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_17" id="SequenceFlow_17_gui">
+            <omgdi:waypoint x="445.0" y="110.0"/>
+            <omgdi:waypoint x="512.0" y="110.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="SequenceFlow_10" id="SequenceFlow_10_gui">
+            <omgdi:waypoint x="910.0" y="308.0"/>
+            <omgdi:waypoint x="960.0" y="308.0"/>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+   </bpmndi:BPMNDiagram>
+</definitions>

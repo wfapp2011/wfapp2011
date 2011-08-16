@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.voting.client.VotingDatabaseService
+path: 82D645AEC0CF8ACA67FFD3B255AA3589.gwt.rpc

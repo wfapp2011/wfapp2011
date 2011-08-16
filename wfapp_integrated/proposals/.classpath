@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-vfs-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/core-renderer-minimal.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-ckeditor-0.5.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-datepicker-r30.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.2.132.jar"/>
+	<classpathentry kind="lib" path="lib/itext-xtra-5.1.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext-xtra-5.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.1.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.41.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.8.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/tempfile.tmp"/>
+	<classpathentry kind="lib" path="lib/XML Worker 1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis-xerces-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/zehon_file_transfer-1.1.6.jar"/>
+	<classpathentry kind="lib" path="/Users/jannikmarten/Studium/Semester_4/wfapp_integrated/wfapp_core.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wfapp_client_core"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
