@@ -7,7 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 
+/**
+ * Implemented as a singleton <br>
+ * provides the functionality to verify userdata via a specified Kerberos <br>
+ * 
+ * <B>CARE:</B> till now only a faked module (verification via txt-file on LFS)
+ * -> comments are very "easy"
+ */
 public class KerberosModul {
+	
+	private boolean debug = false;
 	
 	private static KerberosModul instance;
 	
@@ -15,6 +24,7 @@ public class KerberosModul {
 	
 	private KerberosModul(){
 		
+		//load account informations from txt-file
 		DbInterface.initializeMetaTables();
 		
 		accounts = new ArrayList<String[]>();
@@ -55,19 +65,22 @@ public class KerberosModul {
 		return instance;
 	}
 	
+	/**
+	 * checks if input account is a valid account 
+	 */
 	public boolean authenticate(String name, String pwd){
-		System.out.println("#####\nTeste Kerberos: "+ name +" "+ pwd +"\n#####");
+		if (debug) System.out.println("#####\nTeste Kerberos: "+ name +" "+ pwd +"\n#####");
 		
 		for(String[] acc : accounts){
-			System.out.println(acc[0] +" | "+ acc[1]);
+			if (debug) System.out.println(acc[0] +" | "+ acc[1]);
 			
 			if(acc[0].equals(name) && acc[1].equals(pwd)){
-				System.out.println("OK");
+				if (debug) System.out.println("OK");
 				
 				return true;
 			}
 			
-			System.out.println("FAIL");
+			if (debug) System.out.println("FAIL");
 		}
 		
 		return false;

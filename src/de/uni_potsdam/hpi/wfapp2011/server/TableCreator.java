@@ -5,13 +5,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * creates all needed database tables for the system
+ * 
+ * TableCreator(Connection c): the TableCreator is created in combination with a Connection to a database
+ * createMetaTables(): created all needed metainformation tables and initializes them
+ * create(): creates all needed "normal" tables
+ * copyDB(Connection newDatabase): copies all datas from the database which the TableCreator is belonging to into the database specified by the given Connection
+ * reset(): drops all tables 
+ */
 public class TableCreator {
 	private Connection con;
 	
+	/**
+	 * creates a new TableCreator belonging to the given Conneection
+	 * @param c : Connection where the TableCreator should belong to 
+	 */
 	public TableCreator(Connection c){
 		con = c;
 	}
 	
+	/**
+	 * createMetaTables()
+	 * 
+	 * created all needed metainformation tables and initializes them
+	 */
 	public void createMetaTables(){
 		try{
 			Statement stmt = con.createStatement();
@@ -35,6 +53,11 @@ public class TableCreator {
 		}
 	}
 	
+	/**
+	 * create()
+	 * 
+	 * creates all needed "normal" tables
+	 */
 	public void create(){
 		try{
 			Statement stmt = con.createStatement();
@@ -46,17 +69,17 @@ public class TableCreator {
 			stmt.executeUpdate("CREATE TABLE logTable (changeDate VARCHAR(255), person VARCHAR(255), changeDescription VARCHAR(255), changedValues CLOB, PRIMARY KEY(changeDate,person));");
 			
 			//### AP3 ###
-			stmt.executeUpdate("CREATE TABLE projectProposal (projectID INT PRIMARY KEY, projectName VARCHAR(255), projectDescription CLOB, minStud INT, maxStud INT, partnerName VARCHAR(255), partnerDescription CLOB, estimatedBegin DATE, period VARCHAR(255), department INT, isDeleted BOOLEAN, isPublic BOOLEAN, isRejected BOOLEAN, keywords VARCHAR(255), lastModifiedAt DATE, lastModifiedBy INT);");
+			stmt.executeUpdate("CREATE TABLE projectProposal (projectID INT PRIMARY KEY, projectName VARCHAR(255), projectDescription CLOB, minStud INT, maxStud INT, partnerName VARCHAR(255), partnerDescription CLOB, estimatedBegin DATE, period VARCHAR(255), department INT, isDeleted BOOLEAN, isPublic BOOLEAN, isRejected BOOLEAN, keywords VARCHAR(255), lastModifiedAt TIMESTAMP, lastModifiedBy INT);");
 			
 			stmt.executeUpdate("CREATE TABLE projectTopic (topicID INT PRIMARY KEY, projectName VARCHAR(255), projectDescription CLOB, minStud INT, maxStud INT, partnerName VARCHAR(255), partnerDescription CLOB, estimatedBegin DATE, period VARCHAR(255), department INT, keywords VARCHAR(255), projectFile INT, projectShortCut VARCHAR(255));");
 			
-			stmt.executeUpdate("CREATE TABLE files (projectID INT, url VARCHAR(255), isProjectFile BOOLEAN, PRIMARY KEY (projectID, url));");
+			stmt.executeUpdate("CREATE TABLE files (projectID INT, destFolderFTP VARCHAR(255), fileName VARCHAR(255), fileNameFTP VARCHAR(255), isProjectFile BOOLEAN, PRIMARY KEY (projectID, fileNameFTP));");
 			
-			stmt.executeUpdate("CREATE TABLE person (personID INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), role VARCHAR(255), department INT, placement VARCHAR(255));");
+			stmt.executeUpdate("CREATE TABLE person (personID INT AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255), role VARCHAR(255), department INT, placement VARCHAR(255), PRIMARY KEY (personID));");
 			
 			stmt.executeUpdate("CREATE TABLE contactPerson (personID INT, projectID INT, PRIMARY KEY(personID,projectID));");
 			
-			stmt.executeUpdate("CREATE TABLE comments (commentID INT PRIMARY KEY, projectID INT, message VARCHAR(255), author INT, date DATE);");
+			stmt.executeUpdate("CREATE TABLE comments (commentID INT PRIMARY KEY, projectID INT, message VARCHAR(255), author INT, date TIMESTAMP);");
 			
 			stmt.executeUpdate("CREATE TABLE department (departmentID INT PRIMARY KEY, name VARCHAR(255), shortCut VARCHAR(3), professor INT);");
 			
@@ -70,19 +93,43 @@ public class TableCreator {
 		}
 	}
 	
+	/**
+	 * copyDB(Connection)
+	 * 
+	 * copies all datas from the database which the TableCreator is
+	 * belonging to into the database specified by the given Connection
+	 * 
+	 * @param newDatabase : Connection which all data should be copied to
+	 */
 	public void copyDB(Connection newDatabase){
 		try{
+			//###############################
+			//#								#
+			//# initialize the new database #
+			//#								#
+			//###############################
 			Statement stmtOld = con.createStatement();
 			Statement stmtNew = newDatabase.createStatement();
 			
 			TableCreator initNewDatabase = new TableCreator(newDatabase);
 			initNewDatabase.create();
 			
+			//######################################################################
+			//#																	   #
+			//# get all existing tables in the old database and iterate over them #
+			//#																	   #
+			//######################################################################
 			ResultSet result = stmtOld.executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='PUBLIC';");
 			while(result.next()){
 				String table = result.getString(1);
 				
 				Statement stmtData = con.createStatement();
+				
+				//#####################################################################################################
+				//#																									  #
+				//# get all data from the actuell table and create statements which insert them into the new database #
+				//#																									  #
+				//#####################################################################################################
 				ResultSet data = stmtData.executeQuery("SELECT * FROM "+ table +";");
 				
 				while(data.next()){
@@ -116,6 +163,10 @@ public class TableCreator {
 		}
 	}
 	
+	/**
+	 * reset()
+	 * drops all tables
+	 */
 	public void reset(){
 		try{
 			Statement stmt = con.createStatement();

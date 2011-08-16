@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+//# Imports #
 import java.util.ArrayList;
 import java.util.Date;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -8,6 +9,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+/**
+ * popup providing the configurator different abilities, like choosing a year and the type of a project
+ */
 public class NewProjectPopUp extends MySimplePopUp {
 	
 	private ListBox comboBox;

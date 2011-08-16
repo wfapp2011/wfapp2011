@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+//# Imports #
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,9 +10,15 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 
+/**
+ * MainFrame
+ * gives the admin the ability to configure different modules, like OWA or LDAP
+ * has password popups
+ */
+
 public class MainMetaPanel extends Composite {
 	
-	private Boolean debug = true;
+	private Boolean debug = false;
 	
 	private PasswordPopUp popUpContent;
 	private PopupPanel popUp;
@@ -270,11 +277,11 @@ public class MainMetaPanel extends Composite {
 		// save data to db
 		confInterface.saveMetaData(map, new AsyncCallback<Void>() {
 			public void onSuccess(Void result) {
-				Window.alert("Daten gespeichert");
+				Window.alert("Daten gespeichert.");
 			}
 			
 			public void onFailure(Throwable caught) {
-				
+				Window.alert("Daten konnten nicht gespeichert werden.");
 			}
 		});
 		

@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+//# Imports #
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -8,14 +9,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
 import de.uni_potsdam.hpi.wfapp2011.pageframe.Footer;
 import de.uni_potsdam.hpi.wfapp2011.pageframe.Header;
@@ -30,17 +28,15 @@ public class ConfigurationInterface implements EntryPoint {
 	
 	private MainMetaPanel metaconfig;
 	private MainPanel projectconfig;
-	VerticalPanel verticalPanel;
+	private VerticalPanel verticalPanel;
 	private DockLayoutPanel mainPanel;
-	private ProcessIdentifier pId; //pId aud Admins pId setzten!!!!
+	private ProcessIdentifier pId = ProcessIdentifier.getProcessIdentifier(""); //pId aud Admins pId setzten!!!!
 	private Header headerPanel;
 	private Footer footerPanel;
 	
 	
 	public void onModuleLoad() {
 		RootPanel rootPanel = RootPanel.get();
-		
-		pId = ProcessIdentifier.getProcessIdentifier("");//pId aud Admins pId setzten!!!!
 		rootPanel = RootPanel.get();
 		rootPanel.setSize("100%", "100%");
 
@@ -54,33 +50,6 @@ public class ConfigurationInterface implements EntryPoint {
 		verticalPanel = new VerticalPanel();
 		mainPanel.add(verticalPanel);
 		verticalPanel.setSize("100%", "100%");
-
-		
-		
-		/*
-		 * Header head = new Header(input);
-		 * verticalPanel.add(head);
-		 * main.setWidth("100%"); 
-		 */
-		
-//		HorizontalPanel menuBar = new HorizontalPanel();
-//		verticalPanel.add(menuBar);
-//		
-//		Button btnProjektliste = new Button("Projektliste");
-//		btnProjektliste.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				toogleVisibility(true);
-//			}
-//		});
-//		menuBar.add(btnProjektliste);
-//		
-//		Button btnMetakonfigurationen = new Button("Metakonfigurationen");
-//		btnMetakonfigurationen.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				toogleVisibility(false);
-//			}
-//		});
-//		menuBar.add(btnMetakonfigurationen);
 		
 		metaconfig = new MainMetaPanel();
 		verticalPanel.add(metaconfig);
@@ -92,36 +61,12 @@ public class ConfigurationInterface implements EntryPoint {
 		
 		toogleVisibility(true);
 		
-		/*Button btnLogin = new Button("Login");
-		btnLogin.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				final PopupPanel temp = new PopupPanel();
-				final LoginPopUp content = new LoginPopUp();
-				
-				Button save = new Button();
-				save.setText("Einloggen");
-				save.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						Cookies.removeCookie("Wfapp2011.USER");
-						Cookies.removeCookie("Wfapp2011.STATE");
-						content.tryToLogin();
-						temp.hide();
-						
-						Location.reload(); 
-					}
-				});
-				
-				content.getButtonBar().add(save);
-				temp.add(content);
-				temp.center();
-			}
-		});
-		verticalPanel.add(btnLogin);
-		btnLogin.setVisible(!isAdmin);*/
-		
 		Button btnLogout = new Button("Logout");
 		btnLogout.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				// Logout:
+				// 1. sending information to server
+				// 2. onSuccess: deleting Cookie: Wfapp2011.USER on Clientpage
 				confInterface.logout(Cookies.getCookie("Wfapp2011.USER"), new AsyncCallback<Void>(){
 
 					@Override
@@ -138,20 +83,12 @@ public class ConfigurationInterface implements EntryPoint {
 				});			
 			}
 		});
+		// Adding LogoutButton to Page
 		verticalPanel.add(btnLogout);
-		
-		/*
-		 * Footer foot = new Footer();
-		 * verticalPanel.add(foot);
-		 * main.setWidth("100%"); 
-		 */
 	}
 
 	private void createHeader() {
 		headerPanel = new Header(pId, "Projekteverwaltung");
-			
-//		HorizontalPanel menuBar = new HorizontalPanel();
-//		verticalPanel.add(menuBar);
 		
 		Button btnProjektliste = new Button("Projektliste");
 		btnProjektliste.addClickHandler(new ClickHandler() {
@@ -174,11 +111,10 @@ public class ConfigurationInterface implements EntryPoint {
 		//Footer von Pageframe
 		footerPanel = new Footer();
 		mainPanel.addSouth(footerPanel, 40);
-
-		
 	}
 
 	private void toogleVisibility(boolean bool){
+		// switching Pages
 		metaconfig.setVisible(!bool);
 		projectconfig.setVisible(bool);
 	}

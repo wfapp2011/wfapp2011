@@ -14,20 +14,56 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Filters all Requests to the Server and requests a login if the Requester is not logged in <br><br>
+ * 
+ * init(FilterConfig arg0): initializes the filter
+ * doFilter(ServletRequest request, ServletResponse response, FilterChain chain): checks the "login"-status of the requester and reacts according to this
+ * destroy(): destroys the filter
+ *
+ */
 public class LoginFilter implements Filter{
 	
-	private boolean debug = true;
+	private boolean debug = false;
 	
+	//flag if the metatable-database is already created
 	private static boolean created;
 	
-	String redirectUrl = "/adminconfig/ConfigurationInterface.html";
+	//url to which the redirect should be performed to after the login-process
+	private String redirectUrl = "/adminconfig/ConfigurationInterface.html";
 	
+	/**
+	 * init(FilterConfig)
+	 * 
+	 * initializes the filter
+	 * 
+	 * @param arg0 : FilterConfig
+	 */
 	public void init(FilterConfig arg0) throws ServletException {
+		//#################################################################################################
+		//#																								  #
+		//# on application start (init of filter) the metatables must be created with next server request #
+		//#																								  #
+		//#################################################################################################
 		created = false;
 		if(debug) System.out.println("Filter initialisiert!");
 	}
 	
+	/**
+	 * doFilter(ServletRequest, ServletResponse, FilterChain)
+	 * 
+	 * checks the "login"-status of the requester and reacts according to this
+	 * 
+	 * @param request : the request which has been send to the server
+	 * @param response : the response which came from the server
+	 * @param chain : a chain of other filters
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response,FilterChain chain) throws IOException, ServletException {
+		//####################################################
+		//#													 #
+		//# if metatables are not created yet -> create them #
+		//#													 #
+		//####################################################
 		if(!created){
 			created = true;
 			DbInterface.initializeMetaTables();
@@ -36,8 +72,18 @@ public class LoginFilter implements Filter{
 		String url = "/login/LoginPage.html";
 		if(debug) System.out.println("Redirect URL: "+ redirectUrl);
 		
+		//###############################################################
+		//#																#
+		//# get all cookies which have been send via the ServletRequest #
+		//#                     										#
+		//###############################################################
 		Cookie[] cookies = ((HttpServletRequest)request).getCookies();
 		
+		//##################################################################
+		//#																   #
+		//# try to find a free ID which could be assigned to the requester #
+		//#																   #
+		//##################################################################
 		DbInterface db_idtest = new DbInterface();
 		db_idtest.connectToMetaTables();
 		Integer id = null;
@@ -59,6 +105,12 @@ public class LoginFilter implements Filter{
 		Cookie user = null;
 		
 		if(cookies == null){
+			//##############################################################################################
+			//#																							   #
+			//# the requester has no cookies -> set new USER and REDIRECT cookie (needed for login process #
+			//# send redirect to LoginPage so the requester can log in									   #
+			//#																							   #
+			//##############################################################################################
 			if(debug) System.out.println("Keine Cookies vorhanden");
 			Cookie redirectCookie = new Cookie("Wfapp2011.REDIRECT",id + "#" + redirectUrl);
 			redirectCookie.setPath("/login");
@@ -70,6 +122,11 @@ public class LoginFilter implements Filter{
 			if(debug) System.out.println("Redirect gesendet");
 		}
 		else{
+			//#############################################################
+			//#															  #
+			//# requester has cookies -> try to find the right one (USER) #
+			//#															  #
+			//#############################################################
 			if(debug) System.out.println("Starte Suche nach User Cookie");
 			for(Cookie c : cookies){
 				if (debug) System.out.println(c.getName());
@@ -79,6 +136,12 @@ public class LoginFilter implements Filter{
 				}
 			}
 			if(user == null){
+				//####################################################################################################
+				//#																									 #
+				//# requester has no valid USER-cookie -> set new USER and REDIRECT cookie (needed for login process #
+				//# send redirect to LoginPage so the requester can log in									   		 #
+				//#																							   		 #
+				//####################################################################################################
 				if(debug) System.out.println("Kein USER-Cookie vorhanden");
 				Cookie redirectCookie = new Cookie("Wfapp2011.REDIRECT",id + "#" + redirectUrl);
 				redirectCookie.setPath("/login");
@@ -89,6 +152,11 @@ public class LoginFilter implements Filter{
 				((HttpServletResponse)response).sendRedirect(url);
 			}
 			else{
+				//###################################################################################
+				//#																  					#
+				//# requester has valid USER-cookie -> get userdata from database (delete saved pwd #
+				//#																  					#
+				//###################################################################################
 				if(debug) System.out.println("USER Cookie gefunden");
 				DbInterface db = new DbInterface();
 				db.connectToMetaTables();
@@ -107,6 +175,12 @@ public class LoginFilter implements Filter{
 				db.disconnect();
 				
 				if(result == null){
+					//############################################################################################
+					//#																							 #
+					//# no online-user has been found in the database -> delete USER-cookie						 #
+					//# create new USER and REDIRECT cookie -> redirect to LoginPage so the requester can log in #
+					//#																							 #
+					//############################################################################################
 					user.setMaxAge(0);
 					((HttpServletResponse)response).addCookie(user);
 					Cookie redirectCookie = new Cookie("Wfapp2011.REDIRECT",id + "#" + redirectUrl);
@@ -117,6 +191,11 @@ public class LoginFilter implements Filter{
 					((HttpServletResponse)response).sendRedirect(url);
 				}
 				else{
+					//###############################################################################################
+					//#																								#
+					//# a online user has been found for the given id -> get username and pwd from database request #
+					//#																								#
+					//###############################################################################################
 					String username = "";
 					String pwd = "";
 					
@@ -126,10 +205,21 @@ public class LoginFilter implements Filter{
 					}
 					
 					if(SessionManagement.getInstance().isLoggedIn(username)){
+						//#####################################################################
+						//#																	  #
+						//# if user is already logged in -> permission to pass can be granted #
+						//#																	  #
+						//#####################################################################
 						chain.doFilter(request, response);
 					}
 					else{
 						if(SessionManagement.getInstance().login(username, pwd, user.getValue())){
+							//###############################################################################
+							//#																		   		#
+							//# the user wasn't logged in yet, but login process successfully finished 		#
+							//# get needed data from ldap and update database tables, grant pass-permission #
+							//#																		   		#
+							//###############################################################################
 							if(debug) System.out.println("User erfolgreich eingeloggt!");
 							db.connectToMetaTables();
 							sql = "UPDATE onlineUsers SET roles='"+ LdapModul.getInstance().getUserdata(username) +"' WHERE id="+ user.getValue() +";";
@@ -145,6 +235,12 @@ public class LoginFilter implements Filter{
 							chain.doFilter(request, response);
 						}
 						else{
+							//###################################################################################################
+							//#																									#
+							//# user wasn't logged in yet and login process failed												#
+							//# delete database entries and USER-cookie, then redirect to LoginPage so the user can login again #
+							//#																									#
+							//###################################################################################################
 							db.connectToMetaTables();
 							try{
 								db.executeUpdate("DELETE FROM onlineusers WHERE id="+ user.getValue() +";");
@@ -164,18 +260,11 @@ public class LoginFilter implements Filter{
 		}
 	}
 
+	/**
+	 * destroy()
+	 * 
+	 * destroyes the filter
+	 */
 	public void destroy() {
 	}
-
-
-
-//@Override
-//public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
-//		throws IOException, ServletException {
-//	// TODO Auto-generated method stub
-//	String redirectUrl = ((HttpServletRequest)arg0).getRequestURL().toString();
-//	if(debug) System.out.println("Redirect URL: "+ redirectUrl);
-//	
-//	arg2.doFilter(arg0, arg1);
-//}
 }

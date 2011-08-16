@@ -26,7 +26,7 @@ public class SessionManagementTest {
 
 	@Test
 	public void testLogin(){
-		assertTrue(SessionManagement.getInstance().login(username, pwd));
+		assertTrue(SessionManagement.getInstance().login(username, pwd, "42"));
 		
 	}
 	
@@ -51,7 +51,7 @@ public class SessionManagementTest {
 	
 	@Test
 	public void testTimeOut() throws Exception {
-		SessionManagement.getInstance().login(username, pwd);
+		SessionManagement.getInstance().login(username, pwd, "42");
 		Thread.sleep(30500);
 		//Thread.sleep(600500);
 		assertFalse(SessionManagement.getInstance().isLoggedIn(username));

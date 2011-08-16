@@ -1,13 +1,17 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+// # Imports #
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
+/**
+ * provides the ability to change the password of different modules
+ */
 public class PasswordPopUp extends MySimplePopUp {
 	
-	private Boolean debug = true;
+	private Boolean debug = false;
 	
 	private PasswordTextBox oldPasswordTextBox;
 	private PasswordTextBox newPasswordTextBox;
@@ -17,6 +21,11 @@ public class PasswordPopUp extends MySimplePopUp {
 	private String type;
 	private ConfigInterfaceDataExchangeAsync confInterface = GWT.create(ConfigInterfaceDataExchange.class);
 
+	/**
+	 * Constructor
+	 * loads the old password from database
+	 * @param sType : type of the module where the new password should be assigned to
+	 */
 	public PasswordPopUp(String sType) {
 		
 		type = sType;
@@ -73,35 +82,40 @@ public class PasswordPopUp extends MySimplePopUp {
 		verticalPanel.add(buttonbar);
 	}
 	
+	/**
+	 * Action happens if the savebutton has been pressed
+	 * @param popUp : this popup is closed on successful passwordchange
+	 */
 	public void saveButtonPressed(PopupPanel popUp){
 		if (debug) System.out.println("Checking Password");
+		// compare retyped old password
 		if (oldPwd.equals(oldPasswordTextBox.getValue())){
-			// Vergleiche die beiden neuen PWDs
+			// compare both new PWDs
 			if (newPasswordTextBox.getValue().equals(newPasswordTextBox2.getValue())){
 				if (debug) System.out.println("Check OK - Try to save pwd");
-				// Speichere neues Password in der Datenbank
+				// save new pwd to database
 				confInterface.savePassword(type.toLowerCase(), newPasswordTextBox.getValue(), new AsyncCallback<Void>() {
 					public void onSuccess(Void result) {
-						Window.alert("Saved password succsessfully.");
+						Window.alert("Passwort erfolgreich gespeichert.");
 					}
 					
 					public void onFailure(Throwable caught) {
-						Window.alert("Failed to save password.");
+						Window.alert("Passwort konnte nicht gespeichert werden.");
 					}
 				});
 				
 				if (debug) System.out.println("new pwd saved");
-				// schlieﬂe das PopUp (dich selbst)
+				// close popup
 				clearPwdInput();
 				popUp.hide();
 			} else {
-				// Zeige PopUp mit Fehlermeldung "neue Pwd nicht gleich"
-				Window.alert("You didn't typed the same password twice.");
+				// show PopUp with errorcode: "neue Pwd nicht gleich"
+				Window.alert("Sie haben nicht 2 mal das gleiche Passwort eingegeben.");
 				clearPwdInput();
 			}
 		} else {
-			// Zeige PopUp mit Fehlermeldung "altes Password nicht best‰tigt"
-			Window.alert("Please type the correct old password");
+			// show PopUp with errorcode: "altes Password nicht best‰tigt"
+			Window.alert("Sie haben nicht das richtige alte Passwort eingegeben.");
 			clearPwdInput();
 		}
 	}

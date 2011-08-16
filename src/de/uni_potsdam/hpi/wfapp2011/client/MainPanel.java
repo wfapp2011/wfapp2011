@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+//# Imports #
 import java.util.*;
 
 import com.google.gwt.core.client.GWT;
@@ -9,27 +10,34 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 
+/**
+ * MainPage
+ * shows all exisitng Projects
+ * gives the user the ability to do some changes
+ */
+
 public class MainPanel extends Composite {
 	
-	private Boolean debug = true;
+	private Boolean debug = false;
 	
 	private ArrayList<String> existingProjects = new ArrayList<String>();
 	private ArrayList<String[]> rawExistingProjects = new ArrayList<String[]>();
 	private ConfigInterfaceDataExchangeAsync confInterface = GWT.create(ConfigInterfaceDataExchange.class);
 	
-	private HTML htmlNoExisitingProjects = new HTML("<i> no exisiting projects </i>", true);
+	private HTML htmlNoExistingProjects = new HTML("<i> no existing projects </i>", true);
 	private VerticalPanel verticalProjectPanel;
 	
 	private PopupPanel popup;
 	private NewProjectPopUp content;
 	
 	private void toggleVisibility(Boolean bool){
-		htmlNoExisitingProjects.setVisible(!bool);
+		htmlNoExistingProjects.setVisible(!bool);
 		verticalProjectPanel.setVisible(bool);
 	}
 	
 	private void refreshContent(){
 		if (existingProjects.size()<1){
+			// show "no exisiting projects"
 			toggleVisibility(false);
 		}			
 		else {
@@ -46,7 +54,7 @@ public class MainPanel extends Composite {
 				if(debug) System.out.println(i);
 				verticalProjectPanel.add(createNewProjectEntry(i,started));
 			}
-			
+			// hide "no exisiting projects"
 			toggleVisibility(true);
 		}
 	}
@@ -186,7 +194,7 @@ public class MainPanel extends Composite {
 		Button delete = new Button("L\u00F6schen");
 		delete.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {	
-				if (Window.confirm("Wollen Sie das Projekt wirklich löschen?"))
+				if (Window.confirm("Wollen Sie das Projekt wirklich l\u00F6schen?"))
 					// Deleting project from DB
 					confInterface.deleteProject(project.split(" ")[0], project.split(" ")[1], project.split(" ")[3], new AsyncCallback<Void>() {
 						public void onFailure(Throwable caught) {
@@ -196,7 +204,7 @@ public class MainPanel extends Composite {
 						public void onSuccess(Void result) {
 							loadDataFromDb();
 							refreshContent();
-							Window.alert("Projekt gelöscht!");
+							Window.alert("Projekt gel\u00F6scht!");
 						}
 				
 					});
@@ -251,8 +259,7 @@ public class MainPanel extends Composite {
 	
 	private void databaseError(Throwable caught){
 		Window.alert("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\n" +
-		 "Bitte wenden Sie sich an den Support.\n\n" +
-		 "Fehlercode:\n"+caught);
+		 "Bitte wenden Sie sich an den Support.\n\n");
 	}
 	
 	public MainPanel() {
@@ -267,7 +274,7 @@ public class MainPanel extends Composite {
 		verticalPanel.add(lblExistingProjects);
 		
 		// html-error
-		verticalPanel.add(htmlNoExisitingProjects);
+		verticalPanel.add(htmlNoExistingProjects);
 
 		// Projectentries
 		verticalProjectPanel = new VerticalPanel();

@@ -2,6 +2,11 @@ package de.uni_potsdam.hpi.wfapp2011.server;
 
 import java.io.IOException;
 
+/**
+ * Implemented as a Singleton. <br>
+ * Provides a simple en- and decryption functionality.
+ */
+
 public class PasswordCrypter {
 	
 	private static PasswordCrypter theInstance = null;
@@ -10,6 +15,10 @@ public class PasswordCrypter {
 		
 	}
 	
+	/**
+	 * Singleton utility function
+	 * @return the single instance
+	 */
 	public synchronized static PasswordCrypter getInstance() 
 	{
 		if (theInstance == null)
@@ -17,6 +26,11 @@ public class PasswordCrypter {
 		return theInstance;			
 	}
 
+	/**
+	 * encrypts a given String with BASE64Encoder
+	 * @param pwd : String of a plain string (often a password)
+	 * @return encryped String of the given String
+	 */
 	public String encrypt(String pwd){
 		
 		if(pwd==null)	return "";
@@ -26,6 +40,11 @@ public class PasswordCrypter {
 		return encryped;
 	}
 	
+	/**
+	 * decrypts a given String with BASE64Decoder
+	 * @param pwd : String of a encryped string (often a password)
+	 * @return decryped String of the given String
+	 */
 	public String decrypt(String pwd){
 		
 		String decryped = "";

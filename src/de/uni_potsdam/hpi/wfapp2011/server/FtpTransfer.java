@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.server;
 
+// #IMPORTS#
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,7 +11,10 @@ import java.util.Map;
 import com.zehon.exception.FileTransferException;
 import com.zehon.ftp.FTPClient;
 
-
+/**
+ * Implemented as a singleton! <br>
+ * provides the up and downloading features to a specified ftp server (saved in database)
+ */
 public class FtpTransfer {
 	
 	private static FtpTransfer theInstance = null;
@@ -18,6 +22,9 @@ public class FtpTransfer {
 	private static String name; // = "gwave";
 	private static String pwd; // = "hpihpihpi";
 	
+	/**
+	 * load the actual login data from database
+	 */
 	public void updateLogin(){
 		Collection<Map<String,String>> result;
 		DbInterface db = new DbInterface();
@@ -38,6 +45,10 @@ public class FtpTransfer {
 		
 		}
 
+	/**
+	 * utility function for singleton implementation
+	 * @return the single instance of the class
+	 */
 	public synchronized static FtpTransfer getInstance() 
 			{	
 				if (theInstance == null)
@@ -48,6 +59,15 @@ public class FtpTransfer {
 				return theInstance;	
 			}
 
+	/**
+	 * upload given filestream to the ftp server
+	 * @param is : Inputstream of a given file
+	 * @param filename : the name the file should be saved
+	 * @return Arraylist of Strings including:<br>
+	 * 			1) destination Folder<br>
+	 * 			2) filename (different to the input [with timestamp])
+	 * 			3) uploadstatus
+	 */
 	public synchronized final ArrayList<String> upload(InputStream is, String filename){
 		
 		Calendar cal = Calendar.getInstance();
@@ -79,6 +99,12 @@ public class FtpTransfer {
 		return returnValues;
 	}
 	
+	/**
+	 * downloads the file on the specified destination Folder
+	 * @param destFolder : String of the destination path
+	 * @param filename : String of the filename (with timestamp)
+	 * @return Inputstream of the requested file
+	 */
 	public synchronized final InputStream download(String destFolder, String filename){
 		
 		InputStream file = null;

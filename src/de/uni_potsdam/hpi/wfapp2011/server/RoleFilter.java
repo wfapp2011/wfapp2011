@@ -14,19 +14,48 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Filters all requests to the server and only allows access from persons with a role
+ * which has the permission to enter the page
+ * 
+ * init(FilterConfig arg0): initializes the filter
+ * doFilter(ServletRequest request, ServletResponse response, FilterChain chain): filters the requests and checks roles
+ * destroy(): destroyes the filter
+ */
 public class RoleFilter implements Filter{
 	
 	private boolean debug = true;
 	
 	//String redirectUrl = "/adminconfig/ConfigurationInterface.html";
-	String[] allowedRoles = {"Admin"};
 	
+	//String[] of all roles which are allowd to enter the page
+	private String[] allowedRoles = {"Admin"};
+	
+	/**
+	 * destroy()
+	 * 
+	 * destroyes the filter
+	 */
 	@Override
 	public void destroy() {	
 	}
 
+	/**
+	 * doFilter(ServletRequest, ServletResponse, FilterChain)
+	 * 
+	 * filters the requests and checks roles
+	 * 
+	 * @param request : the request which has been send to the server
+	 * @param response : the response which came from the server
+	 * @param chain : a chain of other filters
+	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		//########################################################################
+		//#																		 #
+		//# get all cookies from the request and check if there is a USER cookie #
+		//#																		 #
+		//########################################################################
 		Cookie[] cookies = ((HttpServletRequest)request).getCookies();
 		
 		Cookie user = null;
@@ -41,11 +70,21 @@ public class RoleFilter implements Filter{
 		}
 		
 		if(user == null){
+			//##########################################################
+			//#														   #
+			//# no USER-cookie was found -> permission cant be granted #
+			//# 													   #
+			//##########################################################
 			if(debug) System.out.println("Kein USER-Cookie vorhanden");
 			
 			permission = false;
 		}
 		else{
+			//###################################################
+			//#													#
+			//# USER-cookie found -> get userdata from database #
+			//#													#
+			//###################################################
 			if(debug) System.out.println("Hole Daten aus der DB");
 			
 			DbInterface db = new DbInterface();
@@ -57,11 +96,22 @@ public class RoleFilter implements Filter{
 			db.disconnect();
 			
 			if(result == null){
+				//##############################################################
+				//#															   #
+				//# no userdata found in the db -> permission can't be granted #
+				//#															   #
+				//##############################################################
 				if(debug) System.out.println("Kein Daten in der DB vorhanden");
 				
 				permission = false;
 			}
 			else{
+				//##############################################################################
+				//#																			   #
+				//# userdata where found in the database -> check if there is a role performed #
+				//# by the requester which is allowed to enter the page 					   #
+				//#																			   #
+				//##############################################################################
 				String[] roles = null;
 				
 				for(Map<String,String> m : result){
@@ -80,6 +130,12 @@ public class RoleFilter implements Filter{
 			}
 		}
 		
+		//#################################################################
+		//#																  #
+		//# if permission was granted during the checking -> allow access #
+		//# otherwise -> logout the requester and deny access			  #
+		//#																  #
+		//#################################################################
 		if(permission){
 			if(debug) System.out.println("Filter leitet weiter");
 			
@@ -93,6 +149,13 @@ public class RoleFilter implements Filter{
 		}
 	}
 
+	/**
+	 * init(FilterConfig)
+	 * 
+	 * initializes the filter
+	 * 
+	 * @param arg0 : FilterConfig
+	 */
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 	}

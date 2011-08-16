@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/bcprov-jdk15-1.43.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/commons-httpclient-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/commons-net-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/commons-vfs-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/jsch-0.1.41.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/mail.jar"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/external jars/zehon_file_transfer-1.1.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Wfapp-Workspace/AdminConfigurationInterface/h2-1.2.132.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/LoggerAndAdministration"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

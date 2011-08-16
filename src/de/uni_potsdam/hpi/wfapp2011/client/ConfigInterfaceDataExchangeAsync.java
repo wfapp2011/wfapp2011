@@ -6,6 +6,10 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * 	Auto-created GWT class
+ */
+
 public interface ConfigInterfaceDataExchangeAsync {
 	public void getProjectList(AsyncCallback<ArrayList<String[]>> callback);
 	public void addProject(String year, String name, AsyncCallback<Void> callback);

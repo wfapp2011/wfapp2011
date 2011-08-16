@@ -1,5 +1,6 @@
 package de.uni_potsdam.hpi.wfapp2011.client;
 
+//# Imports #
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,9 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
 
+/**
+ * provides different dates to be changed by the admin
+ */
 public class ProjectEditPopUp extends MySimplePopUp {
 	
 	private DateBox deadlineProposalCollection_dateBox;
@@ -34,6 +38,12 @@ public class ProjectEditPopUp extends MySimplePopUp {
 	
 	private boolean debug = true; 
 
+	/**
+	 * Constructor
+	 * creates a popup to given project
+	 * @param headline : name of the project (includes type, year, semester)
+	 * @param content : old data (old dates)
+	 */
 	public ProjectEditPopUp(String headline, Collection<Map<String,String>> content) {
 		
 		// getInformation
@@ -55,7 +65,7 @@ public class ProjectEditPopUp extends MySimplePopUp {
 		main.add(hdln);
 		
 		// Generate Dateboxes
-		deadlineProposalCollection_dateBox = newDatebox("Ende der Einsendung von Projektvorschlägen",deadlineProposalCollection);
+		deadlineProposalCollection_dateBox = newDatebox("Ende der Einsendung von Projektvorschl\u00E4gen",deadlineProposalCollection);
 		deadlineTopicsPublication_dateBox = newDatebox("Begin der Votingphase",deadlineTopicsPublication);
 		deadlineVoting_dateBox = newDatebox("Ende der Votingphase",deadlineVoting);		
 		deadlineMatching_dateBox = newDatebox("Ende der Zuteilungsphase",deadlineMatching);
@@ -127,6 +137,7 @@ public class ProjectEditPopUp extends MySimplePopUp {
 	}
 
 	private int sMonthToInt(String month) {
+		// Converts string to Integervalue of the month
 		if (month.equals("Jan") || month.equals("1")) return 1;
 		if (month.equals("Feb") || month.equals("2")) return 2;
 		if (month.equals("Mar") || month.equals("3")) return 3;
@@ -145,6 +156,9 @@ public class ProjectEditPopUp extends MySimplePopUp {
 
 	@SuppressWarnings("deprecation")
 	private boolean saveCheckedDate(DateBox box, Date oldValue, String name, boolean needToCheck, Map<String,String> returnValues){
+		// saves new date
+		// maybe dates has to be checked, if the project has been started
+		// if already started dates can only be change to future
 		boolean temp = false;		
 		String value = "";
 		
@@ -168,7 +182,13 @@ public class ProjectEditPopUp extends MySimplePopUp {
 		
 		return temp;
 	}
-
+	
+	/**
+	 * read out all new dates and returns checked dates
+	 * 
+	 * @param started : flag if the project has already been started
+	 * @return returns all checked dates in a Map
+	 */
 	public Map<String,String> getContent(boolean started){
 		Map<String,String> returnValues = new HashMap<String,String>();
 		
@@ -184,6 +204,7 @@ public class ProjectEditPopUp extends MySimplePopUp {
 	}
 
 	private DateBox newDatebox(String lbl, Date value){
+		// creating a new datebox with a given label
 		HorizontalPanel panel = new HorizontalPanel();
 		main.add(panel);
 		
