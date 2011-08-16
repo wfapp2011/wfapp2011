@@ -9,8 +9,6 @@
   <!-- AP3 -->
   <inherits name='org.zenika.widget.DatePickerModule'/>
   <inherits name='com.axeiya.gwtckeditor.Gwtckeditor'/>
-  
-  <set-property name="user.agent" value="gecko1_8" />
 
   <!-- Specify the applications entry point class. -->
   <entry-point class='de.uni_potsdam.hpi.wfapp2011.proposals.client.rendering.ProposalsMain'/>
