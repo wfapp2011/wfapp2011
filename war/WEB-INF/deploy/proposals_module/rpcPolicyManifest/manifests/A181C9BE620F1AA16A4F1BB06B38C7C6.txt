@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.TestdataInterface
+path: 15667F66D0DEC922156BBFC6EB51FE0F.gwt.rpc

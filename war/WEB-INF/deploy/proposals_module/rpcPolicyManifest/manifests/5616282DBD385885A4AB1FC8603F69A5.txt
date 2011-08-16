@@ -1,0 +1,2 @@
+serviceClass: de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.ProjectProposalInterface
+path: 54ABFF308F64EF0A7168186D3B3C8CC3.gwt.rpc
