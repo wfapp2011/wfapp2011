@@ -20,18 +20,18 @@ import java.util.Map;
 import org.h2.jdbc.JdbcSQLException;
 
 /**
- * Provides the functionality to interact with the H2-Database
+ * Provides the functionality to interact with the H2-Database <br><br>
  * 
- * !!! For easier parsing all SQL queries are converted into lower case Strings !!!
+ * !!! For easier parsing all SQL queries are converted into lower case Strings !!!<br><br>
  * 
- * 	DbInterface():					Loads the Jdbc-Driver for the H2-Database
- * 	initializeDatabase(String, String, int):Initializes the database
- *  initializeMetaTables():		Creates the meta-information database and all of its tables
- * 	connect(String, String, int):			Connects this instance of the DbInterface to the H2-Database
- * 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database
- * 	executeQuery(String):			Executes the given SQL-Query
- * 	executeUpdate(String):			Executes the given Update-Query
- * 	executeQueryDirectly(String):	Executes the given query directly (any Jdbc-Stuff has to be handled by the user)
+ * 	DbInterface():					Loads the Jdbc-Driver for the H2-Database<br>
+ * 	initializeDatabase(String, String, int):Initializes the database<br>
+ *  initializeMetaTables():			Creates the meta-information database and all of its tables<br>
+ * 	connect(String, String, int):	Connects this instance of the DbInterface to the H2-Database<br>
+ * 	disconnect():					Disconnects this instance of the DbInterface from the H2-Database<br>
+ * 	executeQuery(String):			Executes the given SQL-Query<br>
+ * 	executeUpdate(String):			Executes the given Update-Query<br>
+ * 	executeQueryDirectly(String):	Executes the given query directly (any Jdbc-Stuff has to be handled by the user)<br>
  */
 
 public class DbInterface {
@@ -43,8 +43,11 @@ public class DbInterface {
 	//# database informations #
 	//#########################
 	private static String driver = "org.h2.Driver";
-		//private static String server = "localhost";
-		//private static String port = "8082";
+	private static String server = "localhost";
+		//private static String port = "8082";#
+		//private static String location = "C:/";
+	private static String lockLvl = ";LOCK_MODE=3";
+	private static String jdbcConfig = "jdbc:h2:tcp://"+ server +"/";
 	private static String userName = "sa";
 	private static String pw = "";
 	
@@ -75,13 +78,19 @@ public class DbInterface {
 	 * 
 	 * Initializes the database
 	 * 
-	 * @param String type: Ba/Ma
-	 * @param String semester: SS/WS
-	 * @param int: the year which the database should created for
+	 * @param type : String (Ba/Ma)
+	 * @param semester : String (SS/WS)
+	 * @param year : Integer of the year which the database should created for
 	 * @throws SQLTableException
 	 */
 	
 	public static void initializeDatabase(String type, String semester, int year) throws SQLTableException{
+		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		
 		//########################################################
 		//#														 #
@@ -99,7 +108,7 @@ public class DbInterface {
 		//#####################################
 			Connection con = null;
 			try{
-				con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+				con = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type + lockLvl, userName, pw);
 			}
 			catch(SQLException e){
 				e.printStackTrace();
@@ -121,7 +130,7 @@ public class DbInterface {
 		//#######################################################
 		
 			try {
-				Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+				Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables"+ lockLvl, userName, pw);
 				
 				Statement stmt = metaConnection.createStatement();
 				stmt.executeUpdate("INSERT INTO existing_projects(name,hasbeenstarted) VALUES('"+ String.valueOf(year) +"_"+ semester +"_"+ type +"',false);");
@@ -153,13 +162,19 @@ public class DbInterface {
 	public static void initializeMetaTables(){
 		Connection con = null;
 		
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
 		//################################
 		//#								 #
 		//# Connect to the meta database #
 		//#								 #
 		//################################
 		try{
-			con = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			con = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables"+ lockLvl, userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -204,7 +219,7 @@ public class DbInterface {
 	 */
 	public void connectToMetaTables(){
 		try{
-			dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			dbConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables"+ lockLvl, userName, pw);
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -217,9 +232,9 @@ public class DbInterface {
 	 * Connects this instance of DbInterface to the H2-Database
 	 * if the Connection already exists this method does nothing
 	 * 
-	 * @param String type: Ba/Ma
-	 * @param String semester: SS/WS
-	 * @param int: the year of the project series
+	 * @param type : String (Ba/Ma)
+	 * @param semester : String (SS/WS)
+	 * @param year : Integer of the year of the project series
 	 * @throws SQLTableException
 	 */
 	
@@ -245,7 +260,7 @@ public class DbInterface {
 		//########################################
 			try{
 				if(dbConnection == null){
-					dbConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
+					dbConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type + lockLvl, userName, pw);
 				}
 			}
 			catch(SQLException e){
@@ -286,7 +301,7 @@ public class DbInterface {
 	 * Restrictions: 	If you use '*' in your SELECT-clause, please DONT use nested queries (SELECT * FROM (SELECT ...)).
 	 * 					If you want to use nested queries please use explicit attribute-names in your SELECT-clause.
 	 * 
-	 * @param String q: the Query which should be executed on the database 
+	 * @param q : String of the Query which should be executed on the database 
 	 * @return Collection of maps,
 	 * 			each map holds one tuple of the result, where the attribute-name is the key and the attribute-value is the value of the map
 	 */
@@ -363,8 +378,8 @@ public class DbInterface {
 	/**
 	 * executeUpdate(String)
 	 * 
-	 * @param String u:	the update which should be performed on the database
-	 * @throws SQLTableException: if the update fails, this exception will be thrown
+	 * @param u : String of	the update which should be performed on the database
+	 * @throws SQLTableException : if the update fails, this exception will be thrown
 	 */
 	
 	public synchronized final void executeUpdate(String u) throws SQLTableException{
@@ -391,7 +406,7 @@ public class DbInterface {
 	
 	/**
 	 * executeQueryDirectly(String)
-	 * @param String query:	the query which should be executed on the database
+	 * @param query : String of	the query which should be executed on the database
 	 * @return ResultSet
 	 * @throws SQLException
 	 */
@@ -411,13 +426,13 @@ public class DbInterface {
 	 * deleteDatabase(String, String, int)
 	 * Deletes the specified database from the metainformations and renames the database into oldname_DELETED_AT_timestamp
 	 * 
-	 * @param String type: Ba/Ma
-	 * @param String semester: SS/WS
-	 * @param int: the year of the project series
+	 * @param type : String (Ba/Ma)
+	 * @param semester : String  (SS/WS)
+	 * @param year : Integer of the year of the project series
 	 */
 	public static void deleteDatabase(String type, String semester, int year){
 		try{
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables"+ lockLvl, userName, pw);
 			
 			//###########################################################
 			//#															#
@@ -441,8 +456,8 @@ public class DbInterface {
 		String date = (new Date()).toString().replace(" ", "_").replace(":", "-");
 		
 		try{
-			Connection oldDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type, userName, pw);
-			Connection newDatabase = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/" + "DELETED_"+ String.valueOf(year) +"_"+ semester +"_"+ type +"_AT_"+ date, userName, pw);
+			Connection oldDatabase = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + String.valueOf(year) +"_"+ semester +"_"+ type + lockLvl, userName, pw);
+			Connection newDatabase = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/" + "DELETED_"+ String.valueOf(year) +"_"+ semester +"_"+ type +"_AT_"+ date + lockLvl, userName, pw);
 			
 			TableCreator creater = new TableCreator(oldDatabase);
 			creater.copyDB(newDatabase);
@@ -451,7 +466,7 @@ public class DbInterface {
 			newDatabase.close();
 			
 			char sep = File.separatorChar;
-			String directory = "C:/"; //System.getProperty("user.dir"); 
+			String directory = System.getProperty("user.dir"); 
 			
 			File oldDb = new File(directory + sep + "wfapp_databases" + sep + String.valueOf(year) +"_"+ semester +"_"+ type +".h2.db");
 			
@@ -462,7 +477,7 @@ public class DbInterface {
 		}
 	}
 	
-	private synchronized String getTableOverviewData(String tableName){
+	private String getTableOverviewData(String tableName){
 		
 		//########################################
 		//#										 #
@@ -489,7 +504,7 @@ public class DbInterface {
 		return result;
 	}
 	
-	private static synchronized boolean checkDatabaseValues(String type, String semester){
+	private static boolean checkDatabaseValues(String type, String semester){
 		boolean typeOK = false;
 		boolean semesterOK = false;
 		
@@ -507,7 +522,7 @@ public class DbInterface {
 		boolean exists = false;
 		
 		try {
-			Connection metaConnection = DriverManager.getConnection("jdbc:h2:C:/"+ /*"server:"+ port +*/ "wfapp_databases/metatables", userName, pw);
+			Connection metaConnection = DriverManager.getConnection(jdbcConfig+ /*"server:"+ port +*/ "wfapp_databases/metatables"+ lockLvl, userName, pw);
 			
 			Statement stmt = metaConnection.createStatement();
 			ResultSet result = stmt.executeQuery("SELECT * FROM existing_projects WHERE name='"+ name +"';");

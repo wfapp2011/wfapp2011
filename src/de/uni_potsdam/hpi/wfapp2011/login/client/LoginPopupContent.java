@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 @SuppressWarnings("deprecation")
 public class LoginPopupContent extends Composite {
 
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	private loginExchangeAsync exchange = GWT.create(loginExchange.class);
 	private String cookieContent;
@@ -29,6 +29,9 @@ public class LoginPopupContent extends Composite {
 	Button button = new Button("Login");
 	SubmitListener sl = new SubmitListener();
 	
+	/**
+	 * performs the redirect to the specified address
+	 */
 	private void redirect(){
 		//username_tb.setValue("");
 		//password_tb.setValue("");
@@ -36,10 +39,15 @@ public class LoginPopupContent extends Composite {
 		Window.Location.assign(Cookies.getCookie("Wfapp2011.REDIRECT").split("#")[1].replace("\"", ""));
 	}
 
+	/**
+	 * Construktor creates all content within the login popup
+	 */
 	public LoginPopupContent() {
+		//read the redirect address from the cookie
 		cookieContent = Cookies.getCookie("Wfapp2011.REDIRECT").replace("\"", "");
 		if(debug) Window.alert(cookieContent);
 		
+		//create all content
 		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		
@@ -75,6 +83,7 @@ public class LoginPopupContent extends Composite {
 		
 		button.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				//if the login button was pressed -> perform login
 				if (debug) Window.alert("Button clicked");
 				exchange.login(username_tb.getValue(), password_tb.getValue(),cookieContent.split("#")[0],new AsyncCallback<Void>(){
 

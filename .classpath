@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/K!ll3r/Documents/Dropbox/Dropbox/Entwicklung von Workflowanwendungen/Arbeitspaket 1/h2-1.2.132.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

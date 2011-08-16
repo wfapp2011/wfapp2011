@@ -11,6 +11,10 @@ package de.uni_potsdam.hpi.wfapp2011.login.server;
 
 public class SQLTableException extends Exception {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1672806591140586368L;
 	String errorMessage;
 	
 	public SQLTableException(String error){

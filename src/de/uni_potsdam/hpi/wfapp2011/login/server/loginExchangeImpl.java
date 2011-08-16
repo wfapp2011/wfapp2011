@@ -1,21 +1,29 @@
 package de.uni_potsdam.hpi.wfapp2011.login.server;
 
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Map;
-
 import de.uni_potsdam.hpi.wfapp2011.login.client.loginExchange;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+/**
+ * Implementation of the login functionality
+ */
 public class loginExchangeImpl extends RemoteServiceServlet implements loginExchange {
 
 	private static final long serialVersionUID = -6192300362761316705L;
 
-	private boolean debug = true;
+	private boolean debug = false;
 	
+	/**
+	 * login(String,String,String)
+	 * performs the login
+	 * 
+	 * @param username : String which specifice the username of the user
+	 * @param password : String which represents the password of the user
+	 * @param id : String which specifice the user-id of the user
+	 */
 	@Override
 	public void login(String username, String password, String id) {
+		//register user in the database
 		if (debug) System.out.println("Entering login");
 		DbInterface db = new DbInterface();	
 		db.connectToMetaTables();
@@ -25,7 +33,6 @@ public class loginExchangeImpl extends RemoteServiceServlet implements loginExch
 		try {
 			db.executeUpdate(sql);
 		} catch (SQLTableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		db.disconnect();
