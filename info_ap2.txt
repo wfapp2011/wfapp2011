@@ -1,0 +1,10 @@
+In diesem Branch hatten wir anfangs unsere ap2 Projekte.
+Da diese sich durch die Integration noch stark verändert haben,
+befinden sich unsere Quellen im Branch integrated.
+
+Namentlich sind dies die folgenden Projekte:
+
+DegreeProjectProcess -> mit den Files für den Activiti Process
+Overview -> Die Portalseite als Einstiegspunkt in die Webanwendung
+wfapp_client_core -> Der gemeinsame Header und Footer
+wfapp_server_core (teilweise) -> Klassen, die von anderen Projekten genutzt werden. 
