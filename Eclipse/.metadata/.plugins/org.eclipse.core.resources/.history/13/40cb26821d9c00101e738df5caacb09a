@@ -1,0 +1,65 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+
+import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+public class ChangeDeadline {
+	
+	
+	/**
+	 * 
+	 * @param executionId
+	 * @param startProposalDate
+	 * @param endProposalDate
+	 * @param endTopicPublication
+	 * @param endVotingDate
+	 * @param endMatchingDate
+	 */
+	public void changeDeadlines(ProcessIdentifier processIdentifier, 
+			GregorianCalendar  startProposalDate, 
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar endTopicPublication, 
+			GregorianCalendar endVotingDate, 
+			GregorianCalendar endMatchingDate )
+	{
+		String executionId = processIdentifier.getExecutionId();
+		changeDeadline(executionId, Constants.START_PROPOSAL_COL_INPUT, startProposalDate);
+		changeDeadline(executionId, Constants.DEADLINE_PROPOSAL_COL_INPUT, endProposalDate);
+		changeDeadline(executionId, Constants.DEADLINE_TOPICS_PUBL_INPUT, endTopicPublication);
+		changeDeadline(executionId, Constants.DEADLINE_VOTING_INPUT, endVotingDate);
+		changeDeadline(executionId, Constants.DEADLINE_PROCESS_INPUT, endMatchingDate);
+	
+	}
+	
+	
+	private void changeDeadline(String executionId, String variableName, GregorianCalendar newDeadlineDate) {
+		String processName = "String";
+		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
+		String newDeadline = DateConverter.dateToISO8601(newDeadlineDate);
+		processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionName("String");
+		processEngine.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId("810");
+		
+		//getRepositoryService().createProcessDefinitionQuery().processDefinitionName(processName).processDefinitionKey("String");
+	/*	String oldDeadline = (String) processEngine.getRuntimeService().getVariable(executionId, variableName);
+		if (oldDeadline.compareTo(newDeadline) > 0 )
+		processEngine.getRuntimeService().setVariable(executionId, variableName, DateConverter.dateToISO8601(newDeadlineDate));
+		//Set changed Variable for the Activiti Process, so that the timer event will check the time again.
+		processEngine.getRuntimeService().setVariable(executionId, "changed", 1);
+		processEngine.close();*/
+
+	}
+	
+	public static void main(String[] args){
+		ChangeDeadline activiti = new ChangeDeadline();
+		GregorianCalendar date = new GregorianCalendar();
+		date.add(Calendar.MINUTE, 5);
+		activiti.changeDeadline("810", "deadlineProposalCollectionInput", date );
+	}
+}

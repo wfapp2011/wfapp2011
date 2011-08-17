@@ -1,0 +1,9 @@
+package de.uni_potsdam.hpi.wfapp2011.Activiti;
+
+public class Constants {
+	public static String PROPOSALCOL = "ProposalCollection";
+	public static String TOPICDECISION = "FinalTopicDecision";
+	public static String VOTING = "Voting";
+	public static String PROJECTMATCHING = "ProjectMatching";
+
+}

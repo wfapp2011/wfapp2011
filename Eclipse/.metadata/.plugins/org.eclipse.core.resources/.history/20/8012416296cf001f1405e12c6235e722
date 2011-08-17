@@ -1,0 +1,60 @@
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+
+public class Node {
+	String name;
+	LinkedList<Node> knoten;
+	Node(String s){
+		name = s;
+		knoten = new LinkedList<Node>();
+	}
+	String getName(){
+		return name;
+	}
+	void connect(Node r){
+		knoten.add(r);
+		r.knoten.add(this);
+	}
+	boolean disconnect(Node r){
+		if (knoten.remove(r)){
+			return r.knoten.remove(this);
+		}
+		return false;
+	}
+	void print(){
+		System.out.println(name);
+		System.out.println("Verbundene Knoten: ");
+		ListIterator<Node> iter = knoten.listIterator();
+		while (iter.hasNext()){
+			Node temp = iter.next();
+			System.out.println(temp.name);
+		}
+		for(int i = 0; i<knoten.size(); i++){
+			System.out.printf()
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		Node a = new Node("a");
+		Node b = new Node("b");
+		Node c = new Node("c");
+		Node d = new Node("d");
+		Node e = new Node("e");
+		Node f = new Node("f");
+		Node g = new Node("g");
+		
+		a.connect(b);
+		a.connect(c);
+		a.connect(c);
+		d.connect(b);
+		b.connect(e);
+		e.connect(e);
+		c.connect(f);
+		f.connect(g);
+		f.connect(g);
+		
+		a.print();
+	}
+}

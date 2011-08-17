@@ -1,0 +1,17 @@
+package de.uni_potsdam.hpi.wfapp2011.Testing;
+
+import org.junit.Before;
+import org.junit.Test;
+
+
+public class TestLogging{
+	
+	@Before
+	
+	@Test
+	public void testLogging(){
+		Logging.getInstance();
+	}
+	
+
+}

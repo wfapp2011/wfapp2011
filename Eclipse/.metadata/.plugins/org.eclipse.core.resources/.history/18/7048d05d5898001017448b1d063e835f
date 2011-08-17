@@ -1,0 +1,42 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti;
+
+import java.util.Date;
+
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.activiti.engine.runtime.ProcessInstance;
+
+public class ProcessAdministration implements ProcessAdministrationInterface {
+	
+	/** 
+	 * This method starts a process instance of the given ProcessName.
+	 * 
+	 * */
+	public void startProcess(String processName, Date startProposalDate, 
+			Date endProposalDate, Date startVotingDate, Date endVotingDate, Date endMatchingDate){
+		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
+		
+		ProcessDefinitionQuery query = processEngine.getRepositoryService().createProcessDefinitionQuery().
+			processDefinitionName(processName);
+		
+		ProcessDefinition processDefinition = query.listPage(0, 10).get(1);
+		String id = processDefinition.getId();
+		
+		ProcessInstance processInstance = ProcessEngines.getProcessEngine("default").getRuntimeService().startProcessInstanceById(id);
+		String getId = processInstance.getId();
+		System.out.println("getId(): "+getId);
+		/*String getProcessDefinitionId = processInstance.getProcessDefinitionId();
+		System.out.println("getProcessDefinitionId: "+getProcessDefinitionId );
+		System.out.println("getProcessInstanceId: " +processInstance.getProcessInstanceId());*/
+	}
+	
+	public static void main(String[] args){
+		ProcessAdministration process = new ProcessAdministration();
+		process.startProcess("Bachelorprojektvergabe", null, null, null, null, null);
+		
+	} 
+	
+	
+}

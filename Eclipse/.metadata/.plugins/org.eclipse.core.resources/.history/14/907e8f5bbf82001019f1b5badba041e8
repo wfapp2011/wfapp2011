@@ -1,0 +1,8 @@
+output.. = bin/
+bin.includes = plugin.xml,\
+               META-INF/,\
+               mysql-connector-java-5.1.16-bin.jar,\
+               lib/
+source.mysql-connector-java-5.1.16-bin.jar = src/,\
+                                             lib/
+output.mysql-connector-java-5.1.16-bin.jar = bin/

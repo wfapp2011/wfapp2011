@@ -1,0 +1,31 @@
+package de.uni_potsdam.hpi.wfapp2011.Testing;
+
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import de.uni_potsdam.hpi.wfapp2011.Logging.LogDescriptions;
+import de.uni_potsdam.hpi.wfapp2011.Logging.Logging;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+
+public class TestLogging{
+	private Logging logging;
+	private ProcessIdentifier processIdentifier;
+	@Before
+	public void setUp() {
+		logging = Logging.getInstance();
+		processIdentifier = new ProcessIdentifier("Ba", "SS", 2014);
+		
+	}
+	@Test
+	public void testLogging(){
+		Date changeDate = new Date();
+		String email = "test@example.de";
+		String description = LogDescriptions.
+		logging.log(processIdentifier, changeDate, email, description, changedValues)
+	}
+	
+
+}

@@ -1,0 +1,32 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti;
+
+import java.util.GregorianCalendar;
+
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+public interface ProcessAdministrationInterface {
+	
+	public boolean startProcess(
+			ProcessIdentifier processIdentifier,
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar startVotingDate, 
+			GregorianCalendar endVotingDate, 
+			GregorianCalendar endMatchingDate,
+			GregorianCalendar endProcessDate);
+	
+	public boolean startProcess(ProcessIdentifier processIdentifier,
+			String processName,
+			GregorianCalendar startProposalDate, 
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar startVotingDate, 
+			GregorianCalendar endVotingDate, 
+			GregorianCalendar endMatchingDate);
+	
+	public boolean[] changeDeadlines(
+			ProcessIdentifier processIdentifier, 
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar endTopicPublication, 
+			GregorianCalendar endVotingDate,
+			GregorianCalendar endMatchingDate,
+			GregorianCalendar endProcessDate );
+}

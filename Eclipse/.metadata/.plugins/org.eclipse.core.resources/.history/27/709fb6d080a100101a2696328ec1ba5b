@@ -1,0 +1,16 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti.Testing;
+
+import de.uni_potsdam.hpi.wfapp2011.activiti.ProcessStatus;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+
+public class TestProcessStatus {
+	ProcessIdentifier process = new ProcessIdentifier("Ba", "SS", 2011);
+	ProcessStatus activiti = new ProcessStatus(process);
+	String executionId = "4910";
+	System.out.println("ProjectProposalPhase: "+activiti.isProjectProposalPhase());
+	System.out.println("FinalTopicDecsionPhase: "+activiti.isFinalTopicDecisionPhase());
+	System.out.println("VotingPhase: "+ activiti.isVotingPhase());
+	System.out.println("ProjectMatchingPhase: "+ activiti.isProjectMatchingPhase());
+	System.out.println(activiti.readVariable(executionId));
+}

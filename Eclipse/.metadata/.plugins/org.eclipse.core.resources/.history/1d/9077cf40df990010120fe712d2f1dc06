@@ -1,0 +1,5 @@
+package de.uni_potsdam.hpi.wfapp2011.general;
+
+public class DateConverter {
+
+}

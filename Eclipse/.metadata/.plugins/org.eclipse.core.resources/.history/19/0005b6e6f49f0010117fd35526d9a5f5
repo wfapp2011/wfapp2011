@@ -1,0 +1,51 @@
+package de.uni_potsdam.hpi.wfapp2011.Testing;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import org.junit.Test;
+
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+
+public class TestProcessIdentifier {
+	
+	@Test
+	public void testProcessIdentifier(){
+		@SuppressWarnings("deprecation")
+		GregorianCalendar greg = new GregorianCalendar();
+		int year2 = greg.get(Calendar.YEAR);
+		int year = new Date().getYear() +1900;
+		ProcessIdentifier pId = new ProcessIdentifier("Ma", "SS", 2011);
+	//	pId = new ProcessIdentifier("Ba", "SS", 2014);
+		assertTrue(pId.isComplete());
+		assertTrue(pId.getSemester() == "SS");
+		assertTrue(pId.getType() == "Ma");
+		assertTrue(pId.getYear() == (new Date().getYear()));
+	} 
+	
+	@Test 
+	public void testWrongProcessIdentifier(){
+		ProcessIdentifier pId = new ProcessIdentifier("Ma", "ss", (new Date().getYear())-2);
+		assertTrue(pId.getType() == "Ma");
+		assertTrue(pId.getSemester() == null);
+		assertTrue(pId.getYear() == 0);
+		assertFalse(pId.isComplete());
+	};
+	
+	@Test
+	public void testDateInFuture() {
+		ProcessIdentifier pId = new ProcessIdentifier("ma", "SS", (new Date().getYear())+6);
+		assertTrue(pId.getType() == null);
+		assertTrue(pId.getSemester() == "SS");
+		assertTrue(pId.getYear() == 0);
+		assertFalse(pId.isComplete());
+	}
+	
+	
+	
+}

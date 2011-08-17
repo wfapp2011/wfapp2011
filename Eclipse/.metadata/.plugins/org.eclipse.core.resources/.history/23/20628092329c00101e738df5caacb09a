@@ -1,0 +1,78 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+
+import de.uni_potsdam.hpi.wfapp2011.constants.Constants;
+import de.uni_potsdam.hpi.wfapp2011.general.DateConverter;
+import de.uni_potsdam.hpi.wfapp2011.general.ProcessIdentifier;
+
+public class ChangeDeadline {
+	
+	
+	/**
+	 * This method changes the deadline for the given Process to the given dates.
+	 * 
+	 * If the given dates are in the past or are behind the current dateline, 
+	 * the deadline will not be changed.
+	 * 
+	 * @param processIdentifier ProcessIdentifier (type, semester, year) to get the current process
+	 * @param endProposalDate the deadline for the departments to create project proposals.
+	 * @param endTopicPublication the deadline to choose the projects, which will be offered
+	 * @param endVotingDate the deadline for the voting of the students.
+	 * @param endMatchingDate the deadline to execute the Matching
+	 * @param endProcessDate the deadline of the whole Process
+	 * @return For each deadline it returns if it was successfall or not. 
+	 * 			the order is the same like in the method definition.
+	 */
+	public boolean[] changeDeadlines(ProcessIdentifier processIdentifier, 
+			GregorianCalendar endProposalDate, 
+			GregorianCalendar endTopicPublication, 
+			GregorianCalendar endVotingDate,
+			GregorianCalendar endMatchingDate,
+			GregorianCalendar endProcessDate )
+	{
+		boolean[] success = new boolean[5];
+
+		success[0] = changeDeadline(processIdentifier, Constants.DEADLINE_PROPOSAL_COL_INPUT, endProposalDate);
+		success[1] = changeDeadline(processIdentifier, Constants.DEADLINE_TOPICS_PUBL_INPUT, endTopicPublication);
+		success[2] = changeDeadline(processIdentifier, Constants.DEADLINE_VOTING_INPUT, endVotingDate);
+		success[3] = changeDeadline(processIdentifier, Constants.DEADLINE_MATCHING, endMatchingDate);
+		success[4] = changeDeadline(processIdentifier, Constants.DEADLINE_PROCESS_INPUT, endMatchingDate);
+		return success;
+	}
+	
+	
+	
+	
+	private boolean changeDeadline(ProcessIdentifier processIdentifier, String variableName, GregorianCalendar newDeadlineDate) {
+		String executionId = processIdentifier.getExecutionId();
+		ProcessEngine processEngine = ProcessEngines.getProcessEngine("default");
+		
+		String newDeadline = DateConverter.dateToISO8601(newDeadlineDate);
+		String oldDeadline = (String) processEngine.getRuntimeService().getVariable(executionId, variableName);
+		
+		if (oldDeadline.compareTo(newDeadline) < 0 && newDeadlineDate.before(new GregorianCalendar())) {
+			return false;
+		}
+		
+		processEngine.getRuntimeService().setVariable(executionId, variableName, DateConverter.dateToISO8601(newDeadlineDate));
+		
+		//Set changed Variable for the Activiti Process, so that the timer event will check the time again.
+		processEngine.getRuntimeService().setVariable(executionId, "changed", 1);
+		processEngine.close();
+		return true;
+	}
+	
+	public static void main(String[] args){
+		ChangeDeadline activiti = new ChangeDeadline();
+		GregorianCalendar date = new GregorianCalendar();
+		date.add(Calendar.MINUTE, -5);
+		date.add(Calendar.MINUTE, 5);
+		ProcessIdentifier processIdentifier = new ProcessIdentifier("Ba", "SS", 2011, "6010");
+		activiti.changeDeadline(processIdentifier, "deadlineProposalCollectionInput", date );
+	}
+}

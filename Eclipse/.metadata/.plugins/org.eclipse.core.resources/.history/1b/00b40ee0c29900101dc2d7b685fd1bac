@@ -1,0 +1,16 @@
+package de.uni_potsdam.hpi.wfapp2011.activiti;
+
+
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
+
+public class ProposalCollection implements JavaDelegate{
+
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		String deadline = (String)execution.getVariable("deadlineProposalCollectionInput");
+		execution.setVariable("changed", 0);
+		execution.setVariable("deadlineProposalCollection", deadline);
+		execution.setVariable("phase", "proposalCollection");
+	}
+}

@@ -1,0 +1,17 @@
+package de.uni_potsdam.hpi.wfapp2011.Activiti;
+
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
+
+public class Voting implements JavaDelegate {
+
+	@Override
+	public void execute(DelegateExecution execution) throws Exception {
+		String deadline = (String)execution.getVariable("deadlineVotingInput");
+		execution.setVariable("changed", 0);
+		execution.setVariable("deadlineVoting", deadline);
+		execution.setVariable("phase", "Voting");
+		
+	}
+
+}
