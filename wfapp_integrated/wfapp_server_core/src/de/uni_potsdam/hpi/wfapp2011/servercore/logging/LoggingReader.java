@@ -20,18 +20,16 @@ import de.uni_potsdam.hpi.wfapp2011.servercore.database.SQLTableException;
 
 public class LoggingReader {
 	private DbInterface dbConnection;
-	String type;
-	String semester; 
-	int year;
+	private String type;
+	private String semester; 
+	private int year;
 	
 	
 	public LoggingReader(String type, String semester, int year) {
-		System.out.println("In LoggingReaderKonstruktor");
 		dbConnection = new DbInterface();
 		this.type = type;
 		this.semester = semester;
 		this.year = year;
-		System.out.println("Logging Reader erfolreich erstellt");
 	}
 	
 
@@ -82,6 +80,7 @@ public class LoggingReader {
 			numberOfVotings =-1;
 			e.printStackTrace();
 		} catch (SQLTableException e) {
+			numberOfVotings =-1;
 			e.printStackTrace();
 		}
 		dbConnection.disconnect();
@@ -97,7 +96,7 @@ public class LoggingReader {
 	 *  			changed-Date, person, description and the Votings as JSON
 	 */
 	public Collection<String[]> getVotingsOf(String email) {
-		
+		// SQL-Query to get all votes of the specified email
 		String sql = "SELECT * FROM logTable WHERE " +
 			"(descriptions = 'newVoting' OR descriptions = 'changedVoting') AND person = '" +email+"'";
 		Collection<String[]> votingsOfStudent = new ArrayList<String[]>();
@@ -106,6 +105,8 @@ public class LoggingReader {
 			dbConnection.connect(type, semester, year);
 			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			while(resultset.next()){
+				// Put each log-entry into a String-Array
+				// The JSON-String could be converted here, so that each priority is an own column
 				String[] tuple = new String[4];
 				for(int i = 0; i<4; i++){
 					tuple[i] = resultset.getString(i+1);
@@ -143,6 +144,7 @@ public class LoggingReader {
 			ResultSet resultset = dbConnection.executeQueryDirectly(sql);
 			while(resultset.next()){
 				String[] tuple = new String[4];
+				// Convert the date into a normal date format, which can be read easily.
 				SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Constants.DATE_LOCALE);
 				tuple[0] = df.format(new Date(resultset.getLong(1)));
 				for(int i = 1; i<4; i++){

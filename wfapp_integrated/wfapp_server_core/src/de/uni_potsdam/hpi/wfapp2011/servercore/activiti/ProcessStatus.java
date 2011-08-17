@@ -113,6 +113,7 @@ public class ProcessStatus implements ProcessStatusInterface {
 	 * 			returns null, if there is no deadline in database.
 	 */
 	
+	@SuppressWarnings("deprecation")
 	private Date readDeadlineFromDatabase(String deadlineType){
 		
 		try {
@@ -126,7 +127,11 @@ public class ProcessStatus implements ProcessStatusInterface {
 			db.disconnect();
 			if(deadline != null) {
 				SimpleDateFormat df = new SimpleDateFormat(Constants.DATE_PATTERN, Constants.DATE_LOCALE);
-				return df.parse(deadline);
+				Date deadlineDate = df.parse(deadline);
+				deadlineDate.setHours(23);
+				deadlineDate.setMinutes(59);
+				deadlineDate.setSeconds(59);
+				return deadlineDate;
 			}
 		} catch (SQLTableException e) {
 			e.printStackTrace();

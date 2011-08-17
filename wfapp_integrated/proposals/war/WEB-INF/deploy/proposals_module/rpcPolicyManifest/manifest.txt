@@ -1,2 +1,6 @@
 # Module proposals_module
 # RPC service class, partial path of RPC policy file
+de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.CommentInterface, D90B6FF1520835458E4FB632B1E8A2A1.gwt.rpc
+de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.ProjectProposalInterface, 54ABFF308F64EF0A7168186D3B3C8CC3.gwt.rpc
+de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.FileInterface, 5AA9FA96504839EAD7591B2FFCEEE590.gwt.rpc
+de.uni_potsdam.hpi.wfapp2011.proposals.client.interfaces.TestdataInterface, 15667F66D0DEC922156BBFC6EB51FE0F.gwt.rpc

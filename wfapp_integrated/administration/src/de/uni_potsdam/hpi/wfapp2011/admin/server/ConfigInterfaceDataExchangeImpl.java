@@ -10,7 +10,6 @@ import java.util.Set;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.uni_potsdam.hpi.wfapp2011.admin.client.ConfigInterfaceDataExchange;
-import de.uni_potsdam.hpi.wfapp2011.servercore.activiti.ActivitiProcessException;
 import de.uni_potsdam.hpi.wfapp2011.servercore.activiti.ProcessAdministration;
 import de.uni_potsdam.hpi.wfapp2011.servercore.database.DbInterface;
 import de.uni_potsdam.hpi.wfapp2011.servercore.database.SQLTableException;
@@ -294,14 +293,14 @@ public class ConfigInterfaceDataExchangeImpl extends RemoteServiceServlet implem
 	public void startProject(String year, String semester, String name) {
 		
 		boolean started = false;
-		
-		try{
-			started = ProcessAdministration.getInstance().startProcess(name, semester, Integer.valueOf(year));
-		}
-		catch(ActivitiProcessException e){
-			e.printStackTrace();
-		}
-
+		// TODO: Remove if activiti is working 
+//		try{
+//			started = ProcessAdministration.getInstance().startProcess(name, semester, Integer.valueOf(year));
+//		}
+//		catch(ActivitiProcessException e){
+//			e.printStackTrace();
+//		}
+		started = true;
 		if(started){
 			//change flag of started project to true
 			DbInterface db = new DbInterface();

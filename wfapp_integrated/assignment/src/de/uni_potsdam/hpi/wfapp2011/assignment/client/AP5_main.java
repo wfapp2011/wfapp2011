@@ -69,8 +69,6 @@ public class AP5_main implements EntryPoint {
 		type = ProcessInfo.getTypeFromURL("");
 		semester = ProcessInfo.getSemesterFromURL("");
 		year = ProcessInfo.getYearFromURL("");
-		// TODO: Remove fixed year;
-		year = 2011;
 		
 		rootPanel = RootPanel.get();
 		
@@ -196,7 +194,7 @@ public class AP5_main implements EntryPoint {
 			assignmentDataInterface.writePlacements(DBStudents, type, semester, year ,new AsyncCallback<Void>() {
 				 public void onFailure(Throwable caught) {
 					 welcomePage = new HTML("<html><body><br><h1>Willkommen</h1><h3>Eine Zuordnung mit den " +
-					 		"vorliegenden Daten ist mšglich, jedoch trat ein Fehler beim Schreiben der " +
+					 		"vorliegenden Daten ist mï¿½glich, jedoch trat ein Fehler beim Schreiben der " +
 					 		"Datenbank auf. </body></html>");
 			      }
 
@@ -291,7 +289,7 @@ public class AP5_main implements EntryPoint {
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Schwerer Ausnahmefehler. Bitte wenden Sie sich an den Support.\n" +
-								"Zur Zeit können Sich nicht ausloggen, doch in 10min ist ihre Session definitiv abgelaufen.");
+								"Zur Zeit kï¿½nnen Sich nicht ausloggen, doch in 10min ist ihre Session definitiv abgelaufen.");
 					}
 
 					@Override

@@ -14,7 +14,6 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
-import org.activiti.engine.runtime.ProcessInstance;
 
 import de.uni_potsdam.hpi.wfapp2011.servercore.constants.Constants;
 import de.uni_potsdam.hpi.wfapp2011.servercore.constants.ProcessIdAdministration;
@@ -193,6 +192,7 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 	 * @return boolean, which indicates, if the process was successfully started. <br/>
 	 * 				<b> Please note: Mockuped, so that it will even return true, if no activiti engine can be found.</b>
 	 */
+	@SuppressWarnings("unused")
 	public boolean startProcess(
 			String type, String semester, int year,
 			String processName, 
@@ -243,55 +243,56 @@ public class ProcessAdministration implements ProcessAdministrationInterface {
 					endVotingDate.before(endMatchingDate) &&
 					endMatchingDate.before(endProcessDate))
 			{
-				ProcessInstance processInstance = processEngine.
-							getRuntimeService().startProcessInstanceById(id);
-				instanceId = processInstance.getId();
-				if (instanceId != null){
-					//###########################################################
-					//# Setting the deadlines, which will be changeable 		#
-					//# from outside the process. 								#
-					//###########################################################
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING_INPUT, DateConverter.dateToISO8601(endMatchingDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endProcessDate));
-					
-					//###########################################################
-					//#	Setting the deadlines used for the timeEvents. 			#
-					//# Changes of these variables are not allowed.				#
-					//# Changes will be done indirectly through a service task	#
-					//###########################################################
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL, DateConverter.dateToISO8601(endProposalDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL, DateConverter.dateToISO8601(startVotingDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING, DateConverter.dateToISO8601(endVotingDate));
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING, DateConverter.dateToISO8601(endMatchingDate));
-					
-					// Set the time of the email Reminder Deadline to one week, before the voting phase ends. 
-					Date emailReminderDeadline = endVotingDate;
-					emailReminderDeadline.setTime((endVotingDate.getTime()) - 604800000); // number of milliseconds for one week. 
-					runtimeService.setVariable(instanceId, Constants.EMAIL_REMINDER_DATE, DateConverter.dateToISO8601(emailReminderDeadline));
-					
-					//###########################################################
-					//# Setting the Default Deadline of the whole process.		#
-					//# Used for the boundary Events							#
-					//###########################################################
-					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
-					runtimeService.setVariable(instanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
-					
-					try {
-						//###########################################################
-						//# 	Write process instance ID into database				#
-						//###########################################################
-						dbInterface.connect(type, semester, year);
-						String sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.PROCESS_ID_VARIABLE_NAME +"', '"+instanceId+"');";
-						dbInterface.executeUpdate(sql);
-						successfull = true;
-					} catch (SQLTableException e) {
-						e.printStackTrace();
-					}
-					dbInterface.disconnect();
-				}
+			// TODO: Remove comments from the following block, if activiti is working
+//				ProcessInstance processInstance = processEngine.
+//							getRuntimeService().startProcessInstanceById(id);
+//				instanceId = processInstance.getId();
+//				if (instanceId != null){
+//					//###########################################################
+//					//# Setting the deadlines, which will be changeable 		#
+//					//# from outside the process. 								#
+//					//###########################################################
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL_INPUT, DateConverter.dateToISO8601(endProposalDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL_INPUT, DateConverter.dateToISO8601(startVotingDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING_INPUT, DateConverter.dateToISO8601(endVotingDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING_INPUT, DateConverter.dateToISO8601(endMatchingDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS_INPUT, DateConverter.dateToISO8601(endProcessDate));
+//					
+//					//###########################################################
+//					//#	Setting the deadlines used for the timeEvents. 			#
+//					//# Changes of these variables are not allowed.				#
+//					//# Changes will be done indirectly through a service task	#
+//					//###########################################################
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROPOSAL_COL, DateConverter.dateToISO8601(endProposalDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_TOPICS_PUBL, DateConverter.dateToISO8601(startVotingDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_VOTING, DateConverter.dateToISO8601(endVotingDate));
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_MATCHING, DateConverter.dateToISO8601(endMatchingDate));
+//					
+//					// Set the time of the email Reminder Deadline to one week, before the voting phase ends. 
+//					Date emailReminderDeadline = endVotingDate;
+//					emailReminderDeadline.setTime((endVotingDate.getTime()) - 604800000); // number of milliseconds for one week. 
+//					runtimeService.setVariable(instanceId, Constants.EMAIL_REMINDER_DATE, DateConverter.dateToISO8601(emailReminderDeadline));
+//					
+//					//###########################################################
+//					//# Setting the Default Deadline of the whole process.		#
+//					//# Used for the boundary Events							#
+//					//###########################################################
+//					runtimeService.setVariable(instanceId, Constants.DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
+//					runtimeService.setVariable(instanceId, Constants.DEFAULT_DEADLINE_PROCESS, DateConverter.dateToISO8601(endProcessDate));
+//					
+//					try {
+//						//###########################################################
+//						//# 	Write process instance ID into database				#
+//						//###########################################################
+//						dbInterface.connect(type, semester, year);
+//						String sql = "INSERT INTO configurations (name, value) VALUES ('"+Constants.PROCESS_ID_VARIABLE_NAME +"', '"+instanceId+"');";
+//						dbInterface.executeUpdate(sql);
+//						successfull = true;
+//					} catch (SQLTableException e) {
+//						e.printStackTrace();
+//					}
+//					dbInterface.disconnect();
+//				}
 					
 			}
 		} catch(ActivitiException e) {

@@ -16,6 +16,16 @@ public class Logging {
 	private static Logging theInstance;
 	private DbInterface dbConnection;
 	
+	/**
+	 * There is only one instance of this class<br/>
+	 * So do not allow to create more instances.<br/>
+	 * Use {@link Logging#getInstance()} instead
+	 */
+	private Logging() {
+		
+	}
+	
+	
 	public static Logging getInstance(){
 		if(theInstance == null){
 			theInstance = new Logging();
@@ -23,13 +33,6 @@ public class Logging {
 		}
 		return theInstance;
 	}
-	
-//	public Logging(String type, String semester, int year) {
-//		dbConnection = new DbInterface();
-//		this.type = type;
-//		this.semester = semester;
-//		this.year = year;
-//	}
 	
 	/**
 	 * inserts the given Log-data in the database

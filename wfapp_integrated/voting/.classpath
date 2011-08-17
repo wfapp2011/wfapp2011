@@ -5,6 +5,6 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/wfapp_client_core"/>
-	<classpathentry kind="lib" path="/Users/jannikmarten/Studium/Semester_4/wfapp_integrated/wfapp_core.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wfapp_server_core"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
