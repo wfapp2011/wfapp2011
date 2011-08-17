@@ -1,2 +1,0 @@
-# Module de.uni_potsdam.hpi.wfapp2011.Themenwahl
-# RPC service class, partial path of RPC policy file
